@@ -1,0 +1,6 @@
+@C2C_HostAddress = http://localhost:5035
+
+GET {{C2C_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
