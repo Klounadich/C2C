@@ -1,3 +1,5 @@
+using Identity.DTO;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Identity.Controllers;
@@ -7,9 +9,22 @@ namespace Identity.Controllers;
 
 public class UserController : ControllerBase
 {
-    public async Task<IActionResult> RegisterUser()
+    private readonly IMediator _mediator;
+
+    public UserController(IMediator mediator)
     {
-        return Ok();
+        _mediator = mediator;
+    }
+    
+    [HttpPost("register")]
+    public async Task<IActionResult> RegisterUser([FromBody] RegisterUserDTO userData)
+    {
+       var responce = await _mediator.Send(userData);
+       if (responce == null)
+       {
+           return BadRequest();
+       }
+        return Ok(responce);
     }
     
     public async Task<IActionResult> AuthUser()
