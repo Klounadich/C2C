@@ -3,6 +3,7 @@ using Identity.Commands;
 using Identity.DTO;
 using Identity.Models;
 using Identity.Repositories;
+using Identity.Services;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
@@ -12,10 +13,11 @@ namespace Identity.Handlers;
 public class RegisterHandler : IRequestHandler<RegisterCommand , UserResponse>
 {
     private readonly IUserRepository _repository;
-    
-    public RegisterHandler(IUserRepository repository)
+    private readonly IJWTService _jwtService;
+    public RegisterHandler(IUserRepository repository , IJWTService jwtService)
     {
         _repository = repository;
+        _jwtService = jwtService;
     }
 
     public async Task<UserResponse> Handle(RegisterCommand request, CancellationToken cancellationToken)
@@ -38,14 +40,32 @@ public class RegisterHandler : IRequestHandler<RegisterCommand , UserResponse>
         };
         try
         {
-            return await _repository.RegisterAsync(User);
+            if (await _repository.RegisterAsync(User))
+            {
+                var RegistrationDate = DateTime.UtcNow;
+                var token = await _jwtService.CreateTokenAsync(new JWTRequestCommand(User.Id.ToString() ,User.Username, User.Email , RegistrationDate));
+                if (!String.IsNullOrWhiteSpace(token))
+                {
+                    return new UserResponse(User.Username , token ,  RegistrationDate);
+                }
+                return new UserResponse(
+
+                    "",
+                    "failed",
+                    DateTime.UtcNow);
+            }
         }
         catch (Exception ex)
         {
             // logg
         }
 
-        return new UserResponse{};
+        return new UserResponse(
+
+            "",
+            "failed",
+            DateTime.UtcNow);
+
 
     }
 }
