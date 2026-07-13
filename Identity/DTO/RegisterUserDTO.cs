@@ -1,8 +1,10 @@
 using System.ComponentModel.DataAnnotations;
+using MediatR;
 
 namespace Identity.DTO;
 
-public class RegisterUserDTO
+public class RegisterUserDTO: IRequest<UserResponse>
+
 {
     [Required] [EmailAddress] public string Email { get; set; }
 

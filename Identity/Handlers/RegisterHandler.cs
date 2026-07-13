@@ -43,16 +43,21 @@ public class RegisterHandler : IRequestHandler<RegisterCommand , UserResponse>
             if (await _repository.RegisterAsync(User))
             {
                 var RegistrationDate = DateTime.UtcNow;
+                
                 var token = await _jwtService.CreateTokenAsync(new JWTRequestCommand(User.Id.ToString() ,User.Username, User.Email , RegistrationDate));
+               
                 if (!String.IsNullOrWhiteSpace(token))
                 {
                     return new UserResponse(User.Username , token ,  RegistrationDate);
                 }
-                return new UserResponse(
+                else
+                {
+                    return new UserResponse(
 
-                    "",
-                    "failed",
-                    DateTime.UtcNow);
+                        "",
+                        "failed",
+                        DateTime.UtcNow);
+                }
             }
         }
         catch (Exception ex)

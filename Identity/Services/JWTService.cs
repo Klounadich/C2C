@@ -12,7 +12,6 @@ public class JWTService : IJWTService
     public class AuthSettings
     {
         public TimeSpan Expires { get; set; }
-        
         public string SecretKey { get; set; }
         public string Issuer { get; set; }
         public string Audience { get; set; }
@@ -20,28 +19,37 @@ public class JWTService : IJWTService
     
     private readonly AuthSettings _options;
 
+  
     public JWTService(IOptions<AuthSettings> options)
     {
         _options = options.Value;
     }
+
     public async Task<string> CreateTokenAsync(JWTRequestCommand request)
-    {
+    { 
+       
         var claims = new List<Claim>
         {
             new Claim(ClaimTypes.Name, request.Username),
             new Claim(ClaimTypes.Email, request.Email),
             new Claim(ClaimTypes.NameIdentifier, request.UserId.ToString()),
-            new Claim(ClaimTypes.UserData, request.RegistrationDate.ToLongDateString())
-                
-        };           
+            new Claim(ClaimTypes.UserData, request.RegistrationDate.ToLongDateString()),
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+        };
+
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.SecretKey));
+        var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
         
         var token = new JwtSecurityToken(
-            expires: DateTime.UtcNow.Add(_options.Expires),
+            issuer: _options.Issuer,
+            audience: _options.Audience,
             claims: claims,
-            signingCredentials: new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.SecretKey)),
-                SecurityAlgorithms.HmacSha256)
+            expires: DateTime.UtcNow.Add(_options.Expires),
+            signingCredentials: credentials
         );
-
-        return new JwtSecurityTokenHandler().WriteToken(token);
+        
+        var test = new JwtSecurityTokenHandler().WriteToken(token);
+        
+        return test;
     }
 }

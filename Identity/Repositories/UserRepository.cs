@@ -41,4 +41,14 @@ public class UserRepository : IUserRepository
 
         return false;
     }
+
+    public async Task<User> GetUserByEmailAsync(string email)
+    {
+        var user = await _context.Users.Where(x => x.Email == email).FirstOrDefaultAsync();
+        if (user != null)
+        {
+            return user;
+        }
+        return null;
+    }
 }
