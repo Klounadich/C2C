@@ -1,0 +1,23 @@
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
+WORKDIR /src
+
+# Копируем все .csproj файлы
+COPY ["API/API.csproj", "API/"]
+COPY ["Identity/Identity.csproj", "Identity/"]
+COPY ["Shared/Shared.csproj", "Shared/"]
+
+# Восстанавливаем зависимости
+RUN dotnet restore "API/API.csproj"
+
+# Копируем все исходники
+COPY . .
+
+# Публикуем API
+RUN dotnet publish "API/API.csproj" -c Release -o /app/publish --no-restore -p:UseAppHost=false
+
+# Runtime образ
+FROM mcr.microsoft.com/dotnet/aspnet:10.0
+WORKDIR /app
+EXPOSE 8080
+COPY --from=build /app/publish .
+ENTRYPOINT ["dotnet", "API.dll"]
