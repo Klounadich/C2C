@@ -39,7 +39,16 @@ builder.Services.AddAuthorization(options =>
     options.DefaultPolicy = new AuthorizationPolicyBuilder().AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme).RequireAuthenticatedUser().Build();
 });
 
-
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("Frontend", policy =>
+        policy.WithOrigins(
+                "http://91.196.163.8"     
+            )
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials());
+});
 builder.Services.AddIdentityModule(builder.Configuration);
 
 var app = builder.Build();
@@ -49,6 +58,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI(); 
 }
+
+ 
+
+app.UseCors("Frontend");
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseHttpsRedirection();
