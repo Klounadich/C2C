@@ -6,4 +6,5 @@ namespace Identity.Services;
 public interface IJWTService
 {
     public Task<string> CreateTokenAsync(JWTRequestCommand command);
+    public Task<string> CreateRefreshTokenAsync();
 }

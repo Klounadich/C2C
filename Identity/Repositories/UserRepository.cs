@@ -51,4 +51,17 @@ public class UserRepository : IUserRepository
         }
         return null;
     }
+
+    public async Task<bool> UpdateRefreshTokenAsync(Guid userId, string refreshToken ,Guid familyId , DateTime expiresAt)
+    {
+         await _context.RefreshTokens.AddAsync(new RefreshTokens
+        {
+            Id = Guid.NewGuid(),
+            UserId = userId,
+            FamilyId = familyId,
+            CreatedAt = DateTime.UtcNow,
+            ExpiresAt = expiresAt
+        });
+         return await _context.SaveChangesAsync() > 0;
+    }
 }

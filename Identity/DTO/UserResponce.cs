@@ -2,6 +2,7 @@ namespace Identity.DTO;
 
 public record UserResponse(
     string Username,
-    string Token,
+    string AcessToken,
+    string RefreshToken,
     DateTime CreatedAt
 );

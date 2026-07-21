@@ -1,3 +1,5 @@
+using System.Security.Cryptography;
+using System.Text;
 using Identity.Commands;
 using Identity.DTO;
 using Identity.Models;
@@ -24,22 +26,29 @@ public class AuthHandler : IRequestHandler<AuthCommand, UserResponse>
             var user = await _repository.GetUserByEmailAsync(request.Email);
             if (BCrypt.Net.BCrypt.Verify(request.Password, user.Password))
             {
-                var token = await _jwtService.CreateTokenAsync(new JWTRequestCommand(user.Id.ToString() ,user.Username, user.Email , user.CreatedAt));
-               
-                if (!String.IsNullOrWhiteSpace(token))
-                {
-                    return new UserResponse(user.Username, token ,  user.CreatedAt);
-                }
-                else
-                {
-                    return new UserResponse(
+                var token = await _jwtService.CreateTokenAsync(new JWTRequestCommand(user.Id.ToString(), user.Username,
+                    user.Email, user.CreatedAt));
+                var refresh_token = await _jwtService.CreateRefreshTokenAsync();
+                var bytes = SHA256.HashData(Encoding.UTF8.GetBytes(refresh_token));
+                var refresh_token_hashed = Convert.ToHexString(bytes);
+                var expires = DateTime.UtcNow.AddDays(30);
+                if (await _repository.UpdateRefreshTokenAsync(user.Id, refresh_token_hashed, Guid.NewGuid(), expires)){
+                    if (!String.IsNullOrWhiteSpace(token))
+                    {
+                        return new UserResponse(user.Username, token, refresh_token, user.CreatedAt);
+                    }
+                    else
+                    {
+                        return new UserResponse(
 
-                        "",
-                        "failed",
-                        DateTime.UtcNow);
-                }
+                            "",
+                            "failed",
+                            "",
+                            DateTime.UtcNow);
+                    }
             }
         }
+    }
         catch (Exception ex)
         {
             // logg
@@ -48,7 +57,7 @@ public class AuthHandler : IRequestHandler<AuthCommand, UserResponse>
         return new UserResponse(
 
             "",
-            "failed",
+            "failed","",
             DateTime.UtcNow);
 
 

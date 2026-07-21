@@ -1,4 +1,6 @@
 using System.ComponentModel.DataAnnotations;
+using System.Security.Cryptography;
+using System.Text;
 using Identity.Commands;
 using Identity.DTO;
 using Identity.Models;
@@ -43,20 +45,28 @@ public class RegisterHandler : IRequestHandler<RegisterCommand , UserResponse>
             if (await _repository.RegisterAsync(User))
             {
                 var RegistrationDate = DateTime.UtcNow;
-                
-                var token = await _jwtService.CreateTokenAsync(new JWTRequestCommand(User.Id.ToString() ,User.Username, User.Email , RegistrationDate));
-               
-                if (!String.IsNullOrWhiteSpace(token))
-                {
-                    return new UserResponse(User.Username , token ,  RegistrationDate);
-                }
-                else
-                {
-                    return new UserResponse(
 
-                        "",
-                        "failed",
-                        DateTime.UtcNow);
+                var acess_token = await _jwtService.CreateTokenAsync(new JWTRequestCommand(User.Id.ToString(),
+                    User.Username, User.Email, RegistrationDate));
+                var refresh_token = await _jwtService.CreateRefreshTokenAsync();
+                var bytes = SHA256.HashData(Encoding.UTF8.GetBytes(refresh_token));
+                var refresh_token_hashed = Convert.ToHexString(bytes);
+                var expires = DateTime.UtcNow.AddDays(30);
+                if (await _repository.UpdateRefreshTokenAsync(User.Id, refresh_token_hashed, Guid.NewGuid(), expires)) 
+                {
+                    if (!String.IsNullOrWhiteSpace(acess_token))
+                    {
+                        return new UserResponse(User.Username, acess_token,refresh_token, RegistrationDate);
+                    }
+                    else
+                    {
+                        return new UserResponse(
+
+                            "",
+                            "failed",
+                            "failed",
+                            DateTime.UtcNow);
+                    }
                 }
             }
         }
@@ -69,6 +79,7 @@ public class RegisterHandler : IRequestHandler<RegisterCommand , UserResponse>
 
             "",
             "failed",
+                "failed",
             DateTime.UtcNow);
 
 

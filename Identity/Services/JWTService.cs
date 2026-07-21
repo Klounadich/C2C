@@ -1,5 +1,6 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using Identity.Commands;
 using Microsoft.Extensions.Options;
@@ -23,6 +24,18 @@ public class JWTService : IJWTService
     public JWTService(IOptions<AuthSettings> options)
     {
         _options = options.Value;
+    }
+
+    public async Task<string> CreateRefreshTokenAsync()
+    {
+        var bytes = new byte[32]; 
+        using (var rng = RandomNumberGenerator.Create())
+        {
+            rng.GetBytes(bytes);
+        }
+        var token = Convert.ToBase64String(bytes);
+        
+        return  token;
     }
 
     public async Task<string> CreateTokenAsync(JWTRequestCommand request)
