@@ -70,7 +70,8 @@ public class UserRepository : IUserRepository
             UserId = userId,
             FamilyId = familyId,
             CreatedAt = DateTime.UtcNow,
-            ExpiresAt = expiresAt
+            ExpiresAt = expiresAt,
+            TokenHash = refreshToken
         });
          return await _context.SaveChangesAsync() > 0;
     }
