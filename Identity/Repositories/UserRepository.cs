@@ -83,18 +83,8 @@ public class UserRepository : IUserRepository
 
     public async Task<bool> RevokeTokenAsync(RefreshTokens token)
     {
-        var revoke_token = new RefreshTokens
-        {
-            Id = token.Id,
-            UserId = token.UserId,
-            FamilyId = token.FamilyId,
-            CreatedAt = token.CreatedAt,
-            ExpiresAt = token.ExpiresAt,
-            TokenHash = token.TokenHash,
-            RevokedAt = DateTime.UtcNow,
-
-        };
-        _context.RefreshTokens.Update(revoke_token);
+       
+        token.RevokedAt = DateTime.UtcNow;
         return await _context.SaveChangesAsync() > 0;
     }
 }
