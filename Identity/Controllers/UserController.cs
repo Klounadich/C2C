@@ -20,7 +20,25 @@ public class UserController : ControllerBase
         _mediator = mediator;
         
     }
-    
+
+    [HttpPost("refresh")]
+    public async Task<IActionResult> Refresh()
+    {
+        var rawRefreshToken = Request.Cookies["refresh_token"];
+        if (string.IsNullOrEmpty(rawRefreshToken))
+            return Unauthorized();
+
+        var request = new RefreshCommand(rawRefreshToken);
+        var response = await _mediator.Send(request);
+
+        if (response.RefreshToken == "failed")
+            return Unauthorized();
+
+        HttpContext.Response.Cookies.Append("auth_token", response.AcessToken, new CookieOptions { HttpOnly = true, SameSite = SameSiteMode.Lax, Expires = DateTime.UtcNow.AddMinutes(10) });
+        HttpContext.Response.Cookies.Append("refresh_token", response.RefreshToken, new CookieOptions { HttpOnly = true, SameSite = SameSiteMode.Lax, Path = "/api/identity/user/refresh", Expires = DateTime.UtcNow.AddDays(70) });
+
+        return Ok(new { message = "Refreshed" });
+    }
     
     [HttpGet("me")]
     [Authorize] 
@@ -67,12 +85,20 @@ public class UserController : ControllerBase
 
        
        
-       HttpContext.Response.Cookies.Append("auth_token", responce.Token, new CookieOptions
+       HttpContext.Response.Cookies.Append("auth_token", responce.AcessToken, new CookieOptions
        {
            HttpOnly = true,
            SameSite = SameSiteMode.Lax,
            Secure = false,
-           Expires = DateTime.Now.AddDays(1)
+           Expires = DateTime.Now.AddMinutes(10)
+       });
+       
+       HttpContext.Response.Cookies.Append("refresh_token", responce.RefreshToken, new CookieOptions
+       {
+           HttpOnly = true,
+           SameSite = SameSiteMode.Lax,
+           Secure = false,
+           Expires = DateTime.Now.AddDays(70)
        });
 
         return Ok(new{message = "Successfully registered"});
@@ -82,17 +108,25 @@ public class UserController : ControllerBase
     {
         var request = new AuthCommand(userData.Email, userData.Password);
         var responce = await _mediator.Send(request);
-        if (responce.Token == "failed")
+        if (responce.AcessToken == "failed")
         {
             return BadRequest();
         }
         
-        HttpContext.Response.Cookies.Append("auth_token", responce.Token, new CookieOptions
+        HttpContext.Response.Cookies.Append("auth_token", responce.AcessToken, new CookieOptions
         {
             HttpOnly = true,
             SameSite = SameSiteMode.Lax,
             Secure = false,
-            Expires = DateTime.Now.AddDays(1)
+            Expires = DateTime.Now.AddMinutes(10)
+        });
+        
+        HttpContext.Response.Cookies.Append("refresh_token", responce.RefreshToken, new CookieOptions
+        {
+            HttpOnly = true,
+            SameSite = SameSiteMode.Lax,
+            Secure = false,
+            Expires = DateTime.Now.AddDays(70)
         });
 
         return Ok(new{message = "Successfully authorized"});
