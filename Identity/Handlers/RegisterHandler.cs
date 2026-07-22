@@ -37,6 +37,8 @@ public class RegisterHandler : IRequestHandler<RegisterCommand , EmailVerificati
         throw new ValidationException("User with this UserName already exists");
         
         string rand_confirm_number = new Random().Next(1000, 9999).ToString();
+        var bytess = SHA256.HashData(Encoding.UTF8.GetBytes(rand_confirm_number));
+        var code_hash = Convert.ToHexString(bytess);
         var mailData = new MailData
         {
             To = new List<string> { request.Email },
@@ -61,23 +63,15 @@ public class RegisterHandler : IRequestHandler<RegisterCommand , EmailVerificati
         {
             if (await _repository.RegisterAsync(User))
             {
-                var RegistrationDate = DateTime.UtcNow;
+                
                 var sent = await _mailService.SendAsync(mailData, CancellationToken.None);
-                /* var acess_token = await _jwtService.CreateTokenAsync(new JWTRequestCommand(User.Id.ToString(),
-                     User.Username, User.Email, RegistrationDate));
-                 var refresh_token = await _jwtService.CreateRefreshTokenAsync();
-                 var bytes = SHA256.HashData(Encoding.UTF8.GetBytes(refresh_token));
-                 var refresh_token_hashed = Convert.ToHexString(bytes);
-                 var expires = DateTime.UtcNow.AddDays(30);
-                 if (await _repository.UpdateRefreshTokenAsync(User.Id, refresh_token_hashed, Guid.NewGuid(), expires))
-                 {
-                     if (!String.IsNullOrWhiteSpace(acess_token))
-                     {*/
+                
                 if (sent)
                 {
+                    await _repository.SaveVerificationCodeAsync(code_hash , User.Id);
                     return new EmailVerificationResponce
                     {
-                        Email = request.Email,
+                        UserId = User.Id,
                         CodeSent = true
                     };
                 }
@@ -85,7 +79,7 @@ public class RegisterHandler : IRequestHandler<RegisterCommand , EmailVerificati
             else
                     {
                         return new EmailVerificationResponce{
-                            Email =  request.Email,
+                            UserId=  User.Id,
                             CodeSent = false
                         };
 
@@ -101,7 +95,7 @@ public class RegisterHandler : IRequestHandler<RegisterCommand , EmailVerificati
 
         return new EmailVerificationResponce
         {
-            Email =  request.Email,
+            UserId = User.Id,
             CodeSent = false
         };;
 

@@ -11,4 +11,5 @@ public class IdentityDBContext : DbContext
     }
     public DbSet<User> Users { get; set; }
     public DbSet<RefreshTokens> RefreshTokens { get; set; }
+    public DbSet<VerificationNotification> VerificationNotifications { get; set; }
 }

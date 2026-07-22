@@ -4,5 +4,5 @@ using MediatR;
 namespace Identity.Commands;
 
 public record EmailVerificationCommand(
-    string Email,
+    Guid UserId,
     string code) : IRequest<UserResponse>;

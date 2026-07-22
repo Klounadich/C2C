@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "LDl5FuVkaT8=",
+  "dgSpecHash": "7nUfvE5VQGU=",
   "success": true,
-  "projectFilePath": "/home/klounadich/RiderProjects/C2C/Shared/Shared.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "/home/klounadich/dev/C2C/Shared/Shared.csproj",
+  "expectedPackageFiles": [
+    "/home/klounadich/.nuget/packages/microsoft.aspnetcore.app.ref/10.0.3/microsoft.aspnetcore.app.ref.10.0.3.nupkg.sha512"
+  ],
   "logs": []
 }

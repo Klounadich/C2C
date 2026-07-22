@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using Identity.DTO;
 using Identity.Infrastructure;
 using Identity.Models;
@@ -86,5 +87,44 @@ public class UserRepository : IUserRepository
        
         token.RevokedAt = DateTime.UtcNow;
         return await _context.SaveChangesAsync() > 0;
+    }
+
+    public async  Task<bool> SaveVerificationCodeAsync(string code_hash, Guid UserId)
+    {
+        await _context.VerificationNotifications.AddAsync(new VerificationNotification
+        {
+            UserId = UserId,
+            Code_hashed = code_hash,
+        });
+        return await _context.SaveChangesAsync() > 0;
+    }
+
+    public async Task<User> VerificateEmailAsync(Guid UserId, string code_hash)
+    {
+        var verification = await _context.VerificationNotifications
+            .Where(x => x.UserId == UserId)
+            .OrderByDescending(x => x.CreatedAt)
+            .FirstOrDefaultAsync();
+
+        if (verification is null)
+            throw new ValidationException("No active verification code. Please request a new one.");
+
+        if (verification.ExpiresAt < DateTime.UtcNow)
+            throw new ValidationException("Code expired. Please request a new one.");
+
+        if (verification.Attempts >= 5)
+            throw new ValidationException("Too many attempts. Please request a new code.");
+
+        if (verification.Code_hashed != code_hash)
+        {
+            verification.Attempts++;
+            await _context.SaveChangesAsync();
+            throw new ValidationException("Invalid confirmation code");
+        }
+        
+       var user = await _context.Users.Where(x=>x.Id == UserId).FirstOrDefaultAsync();
+        user.EmailConfirmed = true;
+        await _context.SaveChangesAsync();
+        return user;
     }
 }
