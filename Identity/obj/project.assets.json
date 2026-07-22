@@ -2,6 +2,35 @@
   "version": 3,
   "targets": {
     "net10.0": {
+      "AWSSDK.Core/4.0.100.6": {
+        "type": "package",
+        "compile": {
+          "lib/net8.0/AWSSDK.Core.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/AWSSDK.Core.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "AWSSDK.SimpleEmailV2/4.0.101": {
+        "type": "package",
+        "dependencies": {
+          "AWSSDK.Core": "[4.0.100.6, 5.0.0)"
+        },
+        "compile": {
+          "lib/net8.0/AWSSDK.SimpleEmailV2.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/AWSSDK.SimpleEmailV2.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "BCrypt/1.0.0": {
         "type": "package",
         "compile": {
@@ -995,6 +1024,53 @@
     }
   },
   "libraries": {
+    "AWSSDK.Core/4.0.100.6": {
+      "sha512": "n5B+GywQ+B6E92ULn75KzF1Mn9USXZocgAkZ6NTDsYgHQFfXldC2+CBZgpg/by2OuuJ/TvEeRwHDCE+0xRBsFw==",
+      "type": "package",
+      "path": "awssdk.core/4.0.100.6",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "awssdk.core.4.0.100.6.nupkg.sha512",
+        "awssdk.core.nuspec",
+        "images/AWSLogo.png",
+        "lib/net472/AWSSDK.Core.dll",
+        "lib/net472/AWSSDK.Core.xml",
+        "lib/net8.0/AWSSDK.Core.dll",
+        "lib/net8.0/AWSSDK.Core.xml",
+        "lib/netcoreapp3.1/AWSSDK.Core.dll",
+        "lib/netcoreapp3.1/AWSSDK.Core.xml",
+        "lib/netstandard2.0/AWSSDK.Core.dll",
+        "lib/netstandard2.0/AWSSDK.Core.xml",
+        "tools/account-management.ps1"
+      ]
+    },
+    "AWSSDK.SimpleEmailV2/4.0.101": {
+      "sha512": "ctxJ/MmiYh02NU+UTdd9i0QB2pSZM7FSAy7wZZB+hCcj7JIc+IpTSJcYwWyjLBfNZeyud9YooDQ148/jFCpu4Q==",
+      "type": "package",
+      "path": "awssdk.simpleemailv2/4.0.101",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "analyzers/dotnet/cs/AWSSDK.SimpleEmailV2.CodeAnalysis.dll",
+        "analyzers/dotnet/cs/SharedAnalysisCode.dll",
+        "awssdk.simpleemailv2.4.0.101.nupkg.sha512",
+        "awssdk.simpleemailv2.nuspec",
+        "images/AWSLogo.png",
+        "lib/net472/AWSSDK.SimpleEmailV2.dll",
+        "lib/net472/AWSSDK.SimpleEmailV2.xml",
+        "lib/net8.0/AWSSDK.SimpleEmailV2.dll",
+        "lib/net8.0/AWSSDK.SimpleEmailV2.xml",
+        "lib/netcoreapp3.1/AWSSDK.SimpleEmailV2.dll",
+        "lib/netcoreapp3.1/AWSSDK.SimpleEmailV2.xml",
+        "lib/netstandard2.0/AWSSDK.SimpleEmailV2.dll",
+        "lib/netstandard2.0/AWSSDK.SimpleEmailV2.xml",
+        "tools/install.ps1",
+        "tools/uninstall.ps1"
+      ]
+    },
     "BCrypt/1.0.0": {
       "sha512": "/ibwe2Sg7MJR26IrEzW2Rde9/+A+AYXB5Kf9w/8BVLDdzSfUe4W2M7i2efy1Wa9wHh1k0y81Q6h9Ty8C6IrUGA==",
       "type": "package",
@@ -3255,6 +3331,7 @@
   },
   "projectFileDependencyGroups": {
     "net10.0": [
+      "AWSSDK.SimpleEmailV2 >= 4.0.101",
       "BCrypt >= 1.0.0",
       "BCrypt.Net-Next >= 4.2.0",
       "MailKit >= 4.17.0",
@@ -3310,6 +3387,10 @@
       "net10.0": {
         "targetAlias": "net10.0",
         "dependencies": {
+          "AWSSDK.SimpleEmailV2": {
+            "target": "Package",
+            "version": "[4.0.101, )"
+          },
           "BCrypt": {
             "target": "Package",
             "version": "[1.0.0, )"

@@ -97,7 +97,7 @@ public class RegisterHandler : IRequestHandler<RegisterCommand , EmailVerificati
         {
             UserId = User.Id,
             CodeSent = false
-        };;
+        };
 
 
 

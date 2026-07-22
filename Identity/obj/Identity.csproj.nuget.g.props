@@ -22,5 +22,7 @@
   <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
     <PkgMicrosoft_Extensions_ApiDescription_Server Condition=" '$(PkgMicrosoft_Extensions_ApiDescription_Server)' == '' ">/home/klounadich/.nuget/packages/microsoft.extensions.apidescription.server/10.0.0</PkgMicrosoft_Extensions_ApiDescription_Server>
     <PkgMicrosoft_CodeAnalysis_Analyzers Condition=" '$(PkgMicrosoft_CodeAnalysis_Analyzers)' == '' ">/home/klounadich/.nuget/packages/microsoft.codeanalysis.analyzers/3.11.0</PkgMicrosoft_CodeAnalysis_Analyzers>
+    <PkgAWSSDK_Core Condition=" '$(PkgAWSSDK_Core)' == '' ">/home/klounadich/.nuget/packages/awssdk.core/4.0.100.6</PkgAWSSDK_Core>
+    <PkgAWSSDK_SimpleEmailV2 Condition=" '$(PkgAWSSDK_SimpleEmailV2)' == '' ">/home/klounadich/.nuget/packages/awssdk.simpleemailv2/4.0.101</PkgAWSSDK_SimpleEmailV2>
   </PropertyGroup>
 </Project>

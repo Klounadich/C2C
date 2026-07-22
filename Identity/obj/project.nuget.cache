@@ -1,9 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "cU8tCgZskbo=",
+  "dgSpecHash": "WTwDp8pIMFI=",
   "success": true,
   "projectFilePath": "/home/klounadich/RiderProjects/C2C/Identity/Identity.csproj",
   "expectedPackageFiles": [
+    "/home/klounadich/.nuget/packages/awssdk.core/4.0.100.6/awssdk.core.4.0.100.6.nupkg.sha512",
+    "/home/klounadich/.nuget/packages/awssdk.simpleemailv2/4.0.101/awssdk.simpleemailv2.4.0.101.nupkg.sha512",
     "/home/klounadich/.nuget/packages/bcrypt/1.0.0/bcrypt.1.0.0.nupkg.sha512",
     "/home/klounadich/.nuget/packages/bcrypt.net-next/4.2.0/bcrypt.net-next.4.2.0.nupkg.sha512",
     "/home/klounadich/.nuget/packages/bouncycastle.cryptography/2.6.2/bouncycastle.cryptography.2.6.2.nupkg.sha512",
