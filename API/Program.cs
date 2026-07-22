@@ -1,6 +1,7 @@
 
 using System.Text;
 using Identity;
+using Identity.Services.SMTP.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
@@ -50,7 +51,8 @@ builder.Services.AddCors(options =>
             .AllowCredentials());
 });
 builder.Services.AddIdentityModule(builder.Configuration);
-
+builder.Services.Configure<MailSettings>(
+    builder.Configuration.GetSection("MailSettings"));
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
