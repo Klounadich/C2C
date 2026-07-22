@@ -3,7 +3,7 @@ using MediatR;
 
 namespace Identity.DTO;
 
-public class RegisterUserDTO: IRequest<UserResponse>
+public class RegisterUserDTO
 
 {
     [Required] [EmailAddress] public string Email { get; set; }

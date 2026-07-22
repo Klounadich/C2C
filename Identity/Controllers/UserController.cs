@@ -21,6 +21,29 @@ public class UserController : ControllerBase
         
     }
 
+    [HttpPost("email-verification")]
+    public async Task<IActionResult> EmailVerification(EmailVerificationCommand command)
+    {
+        var responce =  await _mediator.Send(command);
+        
+        HttpContext.Response.Cookies.Append("auth_token", responce.AcessToken, new CookieOptions
+        {
+            HttpOnly = true,
+            SameSite = SameSiteMode.Lax,
+            Secure = false,
+            Expires = DateTime.Now.AddMinutes(10)
+        });
+       
+        HttpContext.Response.Cookies.Append("refresh_token", responce.RefreshToken, new CookieOptions
+        {
+            HttpOnly = true,
+            SameSite = SameSiteMode.Lax,
+            Secure = false,
+            Expires = DateTime.Now.AddDays(70)
+        });
+        return Ok(new{message = "Successfully registration"});
+    }
+
     [HttpPost("refresh")]
     public async Task<IActionResult> Refresh()
     {
@@ -85,23 +108,9 @@ public class UserController : ControllerBase
 
        
        
-       HttpContext.Response.Cookies.Append("auth_token", responce.AcessToken, new CookieOptions
-       {
-           HttpOnly = true,
-           SameSite = SameSiteMode.Lax,
-           Secure = false,
-           Expires = DateTime.Now.AddMinutes(10)
-       });
        
-       HttpContext.Response.Cookies.Append("refresh_token", responce.RefreshToken, new CookieOptions
-       {
-           HttpOnly = true,
-           SameSite = SameSiteMode.Lax,
-           Secure = false,
-           Expires = DateTime.Now.AddDays(70)
-       });
 
-        return Ok(new{message = "Successfully registered"});
+        return Ok(responce);
     }
     [HttpPost("auth")]
     public async Task<IActionResult> AuthUser(AuthUserDTO userData)

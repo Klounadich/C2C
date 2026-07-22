@@ -15,4 +15,5 @@ public interface IUserRepository
     
     public Task<RefreshTokens> GetRefreshTokenAsync(string refreshToken_hashed);
     public Task<bool>RevokeTokenAsync(RefreshTokens token);
+    public Task<bool>VerificateEmailAsync(string email , string code_hash);
 }

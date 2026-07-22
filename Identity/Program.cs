@@ -2,6 +2,7 @@ using Identity.Handlers;
 using Identity.Infrastructure;
 using Identity.Repositories;
 using Identity.Services;
+using Identity.Services.SMTP;
 using Microsoft.AspNetCore.Builder; 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -18,6 +19,7 @@ public static class IdentityModuleExtensions
         
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IJWTService, JWTService>();
+        services.AddScoped<ISMTPSerivce, SMTPService>();
         services.Configure<JWTService.AuthSettings>(
             configuration.GetSection("AuthSettings")
         );

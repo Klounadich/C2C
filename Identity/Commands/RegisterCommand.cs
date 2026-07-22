@@ -6,6 +6,6 @@ namespace Identity.Commands;
 public record RegisterCommand(
     string Username,
     string Password,
-    string Email) : IRequest<UserResponse>;
+    string Email) : IRequest<EmailVerificationResponce>;
     
     
