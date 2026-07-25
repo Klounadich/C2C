@@ -20,6 +20,19 @@ public class UserController : ControllerBase
         _mediator = mediator;
         
     }
+    
+    [Authorize]
+    [HttpPost("2fa/enable")]
+    public async Task<IActionResult> Enable2fa()
+    {
+        var user = HttpContext.User;
+        var responce = await _mediator.Send(new TFARequestCommand(user.FindFirst(ClaimTypes.NameIdentifier)?.Value));
+        if (responce)
+        {
+            return Ok(new {CodeSent= true});
+        }
+        return BadRequest(new {CodeSent = false});
+    }
 
     [HttpPost("email-verification")]
     public async Task<IActionResult> EmailVerification(EmailVerificationCommand command)

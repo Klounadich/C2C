@@ -68,10 +68,10 @@ public class RegisterHandler : IRequestHandler<RegisterCommand , EmailVerificati
                 
                 if (sent)
                 {
-                    await _repository.SaveVerificationCodeAsync(code_hash , User.Id);
+                   var codeId = await _repository.SaveVerificationCodeAsync(code_hash , User.Id);
                     return new EmailVerificationResponce
                     {
-                        UserId = User.Id,
+                        CodeId = codeId,
                         CodeSent = true
                     };
                 }
@@ -79,7 +79,7 @@ public class RegisterHandler : IRequestHandler<RegisterCommand , EmailVerificati
             else
                     {
                         return new EmailVerificationResponce{
-                            UserId=  User.Id,
+                            CodeId = "",
                             CodeSent = false
                         };
 
@@ -95,7 +95,7 @@ public class RegisterHandler : IRequestHandler<RegisterCommand , EmailVerificati
 
         return new EmailVerificationResponce
         {
-            UserId = User.Id,
+            CodeId = "",
             CodeSent = false
         };
 

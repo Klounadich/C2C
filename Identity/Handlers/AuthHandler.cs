@@ -24,8 +24,14 @@ public class AuthHandler : IRequestHandler<AuthCommand, UserResponse>
         try
         {
             var user = await _repository.GetUserByEmailAsync(request.Email);
+            
             if (BCrypt.Net.BCrypt.Verify(request.Password, user.Password))
             {
+                if (user.TwoFactorEnabled)
+                {
+                    
+                    
+                }
                 var token = await _jwtService.CreateTokenAsync(new JWTRequestCommand(user.Id.ToString(), user.Username,
                     user.Email, user.CreatedAt));
                 var refresh_token = await _jwtService.CreateRefreshTokenAsync();
