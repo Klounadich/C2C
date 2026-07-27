@@ -9,18 +9,19 @@ namespace Identity.Controllers;
 
 [ApiController]
 [Route("api/identity/[controller]")]
-
 public class UserController : ControllerBase
 {
     private readonly IMediator _mediator;
-   
 
-    public UserController(IMediator mediator  )
+    public UserController(IMediator mediator)
     {
         _mediator = mediator;
-        
     }
-    
+
+    // ───────────────────────────────────
+    //  2FA: ВКЛЮЧЕНИЕ ИЗ НАСТРОЕК ПРОФИЛЯ (юзер уже авторизован)
+    // ───────────────────────────────────
+
     [Authorize]
     [HttpPost("2fa/enable")]
     public async Task<IActionResult> Enable2fa()
@@ -34,29 +35,87 @@ public class UserController : ControllerBase
         return BadRequest(responce);
     }
 
+    // Раньше подтверждение 2FA-кода шло через /email-verification (не предназначен
+    // для этого — там ставились новые auth-куки и EmailConfirmed, что не нужно здесь,
+    // юзер уже залогинен). Теперь отдельный эндпоинт: только флиппает TwoFactorEnabled.
+    [Authorize]
+    [HttpPost("2fa/enable/confirm")]
+    public async Task<IActionResult> ConfirmEnable2fa(TwoFactorEnableConfirmCommand command)
+    {
+        var enabled = await _mediator.Send(command);
+        if (!enabled)
+            return BadRequest(new { message = "Не удалось включить 2FA" });
+
+        return Ok(new { twoFactorEnabled = true });
+    }
+
+    // ───────────────────────────────────
+    //  2FA: ВТОРОЙ ШАГ ПРИ ЛОГИНЕ (юзер ещё НЕ авторизован)
+    // ───────────────────────────────────
+
+    [HttpPost("2fa/login-verify")]
+    public async Task<IActionResult> VerifyLogin2FA(TwoFactorLoginVerifyCommand command)
+    {
+        var responce = await _mediator.Send(command);
+        if (responce.AcessToken == "failed")
+            return BadRequest(new { message = "Неверный или истёкший код" });
+
+        SetAuthCookies(responce.AcessToken, responce.RefreshToken);
+        return Ok(new { message = "Successfully authorized" });
+    }
+
+    // ───────────────────────────────────
+    //  РЕГИСТРАЦИЯ / ПОДТВЕРЖДЕНИЕ EMAIL
+    // ───────────────────────────────────
+
     [HttpPost("email-verification")]
     public async Task<IActionResult> EmailVerification(EmailVerificationCommand command)
     {
-        Console.WriteLine($"1233333gggggggg{command.CodeId}");
-        var responce =  await _mediator.Send(command);
-        
-        HttpContext.Response.Cookies.Append("auth_token", responce.AcessToken, new CookieOptions
-        {
-            HttpOnly = true,
-            SameSite = SameSiteMode.Lax,
-            Secure = false,
-            Expires = DateTime.Now.AddMinutes(10)
-        });
-       
-        HttpContext.Response.Cookies.Append("refresh_token", responce.RefreshToken, new CookieOptions
-        {
-            HttpOnly = true,
-            SameSite = SameSiteMode.Lax,
-            Secure = false,
-            Expires = DateTime.Now.AddDays(70)
-        });
-        return Ok(new{message = "Successfully registration"});
+        var responce = await _mediator.Send(command);
+
+        SetAuthCookies(responce.AcessToken, responce.RefreshToken);
+        return Ok(new { message = "Successfully registration" });
     }
+
+    [HttpPost("register")]
+    public async Task<IActionResult> RegisterUser([FromBody] RegisterUserDTO userData)
+    {
+        var request = new RegisterCommand(userData.Username, userData.Password, userData.Email);
+        var responce = await _mediator.Send(request);
+        if (responce == null)
+        {
+            return BadRequest();
+        }
+
+        return Ok(responce);
+    }
+
+    // ───────────────────────────────────
+    //  ЛОГИН
+    // ───────────────────────────────────
+
+    [HttpPost("auth")]
+    public async Task<IActionResult> AuthUser(AuthUserDTO userData)
+    {
+        var request = new AuthCommand(userData.Email, userData.Password);
+        var responce = await _mediator.Send(request);
+
+        if (responce.RequiresTwoFactor)
+        {
+            // Куки НЕ ставим — юзер ещё не авторизован, ждём код на /2fa/login-verify
+            return Ok(new { requiresTwoFactor = true, codeId = responce.CodeId });
+        }
+
+        if (responce.AcessToken == "failed")
+            return BadRequest(new { message = "Неверный email или пароль" });
+
+        SetAuthCookies(responce.AcessToken, responce.RefreshToken);
+        return Ok(new { message = "Successfully authorized" });
+    }
+
+    // ───────────────────────────────────
+    //  ПРОЧЕЕ (без изменений)
+    // ───────────────────────────────────
 
     [HttpPost("refresh")]
     public async Task<IActionResult> Refresh()
@@ -71,20 +130,18 @@ public class UserController : ControllerBase
         if (response.RefreshToken == "failed")
             return Unauthorized();
 
-        HttpContext.Response.Cookies.Append("auth_token", response.AcessToken, new CookieOptions { HttpOnly = true, SameSite = SameSiteMode.Lax, Expires = DateTime.UtcNow.AddMinutes(10) });
-        HttpContext.Response.Cookies.Append("refresh_token", response.RefreshToken, new CookieOptions { HttpOnly = true, SameSite = SameSiteMode.Lax, Path = "/api/identity/user/refresh", Expires = DateTime.UtcNow.AddDays(70) });
-
+        SetAuthCookies(response.AcessToken, response.RefreshToken, isRefresh: true);
         return Ok(new { message = "Refreshed" });
     }
-    
+
     [HttpGet("me")]
-    [Authorize] 
+    [Authorize]
     public IActionResult Me()
     {
         var user = HttpContext.User;
         if (user?.Identity == null || !user.Identity.IsAuthenticated)
             return Unauthorized();
- 
+
         return Ok(new
         {
             username = user.FindFirst(ClaimTypes.Name)?.Value,
@@ -93,66 +150,41 @@ public class UserController : ControllerBase
             registrationDate = user.FindFirst(ClaimTypes.UserData)?.Value
         });
     }
-    
+
     [HttpPost("logout")]
     public IActionResult Logout()
     {
-       
-        HttpContext.Response.Cookies.Append("auth_token", "", new CookieOptions
+        Response.Cookies.Append("auth_token", "", new CookieOptions
         {
             HttpOnly = true,
             SameSite = SameSiteMode.Lax,
             Secure = false,
             Expires = DateTime.Now.AddDays(-1)
         });
- 
+
         return Ok(new { message = "Successfully logged out" });
     }
-    
-    
-    [HttpPost("register")]
-    public async Task<IActionResult> RegisterUser([FromBody] RegisterUserDTO userData)
-    {
-        var request = new RegisterCommand(userData.Username, userData.Password, userData.Email);
-       var responce = await _mediator.Send(request);
-       if (responce == null)
-       {
-           return BadRequest();
-       }
 
-       
-       
-       
-
-        return Ok(responce);
-    }
-    [HttpPost("auth")]
-    public async Task<IActionResult> AuthUser(AuthUserDTO userData)
+    // ───────────────────────────────────
+    //  HELPER — раньше этот блок был продублирован в 4 местах
+    // ───────────────────────────────────
+    private void SetAuthCookies(string accessToken, string refreshToken, bool isRefresh = false)
     {
-        var request = new AuthCommand(userData.Email, userData.Password);
-        var responce = await _mediator.Send(request);
-        if (responce.AcessToken == "failed")
-        {
-            return BadRequest();
-        }
-        
-        HttpContext.Response.Cookies.Append("auth_token", responce.AcessToken, new CookieOptions
+        Response.Cookies.Append("auth_token", accessToken, new CookieOptions
         {
             HttpOnly = true,
             SameSite = SameSiteMode.Lax,
             Secure = false,
             Expires = DateTime.Now.AddMinutes(10)
         });
-        
-        HttpContext.Response.Cookies.Append("refresh_token", responce.RefreshToken, new CookieOptions
+
+        Response.Cookies.Append("refresh_token", refreshToken, new CookieOptions
         {
             HttpOnly = true,
             SameSite = SameSiteMode.Lax,
             Secure = false,
+            Path = isRefresh ? "/api/identity/user/refresh" : "/",
             Expires = DateTime.Now.AddDays(70)
         });
-
-        return Ok(new{message = "Successfully authorized"});
     }
-    
 }

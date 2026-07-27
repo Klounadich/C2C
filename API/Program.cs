@@ -1,6 +1,7 @@
 
 using System.Text;
 using Identity;
+using Identity.Middleware;
 using Identity.Services.SMTP.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -64,6 +65,7 @@ if (app.Environment.IsDevelopment())
  
 
 app.UseCors("Frontend");
+app.UseValidationExceptionHandling();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseHttpsRedirection();
