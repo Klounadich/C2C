@@ -25,7 +25,8 @@ public class VerificationHandler : IRequestHandler<EmailVerificationCommand, Use
         var bytess = SHA256.HashData(Encoding.UTF8.GetBytes(request.code));
         var code_hashed = Convert.ToHexString(bytess);
         var verify = await _userRepository.VerificateEmailAsync(request.CodeId, code_hashed);
-        var verified = await _userRepository.EmailConfirmedAsync(request.CodeId);
+        var userId = Guid.Parse(verify);                                 
+        var verified = await _userRepository.EmailConfirmedAsync(userId);
         if (verified.EmailConfirmed)
         {
             var RegistrationDate = DateTime.UtcNow;
