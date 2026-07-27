@@ -16,7 +16,7 @@ public interface IUserRepository
     public Task<RefreshTokens> GetRefreshTokenAsync(string refreshToken_hashed);
     public Task<User> EmailConfirmedAsync(Guid userId);
     public Task<bool>RevokeTokenAsync(RefreshTokens token);
-    public Task<bool>VerificateEmailAsync(Guid CodeId, string code_hash);
+    public Task<string>VerificateEmailAsync(Guid CodeId, string code_hash);
     public Task<string> SaveVerificationCodeAsync(string code_hash , Guid CodeId);
     public Task<bool> Enable2FA(User user);
 }

@@ -103,7 +103,7 @@ public class UserRepository : IUserRepository
 
     }
 
-    public async Task<bool> VerificateEmailAsync(Guid CodeId, string code_hash)
+    public async Task<string> VerificateEmailAsync(Guid CodeId, string code_hash)
     {
         var verification = await _context.VerificationNotifications
             .Where(x => x.Id == CodeId)
@@ -126,7 +126,7 @@ public class UserRepository : IUserRepository
             throw new ValidationException("Invalid confirmation code");
         }
 
-        return true;
+        return verification.UserId.ToString();
     }
 
     public async Task<User> EmailConfirmedAsync(Guid UserId)
