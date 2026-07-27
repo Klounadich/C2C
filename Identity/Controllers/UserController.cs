@@ -27,11 +27,11 @@ public class UserController : ControllerBase
     {
         var user = HttpContext.User;
         var responce = await _mediator.Send(new TFARequestCommand(user.FindFirst(ClaimTypes.NameIdentifier)?.Value));
-        if (responce)
+        if (responce.CodeSent)
         {
-            return Ok(new {CodeSent= true});
+            return Ok(responce);
         }
-        return BadRequest(new {CodeSent = false});
+        return BadRequest(responce);
     }
 
     [HttpPost("email-verification")]

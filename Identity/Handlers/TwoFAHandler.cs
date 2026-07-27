@@ -10,7 +10,7 @@ using MediatR;
 
 namespace Identity.Handlers;
 
-public class TwoFAHandler : IRequestHandler<TFARequestCommand,bool>
+public class TwoFAHandler : IRequestHandler<TFARequestCommand,TFAResponce>
 {
     private readonly IUserRepository _userRepository;
     private readonly ISMTPSerivce _mailService;
@@ -22,7 +22,7 @@ public class TwoFAHandler : IRequestHandler<TFARequestCommand,bool>
         
     }
 
-    public async Task<bool> Handle(TFARequestCommand request, CancellationToken cancellationToken)
+    public async Task<TFAResponce> Handle(TFARequestCommand request, CancellationToken cancellationToken)
     {
         var user = await _userRepository.GetUserByIdAsync(request.userId);
         bool enabled = await _userRepository.Enable2FA(user);
@@ -46,12 +46,19 @@ public class TwoFAHandler : IRequestHandler<TFARequestCommand,bool>
 
             if (sent)
             {
-                await _userRepository.SaveVerificationCodeAsync(code_hash, user.Id);
-                return true;
+               var code =  await _userRepository.SaveVerificationCodeAsync(code_hash, user.Id);
+                return new  TFAResponce
+                {
+                    CodeId = code,
+                    CodeSent = true
+                };
             }
 
         }
 
-        return false;
+        return new TFAResponce
+        {
+            CodeSent = false,
+        };
     }
 }
