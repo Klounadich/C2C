@@ -37,6 +37,7 @@ public class UserController : ControllerBase
     [HttpPost("email-verification")]
     public async Task<IActionResult> EmailVerification(EmailVerificationCommand command)
     {
+        Console.WriteLine($"1233333gggggggg{command.CodeId}");
         var responce =  await _mediator.Send(command);
         
         HttpContext.Response.Cookies.Append("auth_token", responce.AcessToken, new CookieOptions
