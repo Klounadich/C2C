@@ -1,5 +1,6 @@
 
 using System.Text;
+using Catalog;
 using Identity;
 using Identity.Middleware;
 using Identity.Services.SMTP.Models;
@@ -45,13 +46,14 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("Frontend", policy =>
         policy.WithOrigins(
-                "http://91.196.163.8"     
+                "http://45.137.43.23"     
             )
             .AllowAnyHeader()
             .AllowAnyMethod()
             .AllowCredentials());
 });
 builder.Services.AddIdentityModule(builder.Configuration);
+builder.Services.AddCatalogModule(builder.Configuration);
 builder.Services.Configure<MailSettings>(
     builder.Configuration.GetSection("MailSettings"));
 var app = builder.Build();

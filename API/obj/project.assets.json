@@ -1019,6 +1019,20 @@
           }
         }
       },
+      "Catalog/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v10.0",
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore": "10.0.3",
+          "Npgsql.EntityFrameworkCore.PostgreSQL": "10.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Catalog.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Catalog.dll": {}
+        }
+      },
       "Identity/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v10.0",
@@ -3351,6 +3365,11 @@
         "useSharedDesignerContext.txt"
       ]
     },
+    "Catalog/1.0.0": {
+      "type": "project",
+      "path": "../Catalog/Catalog.csproj",
+      "msbuildProject": "../Catalog/Catalog.csproj"
+    },
     "Identity/1.0.0": {
       "type": "project",
       "path": "../Identity/Identity.csproj",
@@ -3359,6 +3378,7 @@
   },
   "projectFileDependencyGroups": {
     "net10.0": [
+      "Catalog >= 1.0.0",
       "Identity >= 1.0.0",
       "Microsoft.AspNetCore.OpenApi >= 10.0.3",
       "Microsoft.EntityFrameworkCore.Design >= 10.0.3",
@@ -3388,8 +3408,12 @@
       },
       "frameworks": {
         "net10.0": {
+          "framework": "net10.0",
           "targetAlias": "net10.0",
           "projectReferences": {
+            "/home/klounadich/RiderProjects/C2C/Catalog/Catalog.csproj": {
+              "projectPath": "/home/klounadich/RiderProjects/C2C/Catalog/Catalog.csproj"
+            },
             "/home/klounadich/RiderProjects/C2C/Identity/Identity.csproj": {
               "projectPath": "/home/klounadich/RiderProjects/C2C/Identity/Identity.csproj"
             }
@@ -3406,10 +3430,11 @@
         "auditLevel": "low",
         "auditMode": "all"
       },
-      "SdkAnalysisLevel": "10.0.100"
+      "SdkAnalysisLevel": "10.0.200"
     },
     "frameworks": {
       "net10.0": {
+        "framework": "net10.0",
         "targetAlias": "net10.0",
         "dependencies": {
           "Microsoft.AspNetCore.OpenApi": {
@@ -3446,7 +3471,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/10.0.108/PortableRuntimeIdentifierGraph.json",
+        "runtimeIdentifierGraphPath": "/app/extra/rider/lib/ReSharperHost/linux-x64/dotnet/sdk/10.0.201/PortableRuntimeIdentifierGraph.json",
         "packagesToPrune": {
           "Microsoft.AspNetCore": "(,10.0.32767]",
           "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",
