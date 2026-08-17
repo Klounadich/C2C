@@ -4,6 +4,7 @@ WORKDIR /src
 # Копируем все .csproj файлы
 COPY ["API/API.csproj", "API/"]
 COPY ["Identity/Identity.csproj", "Identity/"]
+COPY ["Catalog/Catalog.csproj", "Catalog/"]
 COPY ["Shared/Shared.csproj", "Shared/"]
 
 # Восстанавливаем зависимости
