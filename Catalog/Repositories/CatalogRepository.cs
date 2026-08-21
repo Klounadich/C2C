@@ -15,10 +15,11 @@ public class CatalogRepository :ICatalogRepository
 
     public async Task<List<Items>> GetItemsAsync(List<string> keywords)
     {
-        foreach (var keyword in keywords)
-        {
-            var Items = _catalogDBContext.Items.Where(x => x.title.Contains(keyword)).ToListAsync();
-        }
-        return await _catalogDBContext.Items.ToListAsync();
+        if (keywords == null || keywords.Count == 0)
+            return await _catalogDBContext.Items.ToListAsync();
+
+        return await _catalogDBContext.Items
+            .Where(x => keywords.Any(keyword => x.title.Contains(keyword)))
+            .ToListAsync();
     }
 }
