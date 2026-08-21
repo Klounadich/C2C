@@ -25,33 +25,28 @@ public class FindItemHandler
         CancellationToken cancellationToken)
     {
         var normalizedRequest = request.request.Normalize();
+        List<string> synonymousWords;
 
-        var url = SynonymsLink +
-                  Uri.EscapeDataString(normalizedRequest);
+        try
+        {
+            var url = SynonymsLink + Uri.EscapeDataString(normalizedRequest);
+            using var client = new HttpClient { Timeout = TimeSpan.FromSeconds(5) }; 
+            client.DefaultRequestHeaders.UserAgent.ParseAdd(
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 " +
+                "(KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36");
 
-        using var client = new HttpClient();
+            var response = await client.GetAsync(url, HttpCompletionOption.ResponseContentRead, cancellationToken);
+            response.EnsureSuccessStatusCode();
+            var html = await response.Content.ReadAsStringAsync(cancellationToken);
+            synonymousWords = await _synonymousWordsParser.ParseSynonyms(html);
+        }
+        catch (Exception)
+        {
+            
+            synonymousWords = new List<string> { normalizedRequest };
+        }
 
-        client.DefaultRequestHeaders.UserAgent.ParseAdd(
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) " +
-            "AppleWebKit/537.36 (KHTML, like Gecko) " +
-            "Chrome/151.0.0.0 Safari/537.36");
-
-        var response = await client.GetAsync(
-            url,
-            HttpCompletionOption.ResponseContentRead,
-            cancellationToken);
-
-        response.EnsureSuccessStatusCode();
-
-        var html = await response.Content.ReadAsStringAsync(
-            cancellationToken);
-
-        var synonymousWords =
-            await _synonymousWordsParser.ParseSynonyms(html);
-
-        var items =
-            await _catalogRepository.GetItemsAsync(synonymousWords);
-
+        var items = await _catalogRepository.GetItemsAsync(synonymousWords);
         return new FoundItemsResponce(items);
     }
 }
