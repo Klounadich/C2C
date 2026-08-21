@@ -1,4 +1,6 @@
+
 using Catalog.Infrastructure;
+using Catalog.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,7 +12,14 @@ public static class CatalogModuleExtensions
 {
     public static IServiceCollection AddCatalogModule(this IServiceCollection services, IConfiguration configuration)
     {
-        
+        services.AddScoped<SynonymousWordsParser>();
+        services.AddScoped<ICatalogRepository, CatalogRepository>();
+        services.AddMediatR(cfg =>
+        {
+            cfg.RegisterServicesFromAssembly(typeof(FindItemHandler).Assembly);
+          
+            
+        });
         var dataSourceBuilder = new NpgsqlDataSourceBuilder(configuration.GetConnectionString("C2CDBConnection"));
         dataSourceBuilder.EnableDynamicJson();
         var dataSource = dataSourceBuilder.Build();

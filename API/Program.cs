@@ -13,6 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers()
     .AddApplicationPart(typeof(IdentityModuleExtensions).Assembly); 
+builder.Services.AddControllers().AddApplicationPart(typeof(CatalogModuleExtensions).Assembly);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(); 

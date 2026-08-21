@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "7A3ZHEnRTLM=",
+  "dgSpecHash": "S5yiWcFfuSA=",
   "success": true,
   "projectFilePath": "/home/klounadich/RiderProjects/C2C/API/API.csproj",
   "expectedPackageFiles": [
@@ -9,6 +9,7 @@
     "/home/klounadich/.nuget/packages/bcrypt/1.0.0/bcrypt.1.0.0.nupkg.sha512",
     "/home/klounadich/.nuget/packages/bcrypt.net-next/4.2.0/bcrypt.net-next.4.2.0.nupkg.sha512",
     "/home/klounadich/.nuget/packages/bouncycastle.cryptography/2.6.2/bouncycastle.cryptography.2.6.2.nupkg.sha512",
+    "/home/klounadich/.nuget/packages/htmlagilitypack/1.13.0-beta1/htmlagilitypack.1.13.0-beta1.nupkg.sha512",
     "/home/klounadich/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
     "/home/klounadich/.nuget/packages/mailkit/4.17.0/mailkit.4.17.0.nupkg.sha512",
     "/home/klounadich/.nuget/packages/mediatr/14.2.0/mediatr.14.2.0.nupkg.sha512",

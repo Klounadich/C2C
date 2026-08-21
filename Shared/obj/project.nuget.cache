@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "yahgEdCE04U=",
+  "dgSpecHash": "BR375r/5bq8=",
   "success": true,
   "projectFilePath": "/home/klounadich/RiderProjects/C2C/Shared/Shared.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "/home/klounadich/.nuget/packages/htmlagilitypack/1.13.0-beta1/htmlagilitypack.1.13.0-beta1.nupkg.sha512"
+  ],
   "logs": []
 }
