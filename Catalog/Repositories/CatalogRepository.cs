@@ -22,4 +22,17 @@ public class CatalogRepository :ICatalogRepository
             .Where(x => keywords.Any(keyword => x.title.Contains(keyword)))
             .ToListAsync();
     }
+
+    public async Task<List<Items>> GetItemsByCategoryAsync(
+        string category,
+        int page,
+        int pageSize)
+    {
+        return await _catalogDBContext.Items
+            .Where(x => x.category == category)
+            .OrderBy(x => x.Id)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+    }
 }

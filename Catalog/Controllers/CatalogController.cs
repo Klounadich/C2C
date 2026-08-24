@@ -21,5 +21,13 @@ public class CatalogController : ControllerBase
     }
     
     
+    [HttpPost("find/category")]
+    public async Task<IActionResult> FindItemsCategory(FindItemCategoryRequestCommand request)
+    {
+        var responce = await _mediator.Send(request);
+        return Ok(responce);
+    }
+    
+    
 
 }
