@@ -13,7 +13,7 @@ public class CatalogRepository :ICatalogRepository
         _catalogDBContext = catalogDBContext;
     }
 
-    public async Task<List<Items>> GetItemsAsync(List<string> keywords)
+    public async Task<List<Items>> GetItemsAsync(List<string> keywords , int page, int pageSize)
     {
         if (keywords == null || keywords.Count == 0)
             return await _catalogDBContext.Items.ToListAsync();
@@ -28,11 +28,18 @@ public class CatalogRepository :ICatalogRepository
         int page,
         int pageSize)
     {
-        return await _catalogDBContext.Items
-            .Where(x => x.category == category)
-            .OrderBy(x => x.Id)
-            .Skip((page - 1) * pageSize)
-            .Take(pageSize)
-            .ToListAsync();
+        if (category == "rnd")
+        {
+            return await _catalogDBContext.Items.OrderBy(x=>x.Id).Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+        }
+        else
+        {
+            return await _catalogDBContext.Items
+                .Where(x => x.category == category)
+                .OrderBy(x => x.Id)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+        }
     }
 }

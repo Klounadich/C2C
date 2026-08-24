@@ -27,7 +27,7 @@ public class FindItemHandler
         var normalizedRequest = request.request.Normalize();
         List<string> synonymousWords;
         synonymousWords = await _synonymousWordsParser.GetSynonymousWordsAsync(SynonymsLink,normalizedRequest , cancellationToken);
-        var items = await _catalogRepository.GetItemsAsync(synonymousWords);
+        var items = await _catalogRepository.GetItemsAsync(synonymousWords , request.page , request.pageSize);
         return new FoundItemsResponce(items);
     }
 }

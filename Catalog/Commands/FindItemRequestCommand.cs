@@ -4,5 +4,7 @@ using MediatR;
 namespace Catalog.Commands;
 
 public record FindItemRequestCommand(
-    string request
+    string request,
+    int page,
+    int pageSize
     ): IRequest<FoundItemsResponce>;
