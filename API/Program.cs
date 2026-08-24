@@ -47,7 +47,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("Frontend", policy =>
         policy.WithOrigins(
-                "http://45.137.43.23"     
+                "http://178.236.243.241"     
             )
             .AllowAnyHeader()
             .AllowAnyMethod()
