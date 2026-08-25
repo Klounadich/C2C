@@ -1,6 +1,7 @@
 using Catalog.Commands;
 using Catalog.DTO;
 using Catalog.Repositories;
+using Catalog.Services;
 using MediatR;
 
 public class FindItemHandler
@@ -10,24 +11,36 @@ public class FindItemHandler
         "https://ruwordnet.ru/ru/search/";
 
     private readonly SynonymousWordsParser _synonymousWordsParser;
+    private readonly SearchNormalizer _normalizer;
     private readonly ICatalogRepository _catalogRepository;
+    private readonly AliasSearcher _aliasSearcher;
 
     public FindItemHandler(
         SynonymousWordsParser synonymousWordsParser,
-        ICatalogRepository catalogRepository)
+        ICatalogRepository catalogRepository,
+        SearchNormalizer normalizer)
     {
         _synonymousWordsParser = synonymousWordsParser;
         _catalogRepository = catalogRepository;
+        _normalizer = normalizer;
+        
     }
 
     public async Task<FoundItemsResponce> Handle(
         FindItemRequestCommand request,
         CancellationToken cancellationToken)
     {
-        var normalizedRequest = request.request.Normalize();
-        List<string> synonymousWords;
-        synonymousWords = await _synonymousWordsParser.GetSynonymousWordsAsync(SynonymsLink,normalizedRequest , cancellationToken);
-        var items = await _catalogRepository.GetItemsAsync(synonymousWords , request.page , request.pageSize);
+        var query = _normalizer.Normalize(request.request);
+
+        var searchTerms = await _aliasSearcher.SearchAsync(
+            query.Tokens,
+            cancellationToken);
+
+        var items = await _catalogRepository.GetItemsAsync(
+            searchTerms,
+            request.page,
+            request.pageSize);
+
         return new FoundItemsResponce(items);
     }
 }

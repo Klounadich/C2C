@@ -9,4 +9,5 @@ public class CatalogDBContext : DbContext
         
     }
     public DbSet<Items> Items  { get; set; }
+    public DbSet<ItemAlias> Aliases  { get; set; }
 }

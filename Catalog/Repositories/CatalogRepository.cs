@@ -1,3 +1,4 @@
+using Catalog.DTO;
 using Catalog.Infrastructure;
 using Catalog.Models;
 using Microsoft.EntityFrameworkCore;
@@ -13,13 +14,33 @@ public class CatalogRepository :ICatalogRepository
         _catalogDBContext = catalogDBContext;
     }
 
-    public async Task<List<Items>> GetItemsAsync(List<string> keywords , int page, int pageSize)
+    public async Task<List<Items>> GetItemsAsync(
+        List<SearchTerm> terms,
+        int page,
+        int pageSize)
     {
-        if (keywords == null || keywords.Count == 0)
-            return await _catalogDBContext.Items.ToListAsync();
+        if (terms == null || terms.Count == 0)
+        {
+            return await _catalogDBContext.Items
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+        }
 
-        return await _catalogDBContext.Items
-            .Where(x => keywords.Any(keyword => x.title.Contains(keyword)))
+        IQueryable<Items> query = _catalogDBContext.Items;
+
+        foreach (var term in terms)
+        {
+            var alternatives = term.Alternatives;
+
+            query = query.Where(item =>
+                alternatives.Any(keyword =>
+                    item.title.Contains(keyword)));
+        }
+
+        return await query
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
             .ToListAsync();
     }
 
