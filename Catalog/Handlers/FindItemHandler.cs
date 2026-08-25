@@ -18,11 +18,13 @@ public class FindItemHandler
     public FindItemHandler(
         SynonymousWordsParser synonymousWordsParser,
         ICatalogRepository catalogRepository,
-        SearchNormalizer normalizer)
+        SearchNormalizer normalizer ,
+        AliasSearcher aliasSearcher)
     {
         _synonymousWordsParser = synonymousWordsParser;
         _catalogRepository = catalogRepository;
         _normalizer = normalizer;
+        _aliasSearcher = aliasSearcher;
         
     }
 
