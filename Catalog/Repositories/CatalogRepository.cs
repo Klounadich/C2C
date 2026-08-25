@@ -22,6 +22,7 @@ public class CatalogRepository :ICatalogRepository
         if (terms == null || terms.Count == 0)
         {
             return await _catalogDBContext.Items
+                .OrderBy(x => x.Id)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
@@ -35,10 +36,11 @@ public class CatalogRepository :ICatalogRepository
 
             query = query.Where(item =>
                 alternatives.Any(keyword =>
-                    item.title.Contains(keyword)));
+                    item.title.ToLower().Contains(keyword)));
         }
 
         return await query
+            .OrderBy(x => x.Id)
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();
