@@ -1,6 +1,7 @@
 
 using Catalog.Infrastructure;
 using Catalog.Repositories;
+using Catalog.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,6 +13,8 @@ public static class CatalogModuleExtensions
 {
     public static IServiceCollection AddCatalogModule(this IServiceCollection services, IConfiguration configuration)
     {
+        services.AddScoped<AliasSearcher>();
+        services.AddScoped<SearchNormalizer>();
         services.AddScoped<SynonymousWordsParser>();
         services.AddScoped<ICatalogRepository, CatalogRepository>();
         services.AddMediatR(cfg =>
