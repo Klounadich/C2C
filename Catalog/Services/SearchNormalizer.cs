@@ -11,7 +11,8 @@ public class SearchNormalizer
         var tokens = normalizedQuery
             .Split(' ', StringSplitOptions.RemoveEmptyEntries)
             .ToList();
-
+        Console.WriteLine($"Query: {normalizedQuery}");
+        Console.WriteLine($"Tokens: {tokens.Count}");
         return new SearchQuery
         {
             Original = query,

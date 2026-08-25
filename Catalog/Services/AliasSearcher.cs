@@ -24,7 +24,7 @@ public class AliasSearcher
                 cancellationToken);
 
         var result = new List<SearchTerm>();
-
+        Console.WriteLine("aliases-----");
         foreach (var token in tokens)
         {
             var alternatives = new List<string> { token };
@@ -32,6 +32,7 @@ public class AliasSearcher
             if (aliases.TryGetValue(token, out var canonical))
             {
                 alternatives.Add(canonical);
+                Console.WriteLine(canonical);
             }
 
             result.Add(new SearchTerm
@@ -40,7 +41,7 @@ public class AliasSearcher
                 Alternatives = alternatives.Distinct().ToList()
             });
         }
-
+        
         return result;
     }
 }
