@@ -65,4 +65,21 @@ public class CatalogRepository :ICatalogRepository
                 .ToListAsync();
         }
     }
+
+    public async Task<bool> AddItemAsync(PutItemData request)
+    {
+        var put = new Items
+        {
+            UserId =  request.UserId,
+            category = request.category,
+            title = request.itemName,
+            price = request.price,
+            city =  request.city,
+            img_link = ""
+            
+        };
+        await _catalogDBContext.Items.AddAsync(put);
+        return await _catalogDBContext.SaveChangesAsync() > 0;
+
+    }
 }
