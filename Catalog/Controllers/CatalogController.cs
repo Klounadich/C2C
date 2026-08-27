@@ -30,8 +30,9 @@ public class CatalogController : ControllerBase
     }
 
     [HttpPost("add_item")]
+    [Consumes("multipart/form-data")]
     [Authorize]
-    public async Task<IActionResult> AddItem(AddItemCommand request)
+    public async Task<IActionResult> AddItem([FromForm] AddItemCommand request)
     {
         var response = await _mediator.Send(request);
         return Ok(response);
