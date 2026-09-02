@@ -71,6 +71,7 @@ public class CatalogRepository :ICatalogRepository
         var put = new Items
         {
             UserId =  request.UserId,
+            Id =   request.ItemId,
             category = request.category,
             title = request.itemName,
             price = request.price,

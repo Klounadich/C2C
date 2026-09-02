@@ -15,6 +15,8 @@
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="B2Net" Version="0.8.0" />
+      <PackageReference Include="Backblaze.ObjectStorage.B2" Version="1.0.1" />
       <PackageReference Include="MediatR" Version="14.2.0" />
       <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.3" />
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.3" />

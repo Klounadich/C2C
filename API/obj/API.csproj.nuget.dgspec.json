@@ -551,6 +551,14 @@
           "framework": "net10.0",
           "targetAlias": "net10.0",
           "dependencies": {
+            "B2Net": {
+              "target": "Package",
+              "version": "[0.8.0, )"
+            },
+            "Backblaze.ObjectStorage.B2": {
+              "target": "Package",
+              "version": "[1.0.1, )"
+            },
             "MediatR": {
               "target": "Package",
               "version": "[14.2.0, )"

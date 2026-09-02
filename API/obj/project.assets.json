@@ -15,6 +15,22 @@
           }
         }
       },
+      "AWSSDK.S3/3.7.406.2": {
+        "type": "package",
+        "dependencies": {
+          "AWSSDK.Core": "[3.7.400.53, 4.0.0)"
+        },
+        "compile": {
+          "lib/net8.0/AWSSDK.S3.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/AWSSDK.S3.dll": {
+            "related": ".pdb;.xml"
+          }
+        }
+      },
       "AWSSDK.SimpleEmailV2/4.0.101": {
         "type": "package",
         "dependencies": {
@@ -27,6 +43,34 @@
         },
         "runtime": {
           "lib/net8.0/AWSSDK.SimpleEmailV2.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "B2Net/0.8.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.NETCore.Portable.Compatibility": "1.0.1"
+        },
+        "compile": {
+          "lib/netstandard2.0/B2.Net.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/B2.Net.dll": {}
+        }
+      },
+      "Backblaze.ObjectStorage.B2/1.0.1": {
+        "type": "package",
+        "dependencies": {
+          "ObjectStorage.Shared": "1.0.7"
+        },
+        "compile": {
+          "lib/net10.0/Backblaze.ObjectStorage.B2.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net10.0/Backblaze.ObjectStorage.B2.dll": {
             "related": ".xml"
           }
         }
@@ -699,6 +743,54 @@
           }
         }
       },
+      "Microsoft.NETCore.Jit/1.0.2": {
+        "type": "package"
+      },
+      "Microsoft.NETCore.Portable.Compatibility/1.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.NETCore.Runtime.CoreCLR": "1.0.2"
+        },
+        "compile": {
+          "ref/netstandard1.0/System.ComponentModel.DataAnnotations.dll": {},
+          "ref/netstandard1.0/System.Core.dll": {},
+          "ref/netstandard1.0/System.Net.dll": {},
+          "ref/netstandard1.0/System.Numerics.dll": {},
+          "ref/netstandard1.0/System.Runtime.Serialization.dll": {},
+          "ref/netstandard1.0/System.ServiceModel.Web.dll": {},
+          "ref/netstandard1.0/System.ServiceModel.dll": {},
+          "ref/netstandard1.0/System.Windows.dll": {},
+          "ref/netstandard1.0/System.Xml.Linq.dll": {},
+          "ref/netstandard1.0/System.Xml.Serialization.dll": {},
+          "ref/netstandard1.0/System.Xml.dll": {},
+          "ref/netstandard1.0/System.dll": {},
+          "ref/netstandard1.0/mscorlib.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.0/System.ComponentModel.DataAnnotations.dll": {},
+          "lib/netstandard1.0/System.Core.dll": {},
+          "lib/netstandard1.0/System.Net.dll": {},
+          "lib/netstandard1.0/System.Numerics.dll": {},
+          "lib/netstandard1.0/System.Runtime.Serialization.dll": {},
+          "lib/netstandard1.0/System.ServiceModel.Web.dll": {},
+          "lib/netstandard1.0/System.ServiceModel.dll": {},
+          "lib/netstandard1.0/System.Windows.dll": {},
+          "lib/netstandard1.0/System.Xml.Linq.dll": {},
+          "lib/netstandard1.0/System.Xml.Serialization.dll": {},
+          "lib/netstandard1.0/System.Xml.dll": {},
+          "lib/netstandard1.0/System.dll": {}
+        }
+      },
+      "Microsoft.NETCore.Runtime.CoreCLR/1.0.2": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.NETCore.Jit": "1.0.2",
+          "Microsoft.NETCore.Windows.ApiSets": "1.0.1"
+        }
+      },
+      "Microsoft.NETCore.Windows.ApiSets/1.0.1": {
+        "type": "package"
+      },
       "Microsoft.OpenApi/2.7.5": {
         "type": "package",
         "compile": {
@@ -797,6 +889,22 @@
         },
         "runtime": {
           "lib/net10.0/Npgsql.EntityFrameworkCore.PostgreSQL.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "ObjectStorage.Shared/1.0.7": {
+        "type": "package",
+        "dependencies": {
+          "AWSSDK.S3": "3.7.406.2"
+        },
+        "compile": {
+          "lib/net10.0/ObjectStorage.Shared.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net10.0/ObjectStorage.Shared.dll": {
             "related": ".xml"
           }
         }
@@ -1036,6 +1144,8 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v10.0",
         "dependencies": {
+          "B2Net": "0.8.0",
+          "Backblaze.ObjectStorage.B2": "1.0.1",
           "MediatR": "14.2.0",
           "Microsoft.AspNetCore.OpenApi": "10.0.3",
           "Microsoft.EntityFrameworkCore": "10.0.3",
@@ -1112,6 +1222,38 @@
         "tools/account-management.ps1"
       ]
     },
+    "AWSSDK.S3/3.7.406.2": {
+      "sha512": "0qWahm1R46g4VetRXX0JnX8kVvLDouc89EoPDErCRmwZq3gadspwkOiPoRyQCGsRBEdqhwlMJsd148hAMFsR8Q==",
+      "type": "package",
+      "path": "awssdk.s3/3.7.406.2",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "analyzers/dotnet/cs/AWSSDK.S3.CodeAnalysis.dll",
+        "analyzers/dotnet/cs/SharedAnalysisCode.dll",
+        "awssdk.s3.3.7.406.2.nupkg.sha512",
+        "awssdk.s3.nuspec",
+        "images/AWSLogo.png",
+        "lib/net35/AWSSDK.S3.dll",
+        "lib/net35/AWSSDK.S3.pdb",
+        "lib/net35/AWSSDK.S3.xml",
+        "lib/net45/AWSSDK.S3.dll",
+        "lib/net45/AWSSDK.S3.pdb",
+        "lib/net45/AWSSDK.S3.xml",
+        "lib/net8.0/AWSSDK.S3.dll",
+        "lib/net8.0/AWSSDK.S3.pdb",
+        "lib/net8.0/AWSSDK.S3.xml",
+        "lib/netcoreapp3.1/AWSSDK.S3.dll",
+        "lib/netcoreapp3.1/AWSSDK.S3.pdb",
+        "lib/netcoreapp3.1/AWSSDK.S3.xml",
+        "lib/netstandard2.0/AWSSDK.S3.dll",
+        "lib/netstandard2.0/AWSSDK.S3.pdb",
+        "lib/netstandard2.0/AWSSDK.S3.xml",
+        "tools/install.ps1",
+        "tools/uninstall.ps1"
+      ]
+    },
     "AWSSDK.SimpleEmailV2/4.0.101": {
       "sha512": "ctxJ/MmiYh02NU+UTdd9i0QB2pSZM7FSAy7wZZB+hCcj7JIc+IpTSJcYwWyjLBfNZeyud9YooDQ148/jFCpu4Q==",
       "type": "package",
@@ -1135,6 +1277,47 @@
         "lib/netstandard2.0/AWSSDK.SimpleEmailV2.xml",
         "tools/install.ps1",
         "tools/uninstall.ps1"
+      ]
+    },
+    "B2Net/0.8.0": {
+      "sha512": "Yp0Fl9eoiiOjO0RDbAElHMbDx5hSH9oclfHEgvRiBeVUeR2OAXku0axx9VuKxFLwMdw3Vj3vvfUIPsdUQnFxVg==",
+      "type": "package",
+      "path": "b2net/0.8.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "b2net.0.8.0.nupkg.sha512",
+        "b2net.nuspec",
+        "lib/net462/B2.Net.dll",
+        "lib/netstandard2.0/B2.Net.dll"
+      ]
+    },
+    "Backblaze.ObjectStorage.B2/1.0.1": {
+      "sha512": "PbbWIZxLn7gvDPO0R4IuiceEtkvwSQXckRVD8JvDE4bihtY+PyWCuZLw70jakKoQy8QxYspl4EC0MSFR2o7X+Q==",
+      "type": "package",
+      "path": "backblaze.objectstorage.b2/1.0.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "backblaze.objectstorage.b2.1.0.1.nupkg.sha512",
+        "backblaze.objectstorage.b2.nuspec",
+        "icon.png",
+        "lib/net10.0/Backblaze.ObjectStorage.B2.dll",
+        "lib/net10.0/Backblaze.ObjectStorage.B2.xml",
+        "lib/net5.0/Backblaze.ObjectStorage.B2.dll",
+        "lib/net5.0/Backblaze.ObjectStorage.B2.xml",
+        "lib/net6.0/Backblaze.ObjectStorage.B2.dll",
+        "lib/net6.0/Backblaze.ObjectStorage.B2.xml",
+        "lib/net7.0/Backblaze.ObjectStorage.B2.dll",
+        "lib/net7.0/Backblaze.ObjectStorage.B2.xml",
+        "lib/net8.0/Backblaze.ObjectStorage.B2.dll",
+        "lib/net8.0/Backblaze.ObjectStorage.B2.xml",
+        "lib/net9.0/Backblaze.ObjectStorage.B2.dll",
+        "lib/net9.0/Backblaze.ObjectStorage.B2.xml",
+        "lib/netstandard2.0/Backblaze.ObjectStorage.B2.dll",
+        "lib/netstandard2.0/Backblaze.ObjectStorage.B2.xml",
+        "lib/netstandard2.1/Backblaze.ObjectStorage.B2.dll",
+        "lib/netstandard2.1/Backblaze.ObjectStorage.B2.xml"
       ]
     },
     "BCrypt/1.0.0": {
@@ -2961,6 +3144,132 @@
         "microsoft.identitymodel.tokens.nuspec"
       ]
     },
+    "Microsoft.NETCore.Jit/1.0.2": {
+      "sha512": "Ok2vWofa6X8WD9vc4pfLHwvJz1/B6t3gOAoZcjrjrQf7lQOlNIuZIZtLn3wnWX28DuQGpPJkRlBxFj7Z5txNqw==",
+      "type": "package",
+      "path": "microsoft.netcore.jit/1.0.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "ThirdPartyNotices.txt",
+        "dotnet_library_license.txt",
+        "microsoft.netcore.jit.1.0.2.nupkg.sha512",
+        "microsoft.netcore.jit.nuspec",
+        "runtime.json"
+      ]
+    },
+    "Microsoft.NETCore.Portable.Compatibility/1.0.1": {
+      "sha512": "Vd+lvLcGwvkedxtKn0U8s9uR4p0Lm+0U2QvDsLaw7g4S1W4KfPDbaW+ROhhLCSOx/gMYC72/b+z+o4fqS/oxVg==",
+      "type": "package",
+      "path": "microsoft.netcore.portable.compatibility/1.0.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "ThirdPartyNotices.txt",
+        "dotnet_library_license.txt",
+        "lib/net45/_._",
+        "lib/netcore50/System.ComponentModel.DataAnnotations.dll",
+        "lib/netcore50/System.Core.dll",
+        "lib/netcore50/System.Net.dll",
+        "lib/netcore50/System.Numerics.dll",
+        "lib/netcore50/System.Runtime.Serialization.dll",
+        "lib/netcore50/System.ServiceModel.Web.dll",
+        "lib/netcore50/System.ServiceModel.dll",
+        "lib/netcore50/System.Windows.dll",
+        "lib/netcore50/System.Xml.Linq.dll",
+        "lib/netcore50/System.Xml.Serialization.dll",
+        "lib/netcore50/System.Xml.dll",
+        "lib/netcore50/System.dll",
+        "lib/netstandard1.0/System.ComponentModel.DataAnnotations.dll",
+        "lib/netstandard1.0/System.Core.dll",
+        "lib/netstandard1.0/System.Net.dll",
+        "lib/netstandard1.0/System.Numerics.dll",
+        "lib/netstandard1.0/System.Runtime.Serialization.dll",
+        "lib/netstandard1.0/System.ServiceModel.Web.dll",
+        "lib/netstandard1.0/System.ServiceModel.dll",
+        "lib/netstandard1.0/System.Windows.dll",
+        "lib/netstandard1.0/System.Xml.Linq.dll",
+        "lib/netstandard1.0/System.Xml.Serialization.dll",
+        "lib/netstandard1.0/System.Xml.dll",
+        "lib/netstandard1.0/System.dll",
+        "lib/win8/_._",
+        "lib/wp80/_._",
+        "lib/wpa81/_._",
+        "microsoft.netcore.portable.compatibility.1.0.1.nupkg.sha512",
+        "microsoft.netcore.portable.compatibility.nuspec",
+        "ref/net45/_._",
+        "ref/netcore50/System.ComponentModel.DataAnnotations.dll",
+        "ref/netcore50/System.Core.dll",
+        "ref/netcore50/System.Net.dll",
+        "ref/netcore50/System.Numerics.dll",
+        "ref/netcore50/System.Runtime.Serialization.dll",
+        "ref/netcore50/System.ServiceModel.Web.dll",
+        "ref/netcore50/System.ServiceModel.dll",
+        "ref/netcore50/System.Windows.dll",
+        "ref/netcore50/System.Xml.Linq.dll",
+        "ref/netcore50/System.Xml.Serialization.dll",
+        "ref/netcore50/System.Xml.dll",
+        "ref/netcore50/System.dll",
+        "ref/netcore50/mscorlib.dll",
+        "ref/netstandard1.0/System.ComponentModel.DataAnnotations.dll",
+        "ref/netstandard1.0/System.Core.dll",
+        "ref/netstandard1.0/System.Net.dll",
+        "ref/netstandard1.0/System.Numerics.dll",
+        "ref/netstandard1.0/System.Runtime.Serialization.dll",
+        "ref/netstandard1.0/System.ServiceModel.Web.dll",
+        "ref/netstandard1.0/System.ServiceModel.dll",
+        "ref/netstandard1.0/System.Windows.dll",
+        "ref/netstandard1.0/System.Xml.Linq.dll",
+        "ref/netstandard1.0/System.Xml.Serialization.dll",
+        "ref/netstandard1.0/System.Xml.dll",
+        "ref/netstandard1.0/System.dll",
+        "ref/netstandard1.0/mscorlib.dll",
+        "ref/win8/_._",
+        "ref/wp80/_._",
+        "ref/wpa81/_._",
+        "runtimes/aot/lib/netcore50/System.ComponentModel.DataAnnotations.dll",
+        "runtimes/aot/lib/netcore50/System.Core.dll",
+        "runtimes/aot/lib/netcore50/System.Net.dll",
+        "runtimes/aot/lib/netcore50/System.Numerics.dll",
+        "runtimes/aot/lib/netcore50/System.Runtime.Serialization.dll",
+        "runtimes/aot/lib/netcore50/System.ServiceModel.Web.dll",
+        "runtimes/aot/lib/netcore50/System.ServiceModel.dll",
+        "runtimes/aot/lib/netcore50/System.Windows.dll",
+        "runtimes/aot/lib/netcore50/System.Xml.Linq.dll",
+        "runtimes/aot/lib/netcore50/System.Xml.Serialization.dll",
+        "runtimes/aot/lib/netcore50/System.Xml.dll",
+        "runtimes/aot/lib/netcore50/System.dll",
+        "runtimes/aot/lib/netcore50/mscorlib.dll"
+      ]
+    },
+    "Microsoft.NETCore.Runtime.CoreCLR/1.0.2": {
+      "sha512": "A0x1xtTjYJWZr2DRzgfCOXgB0JkQg8twnmtTJ79wFje+IihlLbXtx6Z2AxyVokBM5ruwTedR6YdCmHk39QJdtQ==",
+      "type": "package",
+      "path": "microsoft.netcore.runtime.coreclr/1.0.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "ThirdPartyNotices.txt",
+        "dotnet_library_license.txt",
+        "microsoft.netcore.runtime.coreclr.1.0.2.nupkg.sha512",
+        "microsoft.netcore.runtime.coreclr.nuspec",
+        "runtime.json"
+      ]
+    },
+    "Microsoft.NETCore.Windows.ApiSets/1.0.1": {
+      "sha512": "SaToCvvsGMxTgtLv/BrFQ5IFMPRE1zpWbnqbpwykJa8W5XiX82CXI6K2o7yf5xS7EP6t/JzFLV0SIDuWpvBZVw==",
+      "type": "package",
+      "path": "microsoft.netcore.windows.apisets/1.0.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "ThirdPartyNotices.txt",
+        "dotnet_library_license.txt",
+        "microsoft.netcore.windows.apisets.1.0.1.nupkg.sha512",
+        "microsoft.netcore.windows.apisets.nuspec",
+        "runtime.json"
+      ]
+    },
     "Microsoft.OpenApi/2.7.5": {
       "sha512": "0FA67RSnRM4tcBKqiqVu/HPdZ9+QOKbmeRjxRUGTCjPU4C0bmUhd97Dso7Yild5P7nOV6GxJ2xrK0Kv/O9xp0w==",
       "type": "package",
@@ -3115,6 +3424,33 @@
         "npgsql.entityframeworkcore.postgresql.10.0.0.nupkg.sha512",
         "npgsql.entityframeworkcore.postgresql.nuspec",
         "postgresql.png"
+      ]
+    },
+    "ObjectStorage.Shared/1.0.7": {
+      "sha512": "oG2nCX5tkPC8sfF7ppaSBIeZ/UIHxvzMashadDfTmRSQ1Krq5uHU1blyHdxd2oWpoQBqueAV3g1tuwx7f/ojoA==",
+      "type": "package",
+      "path": "objectstorage.shared/1.0.7",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net10.0/ObjectStorage.Shared.dll",
+        "lib/net10.0/ObjectStorage.Shared.xml",
+        "lib/net5.0/ObjectStorage.Shared.dll",
+        "lib/net5.0/ObjectStorage.Shared.xml",
+        "lib/net6.0/ObjectStorage.Shared.dll",
+        "lib/net6.0/ObjectStorage.Shared.xml",
+        "lib/net7.0/ObjectStorage.Shared.dll",
+        "lib/net7.0/ObjectStorage.Shared.xml",
+        "lib/net8.0/ObjectStorage.Shared.dll",
+        "lib/net8.0/ObjectStorage.Shared.xml",
+        "lib/net9.0/ObjectStorage.Shared.dll",
+        "lib/net9.0/ObjectStorage.Shared.xml",
+        "lib/netstandard2.0/ObjectStorage.Shared.dll",
+        "lib/netstandard2.0/ObjectStorage.Shared.xml",
+        "lib/netstandard2.1/ObjectStorage.Shared.dll",
+        "lib/netstandard2.1/ObjectStorage.Shared.xml",
+        "objectstorage.shared.1.0.7.nupkg.sha512",
+        "objectstorage.shared.nuspec"
       ]
     },
     "Swashbuckle.AspNetCore/10.2.3": {
@@ -3969,6 +4305,26 @@
     }
   },
   "logs": [
+    {
+      "code": "NU1608",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Detected package version outside of dependency constraint: AWSSDK.S3 3.7.406.2 requires AWSSDK.Core (>= 3.7.400.53 && < 4.0.0) but version AWSSDK.Core 4.0.100.6 was resolved.",
+      "libraryId": "AWSSDK.Core",
+      "targetGraphs": [
+        "net10.0"
+      ]
+    },
+    {
+      "code": "NU1903",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'Microsoft.NETCore.Jit' 1.0.2 has a known high severity vulnerability, https://github.com/advisories/GHSA-xcvr-qv8h-m7xw",
+      "libraryId": "Microsoft.NETCore.Jit",
+      "targetGraphs": [
+        "net10.0"
+      ]
+    },
     {
       "code": "NU1701",
       "level": "Warning",

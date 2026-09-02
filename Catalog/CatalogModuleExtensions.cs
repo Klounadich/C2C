@@ -2,6 +2,7 @@
 using Catalog.Infrastructure;
 using Catalog.Repositories;
 using Catalog.Services;
+using Catalog.Services.BLOB;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,6 +18,7 @@ public static class CatalogModuleExtensions
         services.AddScoped<SearchNormalizer>();
         services.AddScoped<SynonymousWordsParser>();
         services.AddScoped<ICatalogRepository, CatalogRepository>();
+        services.AddScoped<IBLOBbyService, BLOBbyService>();
         services.AddMediatR(cfg =>
         {
             cfg.RegisterServicesFromAssembly(typeof(FindItemHandler).Assembly);
