@@ -27,7 +27,8 @@ public class AddItemHandler :IRequestHandler<AddItemCommand,bool>
             city = request.city,
             
         };
-        Item.image= await _blobyService.UploadFile(request.image, Item.ItemId);
+        Item.image = await _blobyService.UploadFile(request.image, Item.ItemId);
+       
        return await _catalogRepository.AddItemAsync(Item);
         
     }

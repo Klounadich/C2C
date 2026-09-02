@@ -76,7 +76,7 @@ public class CatalogRepository :ICatalogRepository
             title = request.itemName,
             price = request.price,
             city =  request.city,
-            img_link = ""
+            img_link = request.image
             
         };
         await _catalogDBContext.Items.AddAsync(put);
