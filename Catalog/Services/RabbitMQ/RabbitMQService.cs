@@ -7,7 +7,7 @@ namespace Catalog.Services.RabbitMQ;
 
 public class RabbitMQService : IRabbitMQService
 {
-    private readonly string _connectionString = "amqp://admin:85914753@178.236.243.241:5672/myapp";
+    private readonly string _connectionString = "amqp://admin:85914753@178.236.243.241:5672/%2Fmyapp";
 
     public async Task<bool> SendMessageAsync(ItemModerationDTO message)
     {
@@ -18,7 +18,7 @@ public class RabbitMQService : IRabbitMQService
 
         await channel.QueueDeclareAsync(
             queue: "ItemTitleModeration",
-            durable: false,
+            durable: true,
             exclusive: false,
             autoDelete: false,
             arguments: null);
