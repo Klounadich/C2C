@@ -7,7 +7,7 @@ namespace Catalog.Services.RabbitMQ;
 
 public class RabbitMQService : IRabbitMQService
 {
-    private readonly string _connectionString = "amqp://admin:85914753@178.236.243.241:5672/vhost";
+    private readonly string _connectionString = "amqp://admin:85914753@178.236.243.241:5672/myapp";
 
     public async Task<bool> SendMessageAsync(ItemModerationDTO message)
     {
