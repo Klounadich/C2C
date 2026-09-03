@@ -10,6 +10,7 @@ public class Items
     public Guid city { get; set; }
     public string img_link { get; set; }
     public int views { get; set; } = 0;
+    public bool moderated { get; set; } = false;
     public DateTime created_at { get; set; }  = DateTime.UtcNow;
     public DateTime updated_at { get; set; }   = DateTime.UtcNow;
 }
