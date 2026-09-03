@@ -3,6 +3,7 @@ using Catalog.Infrastructure;
 using Catalog.Repositories;
 using Catalog.Services;
 using Catalog.Services.BLOB;
+using Catalog.Services.RabbitMQ;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,6 +20,7 @@ public static class CatalogModuleExtensions
         services.AddScoped<SynonymousWordsParser>();
         services.AddScoped<ICatalogRepository, CatalogRepository>();
         services.AddScoped<IBLOBbyService, BLOBbyService>();
+        services.AddScoped<IRabbitMQService, RabbitMQService>();
         services.AddMediatR(cfg =>
         {
             cfg.RegisterServicesFromAssembly(typeof(FindItemHandler).Assembly);
