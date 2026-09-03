@@ -33,7 +33,7 @@ public class AddItemHandler :IRequestHandler<AddItemCommand,bool>
             city = request.city,
             
         };
-        _rabbitMQService.SendMessageAsync(new ItemModerationDTO
+        await _rabbitMQService.SendMessageAsync(new ItemModerationDTO
         {
             ItemId = Item.ItemId,
             ItemName = Item.itemName
