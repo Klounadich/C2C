@@ -39,6 +39,16 @@ public class CatalogRepository :ICatalogRepository
             .Take(pageSize)
             .ToListAsync();
     }
+
+    public async Task<List<Items>> GetItemsAsync(Guid userId, int page, int pageSize)
+    {
+        return await _catalogDBContext.Items
+            .Where(x => x.moderated && x.UserId == userId)
+            .OrderBy(x => x.Id)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+    }
     public async Task<List<Items>> GetItemsByCategoryAsync(
         string category,
         int page,
