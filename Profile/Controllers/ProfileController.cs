@@ -17,7 +17,7 @@ public class ProfileController :ControllerBase
     }
     
     [Authorize]
-    [HttpGet("/get_my_items/{page}/{pageSize}")]
+    [HttpGet("get_my_items/{page}/{pageSize}")]
     public async Task<IActionResult> GetUserItems(
         [FromQuery] int page = 1,
         [FromQuery] int pageSize = 20)
