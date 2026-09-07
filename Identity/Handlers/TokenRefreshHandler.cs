@@ -39,7 +39,7 @@ public class TokenRefreshHandler : IRequestHandler<RefreshCommand, UserResponse>
         var new_refresh_token_hashed = Convert.ToHexString(bytes1);
        await _userRepository.UpdateRefreshTokenAsync(stored.UserId , new_refresh_token_hashed, stored.FamilyId , DateTime.UtcNow.AddDays(70));
        var user = await _userRepository.GetUserByIdAsync(stored.UserId.ToString());
-       var new_acess_token = await _jwtService.CreateTokenAsync(new JWTRequestCommand(stored.UserId.ToString(), user.Username, user.Email , user.CreatedAt));
+       var new_acess_token = await _jwtService.CreateTokenAsync(new JWTRequestCommand(stored.UserId.ToString(), user.Username, user.Email , user.CreatedAt , user.TwoFactorEnabled));
        if (new_token != null && new_acess_token != null)
        {
            return new UserResponse(

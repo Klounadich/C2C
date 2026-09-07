@@ -48,7 +48,7 @@ public class AuthHandler : IRequestHandler<AuthCommand, UserResponse>
 
             // ── Обычный логин без 2FA ──
             var token = await _jwtService.CreateTokenAsync(new JWTRequestCommand(user.Id.ToString(), user.Username,
-                user.Email, user.CreatedAt));
+                user.Email, user.CreatedAt , user.TwoFactorEnabled));
             var refresh_token = await _jwtService.CreateRefreshTokenAsync();
             var bytes = SHA256.HashData(Encoding.UTF8.GetBytes(refresh_token));
             var refresh_token_hashed = Convert.ToHexString(bytes);

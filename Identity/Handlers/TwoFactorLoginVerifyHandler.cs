@@ -34,7 +34,7 @@ public class TwoFactorLoginVerifyHandler : IRequestHandler<TwoFactorLoginVerifyC
             throw new ValidationException("Пользователь не найден.");
 
         var accessToken = await _jwtService.CreateTokenAsync(
-            new JWTRequestCommand(user.Id.ToString(), user.Username, user.Email, user.CreatedAt));
+            new JWTRequestCommand(user.Id.ToString(), user.Username, user.Email, user.CreatedAt , user.TwoFactorEnabled));
         var refreshToken = await _jwtService.CreateRefreshTokenAsync();
         var refreshHashed = Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(refreshToken)));
         var expires = DateTime.UtcNow.AddDays(30);

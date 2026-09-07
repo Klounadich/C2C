@@ -47,6 +47,7 @@ public class JWTService : IJWTService
             new Claim(ClaimTypes.Email, request.Email),
             new Claim(ClaimTypes.NameIdentifier, request.UserId.ToString()),
             new Claim(ClaimTypes.UserData, request.RegistrationDate.ToLongDateString()),
+            new Claim(ClaimTypes.AuthenticationMethod, request.twoFA.ToString()),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
 

@@ -1,3 +1,4 @@
+using Catalog.Commands;
 using Catalog.DTO;
 using Catalog.Infrastructure;
 using Catalog.Models;
@@ -43,7 +44,7 @@ public class CatalogRepository :ICatalogRepository
     public async Task<List<Items>> GetItemsAsync(Guid userId, int page, int pageSize)
     {
         return await _catalogDBContext.Items
-            .Where(x => x.moderated && x.UserId == userId)
+            .Where( x=> x.UserId == userId)
             .OrderBy(x => x.Id)
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
@@ -87,6 +88,12 @@ public class CatalogRepository :ICatalogRepository
             moderated = false 
         };
         await _catalogDBContext.Items.AddAsync(put);
+        return await _catalogDBContext.SaveChangesAsync() > 0;
+    }
+
+    public async Task<bool> RemoveItemAsync(RemoveItemCommand request)
+    {
+        await _catalogDBContext.Items.Where(x=> x.Id == request.ItemId && x.UserId == request.userId).ExecuteDeleteAsync();
         return await _catalogDBContext.SaveChangesAsync() > 0;
     }
 }

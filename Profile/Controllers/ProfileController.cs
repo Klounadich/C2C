@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using Catalog.Commands;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -28,6 +29,22 @@ public class ProfileController :ControllerBase
         if (userIdClaim == null || !Guid.TryParse(userIdClaim, out var userId))
             return Unauthorized();
         var command = new GetItemsCommand(userId, page, pageSize);
+        var response = await _mediator.Send(command);
+        return Ok(response);
+    }
+    
+    [Authorize]
+    [HttpDelete("remove_item")]
+    public async Task<IActionResult> RemoveItem(Guid itemId)
+        
+    {
+        var user = HttpContext.User;
+        if (user?.Identity == null || !user.Identity.IsAuthenticated)
+            return Unauthorized();
+        var userIdClaim = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (userIdClaim == null || !Guid.TryParse(userIdClaim, out var userId))
+            return Unauthorized();
+        var command = new RemoveItemCommand(itemId, userId);
         var response = await _mediator.Send(command);
         return Ok(response);
     }

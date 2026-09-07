@@ -31,7 +31,7 @@ public class VerificationHandler : IRequestHandler<EmailVerificationCommand, Use
         {
             var RegistrationDate = DateTime.UtcNow;
             var acess_token = await _jwtService.CreateTokenAsync(new JWTRequestCommand(verified.Id.ToString(),
-                verified.Username, verified.Email, RegistrationDate));
+                verified.Username, verified.Email, RegistrationDate , verified.TwoFactorEnabled));
             var refresh_token = await _jwtService.CreateRefreshTokenAsync();
             var bytes = SHA256.HashData(Encoding.UTF8.GetBytes(refresh_token));
             var refresh_token_hashed = Convert.ToHexString(bytes);
