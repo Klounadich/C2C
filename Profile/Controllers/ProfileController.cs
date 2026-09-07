@@ -15,9 +15,8 @@ public class ProfileController :ControllerBase
     {
         _mediator = mediator;
     }
-    
     [Authorize]
-    [HttpGet("get_my_items/{page}/{pageSize}")]
+    [HttpGet("get_my_items")]
     public async Task<IActionResult> GetUserItems(
         [FromQuery] int page = 1,
         [FromQuery] int pageSize = 20)
@@ -25,11 +24,9 @@ public class ProfileController :ControllerBase
         var user = HttpContext.User;
         if (user?.Identity == null || !user.Identity.IsAuthenticated)
             return Unauthorized();
-
         var userIdClaim = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         if (userIdClaim == null || !Guid.TryParse(userIdClaim, out var userId))
             return Unauthorized();
-
         var command = new GetItemsCommand(userId, page, pageSize);
         var response = await _mediator.Send(command);
         return Ok(response);
