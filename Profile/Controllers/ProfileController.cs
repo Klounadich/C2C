@@ -48,4 +48,18 @@ public class ProfileController :ControllerBase
         var response = await _mediator.Send(command);
         return Ok(response);
     }
+
+    [Authorize]
+    [HttpPut("change_item_data")]
+    public async Task<IActionResult> ChangeItemData(ChangeItemCommand command)
+    {
+        var user = HttpContext.User;
+        if (user?.Identity == null || !user.Identity.IsAuthenticated)
+            return Unauthorized();
+        var userIdClaim = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (userIdClaim == null || !Guid.TryParse(userIdClaim, out var userId))
+            return Unauthorized();
+        var response = await _mediator.Send(command);
+        return Ok(response);
+    }
 }

@@ -11,4 +11,5 @@ public interface ICatalogRepository
     public Task<List<Items>> GetItemsByCategoryAsync(string category , int page , int pageSize);
     public Task<bool> AddItemAsync(PutItemData request);
     public Task<bool> RemoveItemAsync(RemoveItemCommand request);
+    public Task<bool> UpdateItemDataAsync(PutItemData request);
 }

@@ -96,4 +96,21 @@ public class CatalogRepository :ICatalogRepository
         await _catalogDBContext.Items.Where(x=> x.Id == request.ItemId && x.UserId == request.userId).ExecuteDeleteAsync();
         return await _catalogDBContext.SaveChangesAsync() > 0;
     }
+
+    public async Task<bool> UpdateItemDataAsync(PutItemData request)
+    {
+        var put = new Items
+        {
+            UserId =  request.UserId,
+            Id =   request.ItemId,
+            category = request.category,
+            title = request.itemName,
+            price = request.price,
+            city =  request.city,
+            img_link = request.image,
+            moderated = false 
+        };
+         _catalogDBContext.Items.Update(put);
+         return await _catalogDBContext.SaveChangesAsync() > 0;
+    }
 }
