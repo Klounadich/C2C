@@ -7,21 +7,17 @@ using MediatR;
 public class FindItemHandler
     : IRequestHandler<FindItemRequestCommand, FoundItemsResponce>
 {
-    private const string SynonymsLink =
-        "https://ruwordnet.ru/ru/search/";
-
-    private readonly SynonymousWordsParser _synonymousWordsParser;
+   
     private readonly SearchNormalizer _normalizer;
     private readonly ICatalogRepository _catalogRepository;
     private readonly AliasSearcher _aliasSearcher;
 
     public FindItemHandler(
-        SynonymousWordsParser synonymousWordsParser,
         ICatalogRepository catalogRepository,
         SearchNormalizer normalizer ,
         AliasSearcher aliasSearcher)
     {
-        _synonymousWordsParser = synonymousWordsParser;
+        
         _catalogRepository = catalogRepository;
         _normalizer = normalizer;
         _aliasSearcher = aliasSearcher;

@@ -50,8 +50,9 @@ public class ProfileController :ControllerBase
     }
 
     [Authorize]
+    [Consumes("multipart/form-data")]
     [HttpPut("change_item_data")]
-    public async Task<IActionResult> ChangeItemData(ChangeItemCommand command)
+    public async Task<IActionResult> ChangeItemData([FromForm]ChangeItemCommand command)
     {
         var user = HttpContext.User;
         if (user?.Identity == null || !user.Identity.IsAuthenticated)
