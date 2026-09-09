@@ -117,5 +117,6 @@ public class CatalogRepository :ICatalogRepository
     public async Task SaveLog(SearchLogs logs)
     {
         await _catalogDBContext.SearchLogs.AddAsync(logs);
+        await _catalogDBContext.SaveChangesAsync();
     }
 }
