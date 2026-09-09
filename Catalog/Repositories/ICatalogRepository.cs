@@ -12,4 +12,5 @@ public interface ICatalogRepository
     public Task<bool> AddItemAsync(PutItemData request);
     public Task<bool> RemoveItemAsync(RemoveItemCommand request);
     public Task<bool> UpdateItemDataAsync(PutItemData request);
+    public Task SaveLog(SearchLogs logs);
 }

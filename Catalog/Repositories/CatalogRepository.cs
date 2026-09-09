@@ -113,4 +113,9 @@ public class CatalogRepository :ICatalogRepository
          _catalogDBContext.Items.Update(put);
          return await _catalogDBContext.SaveChangesAsync() > 0;
     }
+
+    public async Task SaveLog(SearchLogs logs)
+    {
+        await _catalogDBContext.SearchLogs.AddAsync(logs);
+    }
 }

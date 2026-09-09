@@ -1,7 +1,9 @@
 using Catalog.Commands;
 using Catalog.DTO;
+using Catalog.Models;
 using Catalog.Repositories;
 using Catalog.Services;
+using Catalog.Services.SearchLogger;
 using MediatR;
 
 public class FindItemHandler
@@ -11,6 +13,7 @@ public class FindItemHandler
     private readonly SearchNormalizer _normalizer;
     private readonly ICatalogRepository _catalogRepository;
     private readonly AliasSearcher _aliasSearcher;
+    private readonly SearchLogger _searchLogs;
 
     public FindItemHandler(
         ICatalogRepository catalogRepository,
@@ -39,6 +42,14 @@ public class FindItemHandler
             request.page,
             request.pageSize);
 
+        var searchLogsData = new SearchLogs
+        {
+            ResultCount = items.Count,
+            UserId = request.userId,
+            Query = request.request,
+
+        };
+       await _searchLogs.Log(searchLogsData);
         return new FoundItemsResponce(items);
     }
 }

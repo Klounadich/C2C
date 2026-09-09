@@ -6,5 +6,6 @@ namespace Catalog.Commands;
 public record FindItemRequestCommand(
     string request,
     int page,
-    int pageSize
+    int pageSize,
+    Guid userId
     ): IRequest<FoundItemsResponce>;
