@@ -18,12 +18,14 @@ public class FindItemHandler
     public FindItemHandler(
         ICatalogRepository catalogRepository,
         SearchNormalizer normalizer ,
-        AliasSearcher aliasSearcher)
+        AliasSearcher aliasSearcher ,
+        SearchLogger searchLogs)
     {
         
         _catalogRepository = catalogRepository;
         _normalizer = normalizer;
         _aliasSearcher = aliasSearcher;
+        _searchLogs = searchLogs;
         
     }
 
@@ -47,7 +49,6 @@ public class FindItemHandler
             ResultCount = items.Count,
             UserId = request.userId,
             Query = request.request,
-
         };
        await _searchLogs.Log(searchLogsData);
         return new FoundItemsResponce(items);

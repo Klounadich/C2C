@@ -11,6 +11,7 @@ public class SearchLogs
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
     public Guid? UserId { get; set; }
+    public bool processed { get; set; } = false;
 
     
 
