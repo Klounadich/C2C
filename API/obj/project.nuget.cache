@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "IwcHIQLaOD8=",
+  "dgSpecHash": "7efKoZ9c0MA=",
   "success": true,
-  "projectFilePath": "/home/klounadich/dev/C2C/API/API.csproj",
+  "projectFilePath": "/home/klounadich/RiderProjects/C2C/API/API.csproj",
   "expectedPackageFiles": [
     "/home/klounadich/.nuget/packages/awssdk.core/4.0.100.6/awssdk.core.4.0.100.6.nupkg.sha512",
     "/home/klounadich/.nuget/packages/awssdk.s3/3.7.406.2/awssdk.s3.3.7.406.2.nupkg.sha512",
@@ -32,16 +32,7 @@
     "/home/klounadich/.nuget/packages/microsoft.entityframeworkcore.design/10.0.3/microsoft.entityframeworkcore.design.10.0.3.nupkg.sha512",
     "/home/klounadich/.nuget/packages/microsoft.entityframeworkcore.relational/10.0.3/microsoft.entityframeworkcore.relational.10.0.3.nupkg.sha512",
     "/home/klounadich/.nuget/packages/microsoft.extensions.apidescription.server/10.0.0/microsoft.extensions.apidescription.server.10.0.0.nupkg.sha512",
-    "/home/klounadich/.nuget/packages/microsoft.extensions.caching.abstractions/10.0.3/microsoft.extensions.caching.abstractions.10.0.3.nupkg.sha512",
-    "/home/klounadich/.nuget/packages/microsoft.extensions.caching.memory/10.0.3/microsoft.extensions.caching.memory.10.0.3.nupkg.sha512",
-    "/home/klounadich/.nuget/packages/microsoft.extensions.configuration.abstractions/10.0.3/microsoft.extensions.configuration.abstractions.10.0.3.nupkg.sha512",
-    "/home/klounadich/.nuget/packages/microsoft.extensions.dependencyinjection/10.0.3/microsoft.extensions.dependencyinjection.10.0.3.nupkg.sha512",
-    "/home/klounadich/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/10.0.3/microsoft.extensions.dependencyinjection.abstractions.10.0.3.nupkg.sha512",
     "/home/klounadich/.nuget/packages/microsoft.extensions.dependencymodel/10.0.3/microsoft.extensions.dependencymodel.10.0.3.nupkg.sha512",
-    "/home/klounadich/.nuget/packages/microsoft.extensions.logging/10.0.3/microsoft.extensions.logging.10.0.3.nupkg.sha512",
-    "/home/klounadich/.nuget/packages/microsoft.extensions.logging.abstractions/10.0.3/microsoft.extensions.logging.abstractions.10.0.3.nupkg.sha512",
-    "/home/klounadich/.nuget/packages/microsoft.extensions.options/10.0.3/microsoft.extensions.options.10.0.3.nupkg.sha512",
-    "/home/klounadich/.nuget/packages/microsoft.extensions.primitives/10.0.3/microsoft.extensions.primitives.10.0.3.nupkg.sha512",
     "/home/klounadich/.nuget/packages/microsoft.identitymodel.abstractions/8.14.0/microsoft.identitymodel.abstractions.8.14.0.nupkg.sha512",
     "/home/klounadich/.nuget/packages/microsoft.identitymodel.jsonwebtokens/8.14.0/microsoft.identitymodel.jsonwebtokens.8.14.0.nupkg.sha512",
     "/home/klounadich/.nuget/packages/microsoft.identitymodel.logging/8.14.0/microsoft.identitymodel.logging.8.14.0.nupkg.sha512",
@@ -73,18 +64,16 @@
     "/home/klounadich/.nuget/packages/system.composition.runtime/9.0.0/system.composition.runtime.9.0.0.nupkg.sha512",
     "/home/klounadich/.nuget/packages/system.composition.typedparts/9.0.0/system.composition.typedparts.9.0.0.nupkg.sha512",
     "/home/klounadich/.nuget/packages/system.identitymodel.tokens.jwt/8.0.1/system.identitymodel.tokens.jwt.8.0.1.nupkg.sha512",
-    "/home/klounadich/.nuget/packages/system.security.cryptography.pkcs/10.0.0/system.security.cryptography.pkcs.10.0.0.nupkg.sha512",
-    "/home/klounadich/.nuget/packages/system.threading.ratelimiting/8.0.0/system.threading.ratelimiting.8.0.0.nupkg.sha512",
-    "/home/klounadich/.nuget/packages/microsoft.aspnetcore.app.ref/10.0.11/microsoft.aspnetcore.app.ref.10.0.11.nupkg.sha512"
+    "/home/klounadich/.nuget/packages/system.security.cryptography.pkcs/10.0.0/system.security.cryptography.pkcs.10.0.0.nupkg.sha512"
   ],
   "logs": [
     {
       "code": "NU1608",
       "level": "Warning",
       "message": "Detected package version outside of dependency constraint: AWSSDK.S3 3.7.406.2 requires AWSSDK.Core (>= 3.7.400.53 && < 4.0.0) but version AWSSDK.Core 4.0.100.6 was resolved.",
-      "projectPath": "/home/klounadich/dev/C2C/API/API.csproj",
+      "projectPath": "/home/klounadich/RiderProjects/C2C/API/API.csproj",
       "warningLevel": 1,
-      "filePath": "/home/klounadich/dev/C2C/API/API.csproj",
+      "filePath": "/home/klounadich/RiderProjects/C2C/API/API.csproj",
       "libraryId": "AWSSDK.Core",
       "targetGraphs": [
         "net10.0"
@@ -94,9 +83,9 @@
       "code": "NU1903",
       "level": "Warning",
       "message": "Package 'Microsoft.NETCore.Jit' 1.0.2 has a known high severity vulnerability, https://github.com/advisories/GHSA-xcvr-qv8h-m7xw",
-      "projectPath": "/home/klounadich/dev/C2C/API/API.csproj",
+      "projectPath": "/home/klounadich/RiderProjects/C2C/API/API.csproj",
       "warningLevel": 1,
-      "filePath": "/home/klounadich/dev/C2C/API/API.csproj",
+      "filePath": "/home/klounadich/RiderProjects/C2C/API/API.csproj",
       "libraryId": "Microsoft.NETCore.Jit",
       "targetGraphs": [
         "net10.0"
@@ -106,9 +95,9 @@
       "code": "NU1701",
       "level": "Warning",
       "message": "Package 'BCrypt 1.0.0' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net10.0'. This package may not be fully compatible with your project.",
-      "projectPath": "/home/klounadich/dev/C2C/API/API.csproj",
+      "projectPath": "/home/klounadich/RiderProjects/C2C/API/API.csproj",
       "warningLevel": 1,
-      "filePath": "/home/klounadich/dev/C2C/API/API.csproj",
+      "filePath": "/home/klounadich/RiderProjects/C2C/API/API.csproj",
       "libraryId": "BCrypt",
       "targetGraphs": [
         "net10.0"

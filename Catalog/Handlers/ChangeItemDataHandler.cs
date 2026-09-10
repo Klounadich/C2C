@@ -26,10 +26,9 @@ public class ChangeItemDataHandler : IRequestHandler<ChangeItemCommand , bool>
             ItemId = request.ItemId,
             ItemName = request.itemName
         };
-        if (request.image != null)
-        {
+        
             var img_link = await _blobService.UploadFile(request.image, request.ItemId);
-        }
+        
             
         var result = await _catalogRepository.UpdateItemDataAsync(new PutItemData
         {
@@ -39,7 +38,7 @@ public class ChangeItemDataHandler : IRequestHandler<ChangeItemCommand , bool>
             category = request.category,
             price = request.price,
             city =  request.city,
-            
+            image = img_link
             
             
         });
