@@ -41,15 +41,7 @@ public class CatalogRepository :ICatalogRepository
             .ToListAsync();
     }
 
-    public async Task<List<Items>> GetItemsAsync(Guid userId, int page, int pageSize)
-    {
-        return await _catalogDBContext.Items
-            .Where( x=> x.UserId == userId)
-            .OrderBy(x => x.Id)
-            .Skip((page - 1) * pageSize)
-            .Take(pageSize)
-            .ToListAsync();
-    }
+    
     public async Task<List<Items>> GetItemsByCategoryAsync(
         string category,
         int page,
@@ -91,29 +83,9 @@ public class CatalogRepository :ICatalogRepository
         return await _catalogDBContext.SaveChangesAsync() > 0;
     }
 
-    public async Task<bool> RemoveItemAsync(RemoveItemCommand request)
-    {
-        await _catalogDBContext.Items.Where(x=> x.Id == request.ItemId && x.UserId == request.userId).ExecuteDeleteAsync();
-        return await _catalogDBContext.SaveChangesAsync() > 0;
-    }
+    
 
-    public async Task<bool> UpdateItemDataAsync(PutItemData request)
-    {
-        var item = await _catalogDBContext.Items
-            .Where(x => x.Id == request.ItemId && x.UserId == request.UserId)
-            .FirstOrDefaultAsync();
-        if (item is null) return false; 
-   
-        item.category = request.category;
-        item.title = request.itemName;
-        item.price = request.price;
-        item.city = request.city;
-        item.img_link = request.image ?? item.img_link;
-        item.moderated = false;
-        item.updated_at = DateTime.UtcNow;
-       
-       return await _catalogDBContext.SaveChangesAsync() >0 ;
-    }
+    
 
     public async Task SaveLog(SearchLogs logs)
     {

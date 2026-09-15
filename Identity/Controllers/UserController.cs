@@ -4,6 +4,7 @@ using Identity.DTO;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace Identity.Controllers;
 
@@ -23,6 +24,7 @@ public class UserController : ControllerBase
     // ───────────────────────────────────
 
     [Authorize]
+    [EnableRateLimiting("verification-request")]
     [HttpPost("2fa/enable")]
     public async Task<IActionResult> Enable2fa()
     {
@@ -39,6 +41,7 @@ public class UserController : ControllerBase
     // для этого — там ставились новые auth-куки и EmailConfirmed, что не нужно здесь,
     // юзер уже залогинен). Теперь отдельный эндпоинт: только флиппает TwoFactorEnabled.
     [Authorize]
+    [EnableRateLimiting("verification-request")]
     [HttpPost("2fa/enable/confirm")]
     public async Task<IActionResult> ConfirmEnable2fa(TwoFactorEnableConfirmCommand command)
     {
@@ -78,6 +81,7 @@ public class UserController : ControllerBase
     }
 
     [HttpPost("register")]
+    [EnableRateLimiting("verification-request")]
     public async Task<IActionResult> RegisterUser([FromBody] RegisterUserDTO userData)
     {
         var request = new RegisterCommand(userData.Username, userData.Password, userData.Email);
@@ -95,6 +99,7 @@ public class UserController : ControllerBase
     // ───────────────────────────────────
 
     [HttpPost("auth")]
+    [EnableRateLimiting("login")]
     public async Task<IActionResult> AuthUser(AuthUserDTO userData)
     {
         var request = new AuthCommand(userData.Email, userData.Password);
@@ -118,6 +123,7 @@ public class UserController : ControllerBase
     // ───────────────────────────────────
 
     [HttpPost("refresh")]
+    [EnableRateLimiting("refresh")]
     public async Task<IActionResult> Refresh()
     {
         var rawRefreshToken = Request.Cookies["refresh_token"];

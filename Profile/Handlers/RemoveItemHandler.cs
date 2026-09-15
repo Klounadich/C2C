@@ -1,14 +1,14 @@
 using Catalog.Commands;
-using Catalog.Repositories;
 using MediatR;
+using Profile.Repositories;
 
 namespace Catalog.Handlers;
 
 public class RemoveItemHandler: IRequestHandler<RemoveItemCommand, bool>
 {
-    private readonly ICatalogRepository _catalogRepository;
+    private readonly IProfileRepository _catalogRepository;
 
-    public RemoveItemHandler(ICatalogRepository catalogRepository)
+    public RemoveItemHandler(IProfileRepository catalogRepository)
     {
         _catalogRepository = catalogRepository;
     }

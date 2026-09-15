@@ -1,13 +1,20 @@
 using System.Text;
 using System.Text.Json;
 using Catalog.DTO;
+using Microsoft.Extensions.Configuration;
 using RabbitMQ.Client;
 
 namespace Catalog.Services.RabbitMQ;
 
 public class RabbitMQService : IRabbitMQService
 {
-    private readonly string _connectionString = "amqp://admin:85914753@178.236.243.241:5672/%2Fmyapp";
+    private readonly string _connectionString ;
+
+    public RabbitMQService(IConfiguration configuration)
+    {
+        _connectionString = configuration["RabbitMQ:ConnectionString"]
+                            ?? throw new InvalidOperationException("RabbitMQ:ConnectionString is not configured.");
+    }
 
     public async Task<bool> SendMessageAsync(ItemModerationDTO message)
     {

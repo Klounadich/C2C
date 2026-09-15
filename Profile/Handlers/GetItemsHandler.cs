@@ -1,17 +1,17 @@
 using System.Security.Claims;
 using Catalog.DTO;
-using Catalog.Repositories;
 using MediatR;
 using Profile.Commands;
+using Profile.Repositories;
 
 
 namespace Profile.Handlers;
 
 public class GetItemsHandler: IRequestHandler<GetItemsCommand,FoundItemsResponce>
 {
-    private readonly ICatalogRepository _catalogRepository;
+    private readonly IProfileRepository _catalogRepository;
 
-    public GetItemsHandler(ICatalogRepository catalogRepository)
+    public GetItemsHandler(IProfileRepository catalogRepository)
     {
         _catalogRepository = catalogRepository;
     }
