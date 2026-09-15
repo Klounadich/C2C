@@ -30,7 +30,7 @@ public class ChangeItemDataHandler : IRequestHandler<ChangeItemCommand , bool>
             var img_link = await _blobService.UploadFile(request.image, request.ItemId);
         
             
-        var result = await _catalogRepository.UpdateItemDataAsync(new PutItemData
+        var result = await _catalogRepository.UpdateItemDataAsync(new PutItemData()
         {
             UserId = request.userId,
             ItemId = item_data.ItemId,

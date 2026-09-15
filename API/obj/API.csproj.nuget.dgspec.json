@@ -1162,7 +1162,11 @@
         "frameworks": {
           "net10.0": {
             "targetAlias": "net10.0",
-            "projectReferences": {}
+            "projectReferences": {
+              "/home/klounadich/dev/C2C/Catalog/Catalog.csproj": {
+                "projectPath": "/home/klounadich/dev/C2C/Catalog/Catalog.csproj"
+              }
+            }
           }
         },
         "warningProperties": {

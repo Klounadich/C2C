@@ -11,6 +11,23 @@ public class CatalogRepository :ICatalogRepository
     {
         _catalogDBContext = catalogDBContext;
     }
+    public async Task<bool> UpdateItemDataAsync(PutItemData request)
+    {
+        var item = await _catalogDBContext.Items
+            .Where(x => x.Id == request.ItemId && x.UserId == request.UserId)
+            .FirstOrDefaultAsync();
+        if (item is null) return false; 
+   
+        item.category = request.category;
+        item.title = request.itemName;
+        item.price = request.price;
+        item.city = request.city;
+        item.img_link = request.image ?? item.img_link;
+        item.moderated = false;
+        item.updated_at = DateTime.UtcNow;
+       
+        return await _catalogDBContext.SaveChangesAsync() >0 ;
+    }
     public async Task<List<Items>> GetItemsAsync(
         List<SearchTerm> terms,
         int page,
