@@ -12,7 +12,7 @@ public class RabbitMQService : IRabbitMQService
 
     public RabbitMQService(IConfiguration configuration)
     {
-        _connectionString = configuration["RabbitMQ:ConnectionString"]
+        _connectionString = configuration["ConnectionStrings:RabbitMQ"]
                             ?? throw new InvalidOperationException("RabbitMQ:ConnectionString is not configured.");
     }
 
