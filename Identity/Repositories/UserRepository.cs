@@ -23,9 +23,9 @@ public class UserRepository : IUserRepository
         
     }
 
-    public async Task<bool> UserNameExistsAsync(string email)
+    public async Task<bool> UserNameExistsAsync(string user)
     {
-        if (await _context.Users.AnyAsync(e => e.Email == email))
+        if (await _context.Users.AnyAsync(e => e.Username == user))
         {
             return true;
         }
@@ -103,15 +103,17 @@ public class UserRepository : IUserRepository
 
     }
 
-    public async Task<string> VerificateEmailAsync(Guid CodeId, string code_hash)
+    public async Task<string> VerificateEmailAsync(Guid CodeId, string code_hash )
     {
         var verification = await _context.VerificationNotifications
-            .Where(x => x.Id == CodeId)
+            .Where(x => x.Id == CodeId )
             .OrderByDescending(x => x.CreatedAt)
             .FirstOrDefaultAsync();
 
         if (verification is null)
             throw new ValidationException("No active verification code. Please request a new one.");
+        if (verification.isVerified)
+            throw new ValidationException("This code has already been used. Please request a new one.");
 
         if (verification.ExpiresAt < DateTime.UtcNow)
             throw new ValidationException("Code expired. Please request a new one.");
@@ -126,6 +128,8 @@ public class UserRepository : IUserRepository
             throw new ValidationException("Invalid confirmation code");
         }
 
+        verification.isVerified = true;
+        await _context.SaveChangesAsync();
         return verification.UserId.ToString();
     }
 

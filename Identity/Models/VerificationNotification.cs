@@ -8,4 +8,5 @@ public class VerificationNotification
     public int Attempts { get; set; } = 0;
     public DateTime ExpiresAt { get; set; } = DateTime.UtcNow.AddMinutes(5);
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    public bool isVerified { get; set; } = false;
 }

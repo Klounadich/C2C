@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Catalog.Commands;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -32,9 +33,19 @@ public class CatalogController : ControllerBase
     [HttpPost("add_item")]
     [Consumes("multipart/form-data")]
     [Authorize]
-    public async Task<IActionResult> AddItem([FromForm] AddItemCommand request)
+    [RequestSizeLimit(5 * 1024 * 1024)]
+    public async Task<IActionResult> AddItem([FromForm] AddItemCommand command)
     {
-        var response = await _mediator.Send(request);
+        var user = HttpContext.User;
+        if (user?.Identity == null || !user.Identity.IsAuthenticated)
+            return Unauthorized();
+        var userIdClaim = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (userIdClaim == null || !Guid.TryParse(userIdClaim, out var userId))
+            return Unauthorized();
+        if (userIdClaim != command.UserId.ToString())
+            return Forbid();
+   
+        var response = await _mediator.Send(command);
         return Ok(response);
     }
     

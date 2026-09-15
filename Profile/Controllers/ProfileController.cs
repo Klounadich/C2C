@@ -52,6 +52,7 @@ public class ProfileController :ControllerBase
     [Authorize]
     [Consumes("multipart/form-data")]
     [HttpPut("change_item_data")]
+    [RequestSizeLimit(5 * 1024 * 1024)]
     public async Task<IActionResult> ChangeItemData([FromForm]ChangeItemCommand command)
     {
         var user = HttpContext.User;
@@ -60,6 +61,9 @@ public class ProfileController :ControllerBase
         var userIdClaim = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         if (userIdClaim == null || !Guid.TryParse(userIdClaim, out var userId))
             return Unauthorized();
+        if (userIdClaim != command.userId.ToString())
+            return Forbid();
+   
         var response = await _mediator.Send(command);
         return Ok(response);
     }

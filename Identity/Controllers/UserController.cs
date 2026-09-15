@@ -167,7 +167,7 @@ public class UserController : ControllerBase
 
     // ───────────────────────────────────
     //  HELPER — раньше этот блок был продублирован в 4 местах
-    // ───────────────────────────────────
+    // ───────────────────────────────── ──
     private void SetAuthCookies(string accessToken, string refreshToken, bool isRefresh = false)
     {
         Response.Cookies.Append("auth_token", accessToken, new CookieOptions
@@ -183,8 +183,8 @@ public class UserController : ControllerBase
             HttpOnly = true,
             SameSite = SameSiteMode.Lax,
             Secure = false,
-            Path = isRefresh ? "/api/identity/user/refresh" : "/",
-            Expires = DateTime.Now.AddDays(70)
+            Path ="/api/identity/user/refresh",
+            Expires = DateTime.Now.AddDays(30)
         });
     }
 }

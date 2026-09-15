@@ -99,19 +99,20 @@ public class CatalogRepository :ICatalogRepository
 
     public async Task<bool> UpdateItemDataAsync(PutItemData request)
     {
-        var put = new Items
-        {
-            UserId =  request.UserId,
-            Id =   request.ItemId,
-            category = request.category,
-            title = request.itemName,
-            price = request.price,
-            city =  request.city,
-            img_link = request.image,
-            moderated = false 
-        };
-         _catalogDBContext.Items.Update(put);
-         return await _catalogDBContext.SaveChangesAsync() > 0;
+        var item = await _catalogDBContext.Items
+            .Where(x => x.Id == request.ItemId && x.UserId == request.UserId)
+            .FirstOrDefaultAsync();
+        if (item is null) return false; 
+   
+        item.category = request.category;
+        item.title = request.itemName;
+        item.price = request.price;
+        item.city = request.city;
+        item.img_link = request.image ?? item.img_link;
+        item.moderated = false;
+        item.updated_at = DateTime.UtcNow;
+       
+       return await _catalogDBContext.SaveChangesAsync() >0 ;
     }
 
     public async Task SaveLog(SearchLogs logs)
