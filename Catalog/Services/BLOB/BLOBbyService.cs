@@ -13,7 +13,8 @@ public class BLOBbyService : IBLOBbyService
     private static readonly Dictionary<string, byte[][]> AllowedSignatures = new()
     {
         ["image/jpeg"] = new[] { new byte[] { 0xFF, 0xD8, 0xFF } },
-        ["image/png"]  = new[] { new byte[] { 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A } }
+        ["image/png"]  = new[] { new byte[] { 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A } },
+        ["image/webp"] = new[] { new byte[] { 0x52, 0x49, 0x46, 0x46 } },
     };
 
     private static async Task<bool> HasValidImageSignature(IFormFile file)
