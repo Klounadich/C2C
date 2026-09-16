@@ -30,6 +30,14 @@ public class CatalogController : ControllerBase
         return Ok(response);
     }
 
+    [HttpGet("item")]
+    public async Task<IActionResult> GetItem([FromQuery] Guid id)
+    {
+        var request = new GetItemCommand(id);
+        var response = await _mediator.Send(request);
+        return Ok(response);
+    }
+
     [HttpPost("add_item")]
     [Consumes("multipart/form-data")]
     [Authorize]

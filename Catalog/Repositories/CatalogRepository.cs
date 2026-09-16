@@ -61,6 +61,32 @@ public class CatalogRepository :ICatalogRepository
             .ToListAsync();
     }
 
+    public async Task<FoundItemResponce> GetItemAsync(Guid id)
+    {
+        var item =await _catalogDBContext.Items.Where(x => x.Id == id).FirstOrDefaultAsync();
+        if (item is null) return null;
+        AddView(item);
+        return new FoundItemResponce
+        {
+            Id = item.Id,
+            UserId = item.UserId,
+            category = item.category,
+            img_link = item.img_link,
+            title = item.title,
+            price = item.price,
+            city = item.city,
+            views = item.views,
+            created_at = item.created_at,
+            updated_at = item.updated_at,
+        };
+    }
+
+    private void AddView(Items item)
+    {
+        item.views++;
+        _catalogDBContext.SaveChanges();
+    }
+
     
     public async Task<List<Items>> GetItemsByCategoryAsync(
         string category,

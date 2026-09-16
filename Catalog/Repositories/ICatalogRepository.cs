@@ -13,4 +13,5 @@ public interface ICatalogRepository
     public Task SaveLog(SearchLogs logs);
     
     public Task<bool> UpdateItemDataAsync(PutItemData request);
+    public Task<FoundItemResponce> GetItemAsync(Guid id);
 }
