@@ -26,44 +26,29 @@ public class ChangeItemDataHandler : IRequestHandler<ChangeItemCommand , bool>
             ItemId = request.ItemId,
             ItemName = request.itemName
         };
-        bool result = false;
-        if (request.image.Length != 0)
+
+        string? img_link = null;
+        if (request.image is not null && request.image.Length != 0)
         {
-            var img_link = await _blobService.UploadFile(request.image, request.ItemId);
-            
-             result = await _catalogRepository.UpdateItemDataAsync(new PutItemData()
-            {
-                UserId = request.userId,
-                ItemId = item_data.ItemId,
-                itemName =  request.itemName,
-                category = request.category,
-                price = request.price,
-                city =  request.city,
-                image = img_link
-            
-            
-            });
+            img_link = await _blobService.UploadFile(request.image, request.ItemId);
         }
-        result = await _catalogRepository.UpdateItemDataAsync(new PutItemData()
+
+        bool result = await _catalogRepository.UpdateItemDataAsync(new PutItemData()
         {
             UserId = request.userId,
             ItemId = item_data.ItemId,
-            itemName =  request.itemName,
+            itemName = request.itemName,
             category = request.category,
             price = request.price,
-            city =  request.city,
-            
-            
-            
+            city = request.city,
+            image = img_link 
         });
 
         if (result)
         {
-            await _rabbitMQService.SendMessageAsync(item_data); 
-            
+            await _rabbitMQService.SendMessageAsync(item_data);
         }
+
         return result;
-        
-        
     }
 }
