@@ -49,10 +49,10 @@ public class CatalogRepository :ICatalogRepository
             var alternatives = term.Alternatives;
             query = query.Where(item =>
                 alternatives.Any(keyword =>
-                    EF.Functions.Like(item.title.ToLower(), $"% {keyword} %")
+                    EF.Functions.Like(item.title.ToLower(), "% " + keyword + " %")
                     || item.title.ToLower() == keyword
-                    || EF.Functions.Like(item.title.ToLower(), $"{keyword} %")
-                    || EF.Functions.Like(item.title.ToLower(), $"% {keyword}")));
+                    || EF.Functions.Like(item.title.ToLower(), keyword + " %")
+                    || EF.Functions.Like(item.title.ToLower(), "% " + keyword)));
         }
         return await query
             .OrderBy(x => x.Id)
