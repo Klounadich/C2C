@@ -4,11 +4,13 @@ using Catalog.Repositories;
 using Catalog.Services;
 using Catalog.Services.BLOB;
 using Catalog.Services.RabbitMQ;
+using Catalog.Services.Redis;
 using Catalog.Services.SearchLogger;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Npgsql;
+using StackExchange.Redis;
 
 namespace Catalog;
 
@@ -22,7 +24,13 @@ public static class CatalogModuleExtensions
         services.AddScoped<ICatalogRepository, CatalogRepository>();
         services.AddScoped<IBLOBbyService, BLOBbyService>();
         services.AddScoped<IRabbitMQService, RabbitMQService>();
+        services.AddScoped<IRedisService, RedisService>();
         services.AddScoped<SearchLogger>();
+        services.AddSingleton<IConnectionMultiplexer>(
+            ConnectionMultiplexer.Connect(
+                configuration.GetConnectionString("Redis")!
+            )
+        );
         services.AddMediatR(cfg =>
         {
             cfg.RegisterServicesFromAssembly(typeof(FindItemHandler).Assembly);

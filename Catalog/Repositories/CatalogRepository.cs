@@ -2,14 +2,17 @@ using Catalog.Commands;
 using Catalog.DTO;
 using Catalog.Infrastructure;
 using Catalog.Models;
+using Catalog.Services.Redis;
 using Microsoft.EntityFrameworkCore;
 namespace Catalog.Repositories;
 public class CatalogRepository :ICatalogRepository
 {
     private readonly CatalogDBContext _catalogDBContext;
-    public CatalogRepository(CatalogDBContext catalogDBContext)
+    private readonly IRedisService _redis;
+    public CatalogRepository(CatalogDBContext catalogDBContext , IRedisService redis)
     {
         _catalogDBContext = catalogDBContext;
+        _redis = redis;
     }
     public async Task<bool> UpdateItemDataAsync(PutItemData request)
     {
@@ -65,7 +68,7 @@ public class CatalogRepository :ICatalogRepository
     {
         var item =await _catalogDBContext.Items.Where(x => x.Id == id).FirstOrDefaultAsync();
         if (item is null) return null;
-        AddView(item);
+        _redis.IncrementAsync(item.Id);
         return new FoundItemResponce
         {
             Id = item.Id,
