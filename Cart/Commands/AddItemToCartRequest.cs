@@ -3,5 +3,5 @@ using MediatR;
 namespace Cart.Commands;
 
 public record AddItemToCartRequest(
-    Guid CartId
+ Guid ItemId 
     ) : IRequest<bool>;

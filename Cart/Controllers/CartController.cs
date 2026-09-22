@@ -32,38 +32,30 @@ public class CartController : ControllerBase
 
      [Authorize]
      [HttpPost("add")]
-     public async Task<IActionResult> FindItemsCategory( AddItemToCartRequest command)
+     public async Task<IActionResult> AddItem(AddItemToCartRequest command)
      {
-          var user = HttpContext.User;
-          var userId = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+          var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
           var request = new AddItemDTO
           {
-               itemId = command.CartId,
-               userId =userId
+               itemId = command.ItemId,
+               userId = userId
           };
+
           var result = await _mediator.Send(request);
+
           if (result.IsSuccess)
                return NoContent();
 
           return result.ErrorType switch
           {
-               ErrorType.ItemUnavailable =>
-                    Conflict(result.ErrorMessage),
-
-               ErrorType.AlreadyInCart =>
-                    Conflict(result.ErrorMessage),
-
-               ErrorType.ItemNotFound =>
-                    NotFound(result.ErrorMessage),
-
-               ErrorType.OwnItem =>
-                    Conflict(result.ErrorMessage),
-
-               ErrorType.DatabaseError =>
-                    StatusCode(500, result.ErrorMessage),
-
+               ErrorType.ItemUnavailable => Conflict(result.ErrorMessage),
+               ErrorType.AlreadyInCart => Conflict(result.ErrorMessage),
+               ErrorType.ItemNotFound => NotFound(result.ErrorMessage),
+               ErrorType.OwnItem => Conflict(result.ErrorMessage),
+               ErrorType.DatabaseError => StatusCode(500, result.ErrorMessage),
                _ => StatusCode(500)
           };
      }
+     
      
 }
