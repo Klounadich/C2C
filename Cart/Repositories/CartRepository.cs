@@ -1,3 +1,4 @@
+using Cart.DTO;
 using Cart.Infrastructure;
 using Cart.Models;
 using Microsoft.EntityFrameworkCore;
@@ -47,5 +48,24 @@ public class CartRepository : ICartRepository
     public async Task<List<CartItems>> GetCartItemsAsync(Guid userId, Guid cartId)
     {
        return await  _dbContext.CartItems.Where(X => X.cart_id == cartId).ToListAsync();
+    }
+
+    public async Task<bool> DeleteItemFromCart(Guid cartId, Guid itemId )
+    {
+        var deleted = await _dbContext.CartItems
+            .Where(x => x.cart_id == cartId && x.item_id == itemId)
+            .ExecuteDeleteAsync();
+
+        return deleted > 0;
+    }
+
+    public async Task<GetCartCountResponce> GetCartItemsCountAsync(Guid userId)
+    {
+        var cart = await GetCartAsync(userId);
+        var items = _dbContext.CartItems.Where(x=> x.cart_id == cart.id).Count();
+        return new GetCartCountResponce
+        {
+            count = items
+        };
     }
 }

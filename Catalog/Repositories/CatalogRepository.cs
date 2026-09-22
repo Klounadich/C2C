@@ -100,7 +100,8 @@ public class CatalogRepository :ICatalogRepository
         {
             return await _catalogDBContext.Items
                 .Where(x => x.moderated)
-                .OrderBy(x=>x.Id)
+                .OrderByDescending(x => x.views)
+                .ThenBy(x => Guid.NewGuid())
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
