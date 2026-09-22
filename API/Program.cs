@@ -90,6 +90,7 @@ builder.Services.AddCors(options =>
 builder.Services.AddIdentityModule(builder.Configuration);
 builder.Services.AddCatalogModule(builder.Configuration);
 builder.Services.AddProfileModule(builder.Configuration);
+builder.Services.AddCartModule (builder.Configuration);
 builder.Services.Configure<MailSettings>(
     builder.Configuration.GetSection("MailSettings"));
 var app = builder.Build();

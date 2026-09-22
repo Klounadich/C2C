@@ -21,6 +21,7 @@
       <ProjectReference Include="..\Identity\Identity.csproj" />
         <ProjectReference Include="..\Catalog\Catalog.csproj" />
         <ProjectReference Include="..\Profile\Profile.csproj" />
+        <ProjectReference Include="..\Cart\Cart.csproj" />
     </ItemGroup>
 
     <ItemGroup>

@@ -7,6 +7,8 @@ COPY ["Identity/Identity.csproj", "Identity/"]
 COPY ["Catalog/Catalog.csproj", "Catalog/"]
 COPY ["Shared/Shared.csproj", "Shared/"]
 COPY ["Profile/Profile.csproj", "Profile/"]
+COPY ["Cart/Cart.csproj", "Cart/"]
+
 
 # Восстанавливаем зависимости
 RUN dotnet restore "API/API.csproj"

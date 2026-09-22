@@ -1,4 +1,5 @@
 
+using Cart.Contracts;
 using Catalog.Infrastructure;
 using Catalog.Repositories;
 using Catalog.Services;
@@ -26,6 +27,7 @@ public static class CatalogModuleExtensions
         services.AddScoped<IRabbitMQService, RabbitMQService>();
         services.AddScoped<IRedisService, RedisService>();
         services.AddScoped<SearchLogger>();
+        services.AddScoped<IItemReader, ItemReader>();
         services.AddSingleton<IConnectionMultiplexer>(
             ConnectionMultiplexer.Connect(
                 configuration.GetConnectionString("Redis")!
