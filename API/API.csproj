@@ -22,6 +22,7 @@
         <ProjectReference Include="..\Catalog\Catalog.csproj" />
         <ProjectReference Include="..\Profile\Profile.csproj" />
         <ProjectReference Include="..\Cart\Cart.csproj" />
+        <ProjectReference Include="..\Favorites\Favorites.csproj" />
     </ItemGroup>
 
     <ItemGroup>

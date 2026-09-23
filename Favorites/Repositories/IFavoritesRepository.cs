@@ -15,5 +15,6 @@ public interface IFavoritesRepository
     Task<bool> RemoveFavoriteAsync(Guid userId,
         Guid itemId);
     
-    Task<FavoritesItemsResponce> GetFavoritesAsync(Guid userId);
+    Task<FavoritesItemsResponce> GetFavoritesAsync(Guid userId ,int page,
+        int pageSize);
 }

@@ -14,6 +14,6 @@ public class GetFavoritesItemsHandler : IRequestHandler<GetFavoritesItemsDTO ,Fa
     }
     public async Task<FavoritesItemsResponce> Handle(GetFavoritesItemsDTO request, CancellationToken cancellationToken)
     {
-        _favoritesRepository.
+       return await  _favoritesRepository.GetFavoritesAsync(request.UserId, request.page, request.pageSize);
     }
 }

@@ -2,6 +2,7 @@
 using System.Text;
 using System.Threading.RateLimiting;
 using Catalog;
+using Favorites;
 using Identity;
 using Identity.Middleware;
 using Identity.Services.SMTP.Models;
@@ -91,6 +92,7 @@ builder.Services.AddIdentityModule(builder.Configuration);
 builder.Services.AddCatalogModule(builder.Configuration);
 builder.Services.AddProfileModule(builder.Configuration);
 builder.Services.AddCartModule (builder.Configuration);
+builder.Services.AddFavoritesModule(builder.Configuration);
 builder.Services.Configure<MailSettings>(
     builder.Configuration.GetSection("MailSettings"));
 var app = builder.Build();

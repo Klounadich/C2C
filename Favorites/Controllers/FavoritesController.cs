@@ -8,15 +8,18 @@ using Shared.Responce;
 
 
 namespace Favorites.Controllers;
+
 [ApiController]
 [Route("api/favorites/[controller]")]
 public class FavoritesController : ControllerBase
 {
-    private readonly IMediator _mediator; 
+    private readonly IMediator _mediator;
+
     public FavoritesController(IMediator mediator)
     {
         _mediator = mediator;
     }
+
     [Authorize]
     [HttpPost("add")]
     public async Task<IActionResult> AddItem(AddItemToFavoritesRequest command)
@@ -47,7 +50,7 @@ public class FavoritesController : ControllerBase
     [Authorize]
     [HttpGet("items")]
     public async Task<IActionResult> GetItems([FromQuery] int page = 1,
-    [FromQuery] int pageSize = 20)
+        [FromQuery] int pageSize = 20)
     {
         var userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
         var request = new GetFavoritesItemsDTO()
@@ -55,10 +58,23 @@ public class FavoritesController : ControllerBase
             page = page,
             pageSize = pageSize,
             UserId = userId
-            
+
         };
         var result = await _mediator.Send(request);
         return Ok(result);
     }
-    
+
+    [Authorize]
+    [HttpDelete("delete")]
+    public async Task<IActionResult> DeleteItem([FromQuery] Guid itemId)
+    {
+        var userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+        var request = new DeleteItemDTO
+        {
+            itemId = itemId,
+            userId = userId
+        };
+        var result = await _mediator.Send(request);
+        return Ok(result);
+    }
 }

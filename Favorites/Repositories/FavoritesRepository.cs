@@ -32,10 +32,12 @@ public class FavoritesRepository : IFavoritesRepository
         return await _context.SaveChangesAsync() > 0;
     }
 
-  public async Task<FavoritesItemsResponce> GetFavoritesAsync(Guid userId)
+  public async Task<FavoritesItemsResponce> GetFavoritesAsync(Guid userId, int page , int pageSize)
   {
       var items = new List<Guid>();
-      items = await _context.FavoriteItems.Where(x => x.UserId == userId).Select(x=>x.ItemId).ToListAsync();
+      items = await _context.FavoriteItems.Where(x => x.UserId == userId).Select(x=>x.ItemId).Skip((page - 1) * pageSize)
+          .Take(pageSize)
+          .ToListAsync();
       return new FavoritesItemsResponce
       {
           itemsId = items
@@ -45,6 +47,10 @@ public class FavoritesRepository : IFavoritesRepository
   public async Task<bool> RemoveFavoriteAsync(Guid userId,
       Guid itemId)
   {
-      _context.FavoriteItems
+      var deleted = await _context.FavoriteItems
+          .Where(x => x.ItemId == itemId && x.UserId == userId)
+          .ExecuteDeleteAsync();
+
+      return deleted > 0;
   }
 }
