@@ -91,3 +91,5 @@ Dockerfile*
 .idea/
 *.iml
 
+bin/
+obj/
