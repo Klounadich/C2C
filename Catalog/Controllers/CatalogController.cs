@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using Catalog.Commands;
+using Catalog.DTO;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -53,6 +54,21 @@ public class CatalogController : ControllerBase
         if (userIdClaim != command.UserId.ToString())
             return Forbid();
    
+        var response = await _mediator.Send(command);
+        return Ok(response);
+    }
+
+    [HttpPost("report_item")]
+    
+    public async Task<IActionResult> ReportItem(ReportItemRequest request)
+    {
+        var user = HttpContext.User;
+        var userIdClaim = Guid.Parse(user.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+        var command = new ReportItemDTO
+        {
+            text = request.text,
+            userId = userIdClaim
+        };
         var response = await _mediator.Send(command);
         return Ok(response);
     }

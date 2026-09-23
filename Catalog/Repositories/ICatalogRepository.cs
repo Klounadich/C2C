@@ -14,4 +14,8 @@ public interface ICatalogRepository
     
     public Task<bool> UpdateItemDataAsync(PutItemData request);
     public Task<FoundItemResponce> GetItemAsync(Guid id);
+    
+    
+    public Task<bool> AddReportAsync(ReportItemDTO report);
+    
 }

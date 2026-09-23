@@ -142,4 +142,18 @@ public class CatalogRepository :ICatalogRepository
         await _catalogDBContext.SearchLogs.AddAsync(logs);
         await _catalogDBContext.SaveChangesAsync();
     }
+
+    public async  Task<bool> AddReportAsync(ReportItemDTO report)
+    {
+       await _catalogDBContext.Reports.AddAsync(new Reports
+        {
+            ItemId = report.itemId,
+            message = report.text,
+            userId = report.userId == Guid.Empty ? null : report.userId
+        });
+        return await _catalogDBContext.SaveChangesAsync()>0;
+    }
+    
+    
+    
 }
