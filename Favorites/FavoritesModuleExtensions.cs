@@ -1,5 +1,6 @@
 ﻿using Favorites.Handlers;
 using Favorites.Infastructure;
+using Favorites.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,6 +12,7 @@ public static class FavoritesModuleExtensions
 {
     public static IServiceCollection AddFavoritesModule(this IServiceCollection services, IConfiguration configuration)
     {
+        services.AddScoped<IFavoritesRepository, FavoritesRepository>();
         services.AddMediatR(cfg =>
         {
             cfg.RegisterServicesFromAssembly(typeof(AddToFavoritesHandler).Assembly);
