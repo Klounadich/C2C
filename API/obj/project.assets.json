@@ -1964,6 +1964,22 @@
           "Microsoft.AspNetCore.App"
         ]
       },
+      "Payments/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v10.0",
+        "dependencies": {
+          "MediatR": "14.2.0",
+          "Microsoft.AspNetCore.OpenApi": "10.0.3",
+          "Microsoft.EntityFrameworkCore": "10.0.3",
+          "Npgsql.EntityFrameworkCore.PostgreSQL": "10.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Payments.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Payments.dll": {}
+        }
+      },
       "Profile/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v10.0",
@@ -5671,6 +5687,11 @@
       "path": "../Identity/Identity.csproj",
       "msbuildProject": "../Identity/Identity.csproj"
     },
+    "Payments/1.0.0": {
+      "type": "project",
+      "path": "../Payments/Payments.csproj",
+      "msbuildProject": "../Payments/Payments.csproj"
+    },
     "Profile/1.0.0": {
       "type": "project",
       "path": "../Profile/Profile.csproj",
@@ -5691,6 +5712,7 @@
       "Microsoft.AspNetCore.OpenApi >= 10.0.3",
       "Microsoft.EntityFrameworkCore.Design >= 10.0.3",
       "Npgsql.EntityFrameworkCore.PostgreSQL >= 10.0.0",
+      "Payments >= 1.0.0",
       "Profile >= 1.0.0"
     ]
   },
@@ -5730,6 +5752,9 @@
             },
             "/home/klounadich/dev/C2C/Identity/Identity.csproj": {
               "projectPath": "/home/klounadich/dev/C2C/Identity/Identity.csproj"
+            },
+            "/home/klounadich/dev/C2C/Payments/Payments.csproj": {
+              "projectPath": "/home/klounadich/dev/C2C/Payments/Payments.csproj"
             },
             "/home/klounadich/dev/C2C/Profile/Profile.csproj": {
               "projectPath": "/home/klounadich/dev/C2C/Profile/Profile.csproj"
