@@ -16,8 +16,8 @@ public class CatalogController : ControllerBase
         _mediator = mediator;
     }
 
-    [HttpPost("find")]
-    public async Task<IActionResult> FindItems(FindItemRequestCommand request)
+    [HttpGet("find")]
+    public async Task<IActionResult> FindItems([FromQuery]FindItemRequestCommand request)
     {
        var responce = await _mediator.Send(request);
        return Ok(responce);

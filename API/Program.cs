@@ -97,11 +97,10 @@ builder.Services.Configure<MailSettings>(
     builder.Configuration.GetSection("MailSettings"));
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
+
     app.UseSwagger();
     app.UseSwaggerUI(); 
-}
+
 
  
 
