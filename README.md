@@ -63,7 +63,7 @@ cd C2C
 Start infrastructure:
 
 ```bash
-docker compose up -d
+docker build -t .
 ```
 
 Run the application:
@@ -96,7 +96,7 @@ Use environment variables or user secrets for local development.
 API documentation is available through Swagger:
 
 ```text
-/swagger
+http://localhost:5000/swagger/
 ```
 
 Detailed API documentation:
@@ -118,7 +118,7 @@ C2C/
 ├── Cart/
 ├── Payments/
 ├── Moderation/
-└── docker-compose.yml
+└── DockerFile
 ```
 
 ## Development
@@ -135,4 +135,4 @@ Before creating a new module:
 
 ## License
 
-Private project.
+Study project.
