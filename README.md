@@ -101,11 +101,11 @@ API documentation is available through Swagger:
 
 Detailed API documentation:
 
-* [Catalog](docs/api/catalog.md)
-* [Users](docs/api/users.md)
-* [Favorites](docs/api/favorites.md)
-* [Cart](docs/api/cart.md)
-* [Payments](docs/api/payments.md)
+* [Catalog](docs/Catalog.md)
+* [Users](docs/Users.md)
+* [Favorites](docs/Favorites.md)
+* [Cart](docs/Cart.md)
+* [Payments](docs/Payments.md)
 
 ## Project Structure
 
