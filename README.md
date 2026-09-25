@@ -102,10 +102,11 @@ http://localhost:5000/swagger/
 Detailed API documentation:
 
 * [Catalog](docs/Catalog.md)
-* [Users](docs/Users.md)
+* [Identity](docs/Identity.md)
 * [Favorites](docs/Favorites.md)
 * [Cart](docs/Cart.md)
 * [Payments](docs/Payments.md)
+* [Order](docs/Order.md)
 
 ## Project Structure
 
