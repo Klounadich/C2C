@@ -15,7 +15,6 @@
 
     <ItemGroup>
       <Folder Include="Application\Abstractions\" />
-      <Folder Include="Application\Commands\" />
       <Folder Include="Application\Queries\" />
       <Folder Include="Tests\" />
     </ItemGroup>
