@@ -1,6 +1,4 @@
 
-
-using Cart.Contracts;
 using Cart.Handlers;
 using Cart.Infrastructure;
 using Cart.Repositories;

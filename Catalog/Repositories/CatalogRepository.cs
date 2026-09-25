@@ -66,7 +66,7 @@ public class CatalogRepository :ICatalogRepository
 
     public async Task<FoundItemResponce> GetItemAsync(Guid id)
     {
-        var item =await _catalogDBContext.Items.Where(x => x.Id == id).FirstOrDefaultAsync();
+        var item =await _catalogDBContext.Items.Where(x => x.Id == id && x.status == "sale").FirstOrDefaultAsync();
         if (item is null) return null;
         _redis.IncrementAsync(item.Id);
         return new FoundItemResponce
@@ -99,7 +99,7 @@ public class CatalogRepository :ICatalogRepository
         if (category == "rnd")
         {
             return await _catalogDBContext.Items
-                .Where(x => x.moderated)
+                .Where(x => x.moderated && x.status == "sale")
                 .OrderByDescending(x => x.views)
                 .ThenBy(x => Guid.NewGuid())
                 .Skip((page - 1) * pageSize)
@@ -109,7 +109,7 @@ public class CatalogRepository :ICatalogRepository
         else
         {
             return await _catalogDBContext.Items
-                .Where(x => x.moderated && x.category == category)
+                .Where(x => x.moderated && x.category == category && x.status == "sale")
                 .OrderBy(x => x.Id)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)

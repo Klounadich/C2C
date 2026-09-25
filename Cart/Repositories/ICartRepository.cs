@@ -6,6 +6,7 @@ namespace Cart.Repositories;
 
 public interface ICartRepository
 {
+    
     Task<Carts?> GetCartAsync(Guid userId);
 
     Task<bool> SameItemAsync(

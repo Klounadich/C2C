@@ -1202,6 +1202,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v10.0",
         "dependencies": {
+          "Catalog": "1.0.0",
           "MediatR": "14.2.0",
           "Microsoft.AspNetCore.OpenApi": "10.0.3",
           "Microsoft.EntityFrameworkCore": "10.0.3",
@@ -1221,7 +1222,6 @@
         "dependencies": {
           "B2Net": "0.8.0",
           "Backblaze.ObjectStorage.B2": "1.0.1",
-          "Cart": "1.0.0",
           "MediatR": "14.2.0",
           "Microsoft.AspNetCore.OpenApi": "10.0.3",
           "Microsoft.EntityFrameworkCore": "10.0.3",
@@ -1283,6 +1283,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v10.0",
         "dependencies": {
+          "Catalog": "1.0.0",
           "MediatR": "14.2.0",
           "Microsoft.AspNetCore.OpenApi": "10.0.3",
           "Microsoft.EntityFrameworkCore": "10.0.3",

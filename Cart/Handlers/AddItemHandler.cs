@@ -1,4 +1,4 @@
-using Cart.Contracts;
+
 using Cart.DTO;
 using Cart.Models;
 using Cart.Repositories;
@@ -29,7 +29,7 @@ public class AddItemHandler : IRequestHandler<AddItemDTO, Result>
             request.itemId,
             Guid.Parse(request.userId));
 
-        if (item == null)
+        if (!item)
         {
             return Result.Failure(
                 ErrorType.ItemUnavailable,
@@ -58,6 +58,8 @@ public class AddItemHandler : IRequestHandler<AddItemDTO, Result>
                 ErrorType.AlreadyInCart,
                 "Item is already in cart");
         }
+        
+       
 
        
         var cartItem = new CartItems

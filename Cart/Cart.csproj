@@ -17,10 +17,12 @@
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\Shared\Shared.csproj" />
+        <ProjectReference Include="..\Catalog\Catalog.csproj" />
 
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="Contracts\" />
       <Folder Include="Services\" />
     </ItemGroup>
 </Project>

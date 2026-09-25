@@ -1,5 +1,4 @@
 
-using Cart.Contracts;
 using Catalog.Infrastructure;
 using Catalog.Repositories;
 using Catalog.Services;
