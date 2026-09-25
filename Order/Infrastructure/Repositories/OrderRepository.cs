@@ -36,6 +36,7 @@ public class OrderRepository : IOrderRepository
                 itemdata.status = "reserved";
                 items.Add(itemdata);
             }
+            await _itemReader.ReserveAsync(items);
             return new CreateOrderResponce(order.id);
         }
         return new CreateOrderResponce(Guid.Empty);

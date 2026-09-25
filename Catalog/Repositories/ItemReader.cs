@@ -26,5 +26,8 @@ public class ItemReader : IItemReader
         return await _dbContext.Items.Where(x => x.Id == itemId && x.moderated && x.status == "sale").FirstOrDefaultAsync();
     }
 
-
+    public async Task ReserveAsync(List<Items> itemIds)
+    {
+        await _dbContext.SaveChangesAsync();
+    }
 } 
