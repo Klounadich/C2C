@@ -8,6 +8,7 @@ COPY ["Catalog/Catalog.csproj", "Catalog/"]
 COPY ["Shared/Shared.csproj", "Shared/"]
 COPY ["Profile/Profile.csproj", "Profile/"]
 COPY ["Cart/Cart.csproj", "Cart/"]
+COPY ["Order/Order.csproj", "Order/"]
 
 
 # Восстанавливаем зависимости

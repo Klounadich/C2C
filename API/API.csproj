@@ -24,6 +24,7 @@
         <ProjectReference Include="..\Cart\Cart.csproj" />
         <ProjectReference Include="..\Favorites\Favorites.csproj" />
         <ProjectReference Include="..\Payments\Payments.csproj" />
+        <ProjectReference Include="..\Order\Order.csproj" />
     </ItemGroup>
 
     <ItemGroup>
