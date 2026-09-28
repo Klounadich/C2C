@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using Order;
+using Payments;
 using Profile;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -95,6 +96,7 @@ builder.Services.AddProfileModule(builder.Configuration);
 builder.Services.AddCartModule (builder.Configuration);
 builder.Services.AddFavoritesModule(builder.Configuration);
 builder.Services.AddOrderModule(builder.Configuration);
+builder.Services.AddPaymentModule(builder.Configuration);
 builder.Services.Configure<MailSettings>(
     builder.Configuration.GetSection("MailSettings"));
 var app = builder.Build();

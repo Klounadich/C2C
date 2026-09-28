@@ -11,7 +11,7 @@ namespace Payments;
 
 public static class PaymentsModuleExtensions
 {
-    public static IServiceCollection AddIdentityModule(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddPaymentModule(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddScoped<IPaymentRepository, PaymentRepository>();
         services.AddMediatR(cfg =>
