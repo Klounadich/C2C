@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Payments.Application.Commands.CreatePayment;
+using Payments.Application.Queries;
 using Payments.Controllers.Contracts;
 using Payments.Domain;
 
@@ -31,9 +32,11 @@ public class PaymentController: ControllerBase
 
     [HttpGet("{id}")]
     [Authorize]
-    public async Task<IActionResult> GetPayment(Guid id) //GetPaymentQuery
+    public async Task<IActionResult> GetPayment(Guid id) 
     {
-        return Ok();
+        var query = new GetPaymentQuery(id);
+        var result = await _mediator.Send(query);
+        return Ok(result);
     }
 
     [HttpPost("{id}/cancel")]

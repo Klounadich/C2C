@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Payments.Application.Abstractions;
 using Payments.Application.Commands.CreatePayment;
+using Payments.Application.Queries;
 using Payments.Controllers.Contracts;
 using Payments.Domain;
 using Payments.Infrastructure.Persistence;
@@ -37,6 +38,16 @@ public class PaymentRepository : IPaymentRepository
         {
             return new CreatePaymentResponce(payment.Id,payment.ProviderPaymentId, "");
 
+        }
+        return null;
+    }
+
+    public async Task<GetPaymentResponce> Get(Guid paymentId, CancellationToken cancellationToken)
+    {
+        var payment = await _dbContext.Payment.Where(x => x.Id == paymentId).FirstOrDefaultAsync();
+        if (payment != null)
+        {
+            return new GetPaymentResponce(payment.Id,payment.OrderId,payment.Status,payment.Amount,payment.Currency,payment.UpdatedAt);
         }
         return null;
     }
