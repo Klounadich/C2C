@@ -2,25 +2,25 @@ namespace Payments.Domain;
 
 public class Payment
 {
-    public Guid Id { get; private set; }
+    public Guid Id { get; private set; } = Guid.NewGuid();
 
-    public Guid OrderId { get; private set; }
+    public Guid OrderId { get;  set; }
 
-    public Guid UserId { get; private set; }
+    public Guid UserId { get;  set; }
 
-    public long Amount { get; private set; }
+    public decimal Amount { get;  set; }
 
-    public string Currency { get; private set; }
+    public string Currency { get; set; }
 
-    public PaymentStatus Status { get; private set; }
+    public PaymentStatus Status { get; set; }
 
-    public string Provider { get; private set; }
+    public string Provider { get; set; }
 
-    public string? ProviderPaymentId { get; private set; }
+    public string? ProviderPaymentId { get;  set; }
 
-    public string IdempotencyKey { get; private set; }
+    public string IdempotencyKey { get;  set; }
 
-    public DateTime CreatedAt { get; private set; }
+    public DateTime CreatedAt { get; private set; } =  DateTime.UtcNow;
 
-    public DateTime UpdatedAt { get; private set; }
+    public DateTime UpdatedAt { get; private set; } =   DateTime.UtcNow;
 }

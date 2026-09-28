@@ -14,6 +14,7 @@ public static class OrderModuleExtensions
     public static IServiceCollection AddOrderModule(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddScoped<IOrderRepository, OrderRepository>();
+        services.AddScoped<OrderReader>();
         services.AddMediatR(cfg =>
         {
             

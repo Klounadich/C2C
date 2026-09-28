@@ -14,9 +14,15 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Application\Abstractions\" />
+      <Folder Include="Application\DTOs\" />
       <Folder Include="Application\Queries\" />
       <Folder Include="Tests\" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Shared\Shared.csproj" />
+        <ProjectReference Include="..\Order\Order.csproj" />
+
     </ItemGroup>
 
 </Project>

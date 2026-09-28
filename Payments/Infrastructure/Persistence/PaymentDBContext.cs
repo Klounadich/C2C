@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Payments.Domain;
 
 namespace Payments.Infrastructure.Persistence;
 
@@ -8,4 +9,6 @@ public class PaymentDBContext : DbContext
     {
         
     }
+    public DbSet<Payment> Payment { get; set; }
+    
 }

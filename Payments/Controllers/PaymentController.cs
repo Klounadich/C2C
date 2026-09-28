@@ -1,6 +1,9 @@
+using System.Security.Claims;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Payments.Application.Commands.CreatePayment;
+using Payments.Controllers.Contracts;
 using Payments.Domain;
 
 namespace Payments.Controllers;
@@ -17,9 +20,13 @@ public class PaymentController: ControllerBase
 
     [HttpPost]
     [Authorize]
-    public async Task<IActionResult> CreatePayment() // CreatePaymentCommand
+    public async Task<IActionResult> CreatePayment(CreatePaymentRequest request ) 
     {
-        return Ok();
+        var user = HttpContext.User;
+        var userId = Guid.Parse(user.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+        var result = await _mediator.Send(new CreatePaymentCommand(request.OrderId, userId , request.idempotencyKey));
+        return Ok(result);
+        
     }
 
     [HttpGet("{id}")]
