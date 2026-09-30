@@ -30,4 +30,23 @@ public class ItemReader : IItemReader
     {
         await _dbContext.SaveChangesAsync();
     }
+
+   public async Task<bool> ReturnItemsToSale(
+        List<Guid> itemIds)
+    {
+        var items = await _dbContext.Items
+            .Where(x => itemIds.Contains(x.Id)
+                        && x.moderated
+                        && x.status != "sale")
+            .ToListAsync();
+
+        foreach (var item in items)
+        {
+            item.status = "sale";
+        }
+
+        await _dbContext.SaveChangesAsync();
+
+        return true;
+    }
 } 

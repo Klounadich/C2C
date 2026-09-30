@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Payments.Application.Abstractions;
 using Payments.Application.Commands.CreatePayment;
+using Payments.Application.Commands.RefundPayment;
 using Payments.Application.Commands.WebHook;
 using Payments.Application.Queries;
 using Payments.Controllers.Contracts;
@@ -66,5 +67,15 @@ public class PaymentRepository : IPaymentRepository
             return new GetPaymentResponce(payment.Id,payment.OrderId,payment.Status,payment.Amount,payment.Currency,payment.UpdatedAt);
         }
         return null;
+    }
+
+    public async Task<bool> Refund(RefundPaymentCommand request)
+    {
+        var payment = await _dbContext.Payment.Where(x => x.OrderId == request.OrderId && x.UserId == request.UserId)
+            .FirstOrDefaultAsync();
+        payment.Status = PaymentStatus.RefundPending;
+        payment.UpdatedAt = DateTime.UtcNow;
+        return  await _dbContext.SaveChangesAsync() > 0;
+        
     }
 }

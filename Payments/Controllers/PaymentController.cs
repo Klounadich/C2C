@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Payments.Application.Commands.CreatePayment;
+using Payments.Application.Commands.RefundPayment;
 using Payments.Application.Queries;
 using Payments.Controllers.Contracts;
 using Payments.Domain;
@@ -58,7 +59,11 @@ public class PaymentController: ControllerBase
     [Authorize]
     public async Task<IActionResult> RefundPayment(Guid id) //RefundPaymentCommand
     {
-        return Ok();
+        
+        var user = HttpContext.User;
+        var userId = Guid.Parse(user.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+        var result = await _mediator.Send(new RefundPaymentCommand(id, userId));
+        return Ok(result);
     }
 
 }

@@ -9,4 +9,7 @@ public interface IItemReader
     Task ReserveAsync(
         List<Items> itemIds
         );
+
+    Task<bool> ReturnItemsToSale(
+        List<Guid> itemIds);
 }
