@@ -22,14 +22,23 @@ public class OrderReader
     
     public async Task<bool> OrderRefund(Guid orderId , Guid userId)
     {
-        var order = await _context.Orders.Where(x=> x.id == orderId && x.status == "Paid" && x.userId == userId).FirstOrDefaultAsync();
-        if (order != null)
-            order.status ="Refunded";
-            order.refunded_at = DateTime.UtcNow;
-            if (await _context.SaveChangesAsync() > 0)
-            {
-               return await _itemReader.ReturnItemsToSale(order.ProductIds);
-            }
+        var order = await _context.Orders
+            .Where(x => x.id == orderId
+                        && x.status == "Paid"
+                        && x.userId == userId)
+            .FirstOrDefaultAsync();
+
+        if (order == null)
+            return false;
+
+        order.status = "Refunded";
+        order.refunded_at = DateTime.UtcNow;
+
+        if (await _context.SaveChangesAsync() > 0)
+        {
+            return await _itemReader.ReturnItemsToSale(order.ProductIds);
+        }
+
         return false;
     }
 
