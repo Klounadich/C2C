@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,6 +15,15 @@ public static class PaymentsModuleExtensions
 {
     public static IServiceCollection AddPaymentModule(this IServiceCollection services, IConfiguration configuration)
     {
+        
+        services
+            .AddControllers()
+            .AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.Converters.Add(
+                    new JsonStringEnumConverter()
+                );
+            });
         services.AddScoped<IPaymentRepository, PaymentRepository>();
         services.AddScoped<ProviderService>();
         services.AddHttpClient<ProviderService>();
