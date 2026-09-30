@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Payments.Application.Abstractions;
 using Payments.Application.Commands.CreatePayment;
+using Payments.Application.Commands.WebHook;
 using Payments.Application.Queries;
 using Payments.Controllers.Contracts;
 using Payments.Domain;
@@ -26,6 +27,21 @@ public class PaymentRepository : IPaymentRepository
        }
 
        return false;
+    }
+
+    public async Task<SetStatusResponce> SetStatus(PaymentWebhookRequest request)
+    {
+        var payment = _dbContext.Payment.Where(x=> x.Id == request.PaymentId).SingleOrDefault();
+        payment.Status = request.status;
+        if (_dbContext.SaveChanges() > 0)
+        {
+            return new SetStatusResponce
+            {
+                orderId = payment.OrderId,
+                status = request.status,
+            };
+        }
+        return null;
     }
 
     public async  Task<CreatePaymentResponce?> GetByIdempotencyKey(string idempotencyKey, CancellationToken cancellationToken)

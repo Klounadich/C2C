@@ -17,4 +17,12 @@ public class OrderReader
     {
         return await _context.Orders.Where(x=> x.id == orderId && x.status == "WaitingPayment" && x.userId == userId).FirstOrDefaultAsync();
     }
+
+    public async Task<bool> SetOrderStatus(Guid orderId)
+    {
+        var order = _context.Orders.Where(x => x.id == orderId).FirstOrDefault();
+        order.status ="Paid";
+        await _context.SaveChangesAsync();
+        return true;
+    }
 }

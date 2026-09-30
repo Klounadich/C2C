@@ -11,13 +11,14 @@ public class ProviderService
         _httpClient = httpClient;
     }
 
-    public async Task<string> SendPayment(
+    public async Task<string> SendPayment(Guid paymentId,
         decimal amount,
         string currency,
         string description)
     {
         var request = new
         {
+            paymentId,
             amount,
             currency,
             description

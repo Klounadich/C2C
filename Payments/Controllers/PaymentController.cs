@@ -18,6 +18,14 @@ public class PaymentController: ControllerBase
     {
         _mediator = mediator;
     }
+    
+    [HttpPost("webhook")]
+    public async Task<IActionResult> Webhook(
+        PaymentWebhookRequest request)
+    {
+        var result = await _mediator.Send(request);
+        return Ok(result);
+    }
 
     [HttpPost]
     [Authorize]

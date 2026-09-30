@@ -47,7 +47,7 @@ public class CreatePaymentHandler : IRequestHandler<CreatePaymentCommand,CreateP
             if (await _paymentRepository.Create(payment, cancellationToken))
             {
                 
-                var link = await _providerService.SendPayment(payment.Amount, payment.Currency, "Оплата заказа TradeHub");
+                var link = await _providerService.SendPayment( payment.Id,payment.Amount, payment.Currency, "Оплата заказа TradeHub");
                 return new CreatePaymentResponce(payment.Id, link , "");
             }
         }
