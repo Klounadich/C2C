@@ -6,6 +6,7 @@ using Payments.Application.Abstractions;
 using Payments.Application.Commands.CreatePayment;
 using Payments.Infrastructure.Persistence;
 using Payments.Infrastructure.Repositories;
+using Payments.Services;
 
 namespace Payments;
 
@@ -14,6 +15,8 @@ public static class PaymentsModuleExtensions
     public static IServiceCollection AddPaymentModule(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddScoped<IPaymentRepository, PaymentRepository>();
+        services.AddScoped<ProviderService>();
+        services.AddHttpClient<ProviderService>();
         services.AddMediatR(cfg =>
         {
             cfg.RegisterServicesFromAssembly(typeof(CreatePaymentHandler).Assembly);

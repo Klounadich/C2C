@@ -3,6 +3,7 @@ using Order.Application.Abstractions;
 using Order.Infrastructure.Repositories;
 using Payments.Application.Abstractions;
 using Payments.Domain;
+using Payments.Services;
 
 namespace Payments.Application.Commands.CreatePayment;
 
@@ -10,12 +11,14 @@ public class CreatePaymentHandler : IRequestHandler<CreatePaymentCommand,CreateP
 
 {
     private readonly OrderReader _orderReader;
+    private readonly ProviderService _providerService;
     private readonly IPaymentRepository _paymentRepository;
 
-    public CreatePaymentHandler(OrderReader orderReader , IPaymentRepository paymentRepository)
+    public CreatePaymentHandler(OrderReader orderReader , IPaymentRepository paymentRepository , ProviderService providerService)
     {
         _orderReader = orderReader;
         _paymentRepository = paymentRepository;
+        _providerService = providerService;
     }
     public async Task<CreatePaymentResponce> Handle(CreatePaymentCommand request, CancellationToken cancellationToken)
     {
@@ -43,8 +46,8 @@ public class CreatePaymentHandler : IRequestHandler<CreatePaymentCommand,CreateP
             };
             if (await _paymentRepository.Create(payment, cancellationToken))
             {
-                //send to provider
-                var link = "temp";
+                
+                var link = await _providerService.SendPayment(payment.Amount, payment.Currency, "Оплата заказа TradeHub");
                 return new CreatePaymentResponce(payment.Id, link , "");
             }
         }
