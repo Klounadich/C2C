@@ -8,7 +8,7 @@ using Order.Controllers.Contracts;
 
 namespace Order.Controllers;
 [ApiController]
-[Route("api/payments/[controller]")]
+[Route("api/order/[controller]")]
 public class OrderController : ControllerBase
 {
     private readonly IMediator _mediator;
