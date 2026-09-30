@@ -23,7 +23,7 @@ public class OrderReader
     public async Task<bool> OrderRefund(Guid orderId , Guid userId)
     {
         var order = await _context.Orders.Where(x=> x.id == orderId && x.status == "Paid" && x.userId == userId).FirstOrDefaultAsync();
-        if (order == null)
+        if (order != null)
             order.status ="Refunded";
             order.refunded_at = DateTime.UtcNow;
             if (await _context.SaveChangesAsync() > 0)
