@@ -4,7 +4,7 @@ namespace Order.Domain;
 
 public class Orders
 {
-   public  Guid id { get; private set; } = Guid.NewGuid();
+   public  Guid id { get;  set; } = Guid.NewGuid();
    public Guid userId { get; set; }
    public List<Guid> ProductIds { get;  set; }
    public decimal Amount { get; set; }
