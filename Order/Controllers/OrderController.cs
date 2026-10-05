@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Order.Application.Commands.CreateOrder;
 using Order.Application.Queries;
+using Order.Application.Queries.GetOrders;
 using Order.Controllers.Contracts;
 
 namespace Order.Controllers;
@@ -35,6 +36,16 @@ public class OrderController : ControllerBase
         var user = HttpContext.User;
         var userId = Guid.Parse(user.FindFirst(ClaimTypes.NameIdentifier)?.Value);
         var result = await _mediator.Send(new GetOrderQuery(orderId ,userId));
+        return Ok(result);
+    }
+    
+    [HttpGet("")]
+    [Authorize]
+    public async Task<IActionResult> GetOrder()
+    {
+        var user = HttpContext.User;
+        var userId = Guid.Parse(user.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+        var result = await _mediator.Send(new GetOrdersQuery( userId));
         return Ok(result);
     }
     
