@@ -10,11 +10,11 @@ namespace Payments.Application.Commands.CreatePayment;
 public class CreatePaymentHandler : IRequestHandler<CreatePaymentCommand,CreatePaymentResponce>
 
 {
-    private readonly OrderReader _orderReader;
-    private readonly ProviderService _providerService;
+    private readonly IOrderReader _orderReader;
+    private readonly IProviderService _providerService;
     private readonly IPaymentRepository _paymentRepository;
 
-    public CreatePaymentHandler(OrderReader orderReader , IPaymentRepository paymentRepository , ProviderService providerService)
+    public CreatePaymentHandler(IOrderReader orderReader , IPaymentRepository paymentRepository , IProviderService providerService)
     {
         _orderReader = orderReader;
         _paymentRepository = paymentRepository;

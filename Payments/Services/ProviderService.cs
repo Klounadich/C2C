@@ -1,8 +1,9 @@
 using System.Net.Http.Json;
+using Payments.Application.Abstractions;
 
 namespace Payments.Services;
 
-public class ProviderService
+public class ProviderService : IProviderService
 {
     private readonly HttpClient _httpClient;
 

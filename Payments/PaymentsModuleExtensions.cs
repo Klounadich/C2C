@@ -25,7 +25,7 @@ public static class PaymentsModuleExtensions
                 );
             });
         services.AddScoped<IPaymentRepository, PaymentRepository>();
-        services.AddScoped<ProviderService>();
+        services.AddScoped<IProviderService,ProviderService>();
         services.AddHttpClient<ProviderService>();
         services.AddMediatR(cfg =>
         {

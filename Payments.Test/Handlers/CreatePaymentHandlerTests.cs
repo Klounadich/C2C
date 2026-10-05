@@ -1,4 +1,5 @@
 using Moq;
+using Order.Application.Abstractions;
 using Order.Domain;
 using Order.Infrastructure.Repositories;
 using Payments.Application.Abstractions;
@@ -10,17 +11,17 @@ namespace Payments.Test.Handlers;
 
 public class CreatePaymentHandlerTests
 {
-    private readonly Mock<OrderReader> _orderReaderMock;
+    private readonly Mock<IOrderReader> _orderReaderMock;
     private readonly Mock<IPaymentRepository> _paymentRepositoryMock;
-    private readonly Mock<ProviderService> _providerServiceMock;
-    
+    private readonly Mock<IProviderService> _providerServiceMock;
+
     private readonly CreatePaymentHandler _handler;
 
     public CreatePaymentHandlerTests()
     {
-        _orderReaderMock = new Mock<OrderReader>();
+        _orderReaderMock = new Mock<IOrderReader>();
         _paymentRepositoryMock = new Mock<IPaymentRepository>();
-        _providerServiceMock = new Mock<ProviderService>();
+        _providerServiceMock = new Mock<IProviderService>();
 
         _handler = new CreatePaymentHandler(
             _orderReaderMock.Object,
@@ -44,7 +45,7 @@ public class CreatePaymentHandlerTests
         {
             id = orderId,
             Amount = 100,
-            
+            currency = "RUB"
         };
 
         _paymentRepositoryMock

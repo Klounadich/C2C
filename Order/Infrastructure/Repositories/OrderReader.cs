@@ -5,7 +5,7 @@ using Order.Infrastructure.Persistance;
 
 namespace Order.Infrastructure.Repositories;
 
-public class OrderReader
+public class OrderReader : IOrderReader
 {
     private readonly OrderDBContext _context;
     private readonly IItemReader _itemReader;
