@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Payments.Application.Abstractions;
+using Payments.Application.Commands.CancelPayment;
 using Payments.Application.Commands.CreatePayment;
 using Payments.Application.Commands.RefundPayment;
 using Payments.Application.Commands.WebHook;
@@ -74,6 +75,16 @@ public class PaymentRepository : IPaymentRepository
         var payment = await _dbContext.Payment.Where(x => x.OrderId == request.OrderId && x.UserId == request.UserId)
             .FirstOrDefaultAsync();
         payment.Status = PaymentStatus.RefundPending;
+        payment.UpdatedAt = DateTime.UtcNow;
+        return  await _dbContext.SaveChangesAsync() > 0;
+        
+    }
+    
+    public async Task<bool> Cancel(CancelPaymentCommand request)
+    {
+        var payment = await _dbContext.Payment.Where(x => x.OrderId == request.OrderId && x.UserId == request.UserId && x.Status == PaymentStatus.Pending)
+            .FirstOrDefaultAsync();
+        payment.Status = PaymentStatus.Cancelled;
         payment.UpdatedAt = DateTime.UtcNow;
         return  await _dbContext.SaveChangesAsync() > 0;
         

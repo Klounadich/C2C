@@ -1,4 +1,5 @@
 using MediatR;
+using Order.Application.Abstractions;
 using Order.Infrastructure.Repositories;
 using Payments.Application.Abstractions;
 
@@ -7,10 +8,10 @@ namespace Payments.Application.Commands.RefundPayment;
 public class RefundPaymentHandler : IRequestHandler<RefundPaymentCommand,bool>
 {
     private readonly IPaymentRepository _paymentRepository;
-    private readonly OrderReader _orderReader;
+    private readonly IOrderReader _orderReader;
     
 
-    public RefundPaymentHandler(OrderReader orderReader , IPaymentRepository paymentRepository)
+    public RefundPaymentHandler(IOrderReader orderReader , IPaymentRepository paymentRepository)
     {
         _orderReader = orderReader;
         _paymentRepository = paymentRepository;

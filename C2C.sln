@@ -18,8 +18,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Payments", "Payments\Paymen
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Order", "Order\Order.csproj", "{FE4B5E0E-D12B-4E76-9D14-CD5AA1BE26B0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Payments\Test\Test.csproj", "{E74D3799-BE47-4185-94AB-BA32E2CDEDDA}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Payments.Test", "Payments.Test\Payments.Test.csproj", "{F2CF6A17-4901-4631-9BFA-70148929A9E1}"
 EndProject
 Global

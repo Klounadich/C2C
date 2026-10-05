@@ -2,6 +2,7 @@ using System.Security.Claims;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Payments.Application.Commands.CancelPayment;
 using Payments.Application.Commands.CreatePayment;
 using Payments.Application.Commands.RefundPayment;
 using Payments.Application.Queries;
@@ -50,14 +51,17 @@ public class PaymentController: ControllerBase
 
     [HttpPost("{id}/cancel")]
     [Authorize]
-    public async Task<IActionResult> CancelPayment(Guid id) //CancelPaymentCommand
+    public async Task<IActionResult> CancelPayment(Guid id) 
     {
-        return Ok();
+        var user = HttpContext.User;
+        var userId = Guid.Parse(user.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+        var result = await _mediator.Send(new CancelPaymentCommand(id, userId));
+        return Ok(result);
     }
 
     [HttpPost("{id}/refund")]
     [Authorize]
-    public async Task<IActionResult> RefundPayment(Guid id) //RefundPaymentCommand
+    public async Task<IActionResult> RefundPayment(Guid id) 
     {
         
         var user = HttpContext.User;

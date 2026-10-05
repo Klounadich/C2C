@@ -15,7 +15,7 @@ public class OrderReader : IOrderReader
         _itemReader = itemReader;
     }
 
-    public async Task<Orders> GetOrder(Guid orderId , Guid userId)
+    public async Task<Orders?> GetOrder(Guid orderId , Guid userId)
     {
         return await _context.Orders.Where(x=> x.id == orderId && x.status == "WaitingPayment" && x.userId == userId).FirstOrDefaultAsync();
     }
@@ -33,6 +33,28 @@ public class OrderReader : IOrderReader
 
         order.status = "Refunded";
         order.refunded_at = DateTime.UtcNow;
+
+        if (await _context.SaveChangesAsync() > 0)
+        {
+            return await _itemReader.ReturnItemsToSale(order.ProductIds);
+        }
+
+        return false;
+    }
+    public async Task<bool> OrderCancel(Guid orderId , Guid userId)
+    {
+        var order = await _context.Orders
+            .Where(x => x.id == orderId
+                        && x.status == "WaitingPayment"
+                        && x.userId == userId)
+            .FirstOrDefaultAsync();
+
+        if (order == null)
+            return false;
+
+        order.status = "Canceled";
+        order.cancelled_at = DateTime.UtcNow;
+        
 
         if (await _context.SaveChangesAsync() > 0)
         {

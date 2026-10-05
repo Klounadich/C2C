@@ -51,6 +51,6 @@ public class CreatePaymentHandler : IRequestHandler<CreatePaymentCommand,CreateP
                 return new CreatePaymentResponce(payment.Id, link , "");
             }
         }
-        return null;
+        return new CreatePaymentResponce(Guid.Empty, "", "failed to create payment");
     }    
 }
