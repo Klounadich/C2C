@@ -83,13 +83,15 @@ public class CatalogRepository :ICatalogRepository
             updated_at = item.updated_at,
         };
     }
-
-    private void AddView(Items item)
+    
+    public async Task<FoundItemsResponce> GetItemAsync(Guid id , Guid userId)
     {
-        item.views++;
-        _catalogDBContext.SaveChanges();
-    }
+        var item =await _catalogDBContext.Items.Where(x => x.Id == id && x.status != "sale" && x.UserId != userId).ToListAsync();
+        if (item is null) return null;
+        return new FoundItemsResponce(item);
 
+    }
+    
     
     public async Task<List<Items>> GetItemsByCategoryAsync(
         string category,

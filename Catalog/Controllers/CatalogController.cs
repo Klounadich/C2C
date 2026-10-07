@@ -39,6 +39,16 @@ public class CatalogController : ControllerBase
         return Ok(response);
     }
 
+    [HttpGet("item_in_order")]
+    [Authorize]
+    public async Task<IActionResult> GetItemInOrder([FromQuery] Guid id)
+    {
+        var user = HttpContext.User;
+        var userId = Guid.Parse(user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value);
+        var request = new GetItemInOrderQuery(id, userId);
+        var response = await _mediator.Send(request);
+        return Ok(response);
+    }
     [HttpPost("add_item")]
     [Consumes("multipart/form-data")]
     [Authorize]
