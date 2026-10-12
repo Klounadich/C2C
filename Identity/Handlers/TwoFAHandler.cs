@@ -43,9 +43,9 @@ public class TwoFAHandler : IRequestHandler<TFARequestCommand, TFAResponce>
         var mailData = new MailData
         {
             To = new List<string> { user.Email },
-            From = "PodberuConfirm@yandex.ru",
+            From = "kekers507y@gmail.com",
             DisplayName = "TradeHub",
-            ReplyTo = "PodberuConfirm@yandex.ru",
+            ReplyTo = "kekers507y@gmail.com",
             ReplyToName = "Поддержка TradeHub",
             Subject = "Код подтверждения 2FA",
             Body = rand_confirm_number
