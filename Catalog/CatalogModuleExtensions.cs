@@ -6,6 +6,8 @@ using Catalog.Services.BLOB;
 using Catalog.Services.RabbitMQ;
 using Catalog.Services.Redis;
 using Catalog.Services.SearchLogger;
+using Catalog.Validators;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,10 +33,13 @@ public static class CatalogModuleExtensions
             ConnectionMultiplexer.Connect(
                 configuration.GetConnectionString("Redis")!
             )
-        );
+        ); 
+        services.AddValidatorsFromAssembly(
+            typeof(FindItemRequestValidator).Assembly);
         services.AddMediatR(cfg =>
         {
             cfg.RegisterServicesFromAssembly(typeof(FindItemHandler).Assembly);
+            cfg.AddOpenBehavior(typeof(ValidationBehaivor<,>));
           
             
         });

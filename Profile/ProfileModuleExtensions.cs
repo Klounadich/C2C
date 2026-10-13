@@ -1,9 +1,13 @@
+using System.ComponentModel.DataAnnotations;
+using Catalog.Validators;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Npgsql;
 using Profile.Infrastructure;
 using Profile.Repositories;
+using Profile.Validators;
 
 namespace Profile;
 
@@ -21,6 +25,8 @@ public static class ProfileModuleExtensions
         
         services.AddDbContext<ProfileDBContext>(options =>
             options.UseNpgsql(dataSource, b => b.MigrationsAssembly(typeof(ProfileDBContext).Assembly.FullName)));
+        services.AddValidatorsFromAssembly(
+            typeof(ChangeItemCommandValidator).Assembly);
 
         return services;
     }
