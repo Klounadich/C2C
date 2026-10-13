@@ -1,8 +1,10 @@
+using FluentValidation;
 using Identity.Handlers;
 using Identity.Infrastructure;
 using Identity.Repositories;
 using Identity.Services;
 using Identity.Services.SMTP;
+using Identity.Validators;
 using Microsoft.AspNetCore.Builder; 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -23,10 +25,15 @@ public static class IdentityModuleExtensions
         services.Configure<JWTService.AuthSettings>(
             configuration.GetSection("AuthSettings")
         );
+        services.AddValidatorsFromAssembly(
+            typeof(RegisterValidator).Assembly);
+
         services.AddMediatR(cfg =>
         {
             cfg.RegisterServicesFromAssembly(typeof(RegisterHandler).Assembly);
             cfg.RegisterServicesFromAssembly(typeof(AuthHandler).Assembly);
+            cfg.AddOpenBehavior(
+                typeof(ValidationBehavior<,>));
             
         });
 

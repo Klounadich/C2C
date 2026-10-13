@@ -13,15 +13,13 @@ namespace Identity.Controllers;
 public class UserController : ControllerBase
 {
     private readonly IMediator _mediator;
+    
 
     public UserController(IMediator mediator)
     {
         _mediator = mediator;
     }
-
-    // ───────────────────────────────────
-    //  2FA: ВКЛЮЧЕНИЕ ИЗ НАСТРОЕК ПРОФИЛЯ (юзер уже авторизован)
-    // ───────────────────────────────────
+    
 
     [Authorize]
     [EnableRateLimiting("verification-request")]
@@ -36,10 +34,7 @@ public class UserController : ControllerBase
         }
         return BadRequest(responce);
     }
-
-    // Раньше подтверждение 2FA-кода шло через /email-verification (не предназначен
-    // для этого — там ставились новые auth-куки и EmailConfirmed, что не нужно здесь,
-    // юзер уже залогинен). Теперь отдельный эндпоинт: только флиппает TwoFactorEnabled.
+    
     [Authorize]
     [EnableRateLimiting("verification-request")]
     [HttpPost("2fa/enable/confirm")]
@@ -51,10 +46,7 @@ public class UserController : ControllerBase
 
         return Ok(new { twoFactorEnabled = true });
     }
-
-    // ───────────────────────────────────
-    //  2FA: ВТОРОЙ ШАГ ПРИ ЛОГИНЕ (юзер ещё НЕ авторизован)
-    // ───────────────────────────────────
+    
 
     [HttpPost("2fa/login-verify")]
     public async Task<IActionResult> VerifyLogin2FA(TwoFactorLoginVerifyCommand command)
@@ -66,10 +58,7 @@ public class UserController : ControllerBase
         SetAuthCookies(responce.AcessToken, responce.RefreshToken);
         return Ok(new { message = "Successfully authorized" });
     }
-
-    // ───────────────────────────────────
-    //  РЕГИСТРАЦИЯ / ПОДТВЕРЖДЕНИЕ EMAIL
-    // ───────────────────────────────────
+    
 
     [HttpPost("email-verification")]
     public async Task<IActionResult> EmailVerification(EmailVerificationCommand command)
@@ -93,10 +82,7 @@ public class UserController : ControllerBase
 
         return Ok(responce);
     }
-
-    // ───────────────────────────────────
-    //  ЛОГИН
-    // ───────────────────────────────────
+    
 
     [HttpPost("auth")]
     [EnableRateLimiting("login")]
@@ -107,7 +93,6 @@ public class UserController : ControllerBase
 
         if (responce.RequiresTwoFactor)
         {
-            // Куки НЕ ставим — юзер ещё не авторизован, ждём код на /2fa/login-verify
             return Ok(new { requiresTwoFactor = true, codeId = responce.CodeId });
         }
 
@@ -117,10 +102,6 @@ public class UserController : ControllerBase
         SetAuthCookies(responce.AcessToken, responce.RefreshToken);
         return Ok(new { message = "Successfully authorized" });
     }
-
-    // ───────────────────────────────────
-    //  ПРОЧЕЕ (без изменений)
-    // ───────────────────────────────────
 
     [HttpPost("refresh")]
     [EnableRateLimiting("refresh")]
@@ -170,10 +151,6 @@ public class UserController : ControllerBase
 
         return Ok(new { message = "Successfully logged out" });
     }
-
-    // ───────────────────────────────────
-    //  HELPER — раньше этот блок был продублирован в 4 местах
-    // ───────────────────────────────── ──
     private void SetAuthCookies(string accessToken, string refreshToken, bool isRefresh = false)
     {
         Response.Cookies.Append("auth_token", accessToken, new CookieOptions

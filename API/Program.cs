@@ -4,7 +4,6 @@ using System.Threading.RateLimiting;
 using Catalog;
 using Favorites;
 using Identity;
-using Identity.Middleware;
 using Identity.Services.SMTP.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;

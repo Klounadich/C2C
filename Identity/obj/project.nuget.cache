@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "O68MOPtqKHM=",
+  "dgSpecHash": "lZSxGbjcL78=",
   "success": true,
   "projectFilePath": "/home/klounadich/dev/C2C/Identity/Identity.csproj",
   "expectedPackageFiles": [
@@ -9,6 +9,8 @@
     "/home/klounadich/.nuget/packages/bcrypt/1.0.0/bcrypt.1.0.0.nupkg.sha512",
     "/home/klounadich/.nuget/packages/bcrypt.net-next/4.2.0/bcrypt.net-next.4.2.0.nupkg.sha512",
     "/home/klounadich/.nuget/packages/bouncycastle.cryptography/2.6.2/bouncycastle.cryptography.2.6.2.nupkg.sha512",
+    "/home/klounadich/.nuget/packages/fluentvalidation/12.2.0/fluentvalidation.12.2.0.nupkg.sha512",
+    "/home/klounadich/.nuget/packages/fluentvalidation.dependencyinjectionextensions/12.2.0/fluentvalidation.dependencyinjectionextensions.12.2.0.nupkg.sha512",
     "/home/klounadich/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
     "/home/klounadich/.nuget/packages/mailkit/4.17.0/mailkit.4.17.0.nupkg.sha512",
     "/home/klounadich/.nuget/packages/mediatr/14.2.0/mediatr.14.2.0.nupkg.sha512",
@@ -62,8 +64,10 @@
     "/home/klounadich/.nuget/packages/system.composition.hosting/9.0.0/system.composition.hosting.9.0.0.nupkg.sha512",
     "/home/klounadich/.nuget/packages/system.composition.runtime/9.0.0/system.composition.runtime.9.0.0.nupkg.sha512",
     "/home/klounadich/.nuget/packages/system.composition.typedparts/9.0.0/system.composition.typedparts.9.0.0.nupkg.sha512",
+    "/home/klounadich/.nuget/packages/system.formats.asn1/10.0.0/system.formats.asn1.10.0.0.nupkg.sha512",
     "/home/klounadich/.nuget/packages/system.identitymodel.tokens.jwt/8.0.1/system.identitymodel.tokens.jwt.8.0.1.nupkg.sha512",
     "/home/klounadich/.nuget/packages/system.security.cryptography.pkcs/10.0.0/system.security.cryptography.pkcs.10.0.0.nupkg.sha512",
+    "/home/klounadich/.nuget/packages/system.text.json/8.0.5/system.text.json.8.0.5.nupkg.sha512",
     "/home/klounadich/.nuget/packages/microsoft.aspnetcore.app.ref/10.0.11/microsoft.aspnetcore.app.ref.10.0.11.nupkg.sha512"
   ],
   "logs": [
