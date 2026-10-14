@@ -27,7 +27,15 @@ public static class OrderModuleExtensions
         var dataSource = dataSourceBuilder.Build();
         
         services.AddDbContext<OrderDBContext>(options =>
-            options.UseNpgsql(dataSource, b => b.MigrationsAssembly(typeof(OrderDBContext).Assembly.FullName)));
+            options.UseNpgsql(
+                dataSource,
+                b =>
+                {
+                    b.MigrationsAssembly(
+                        typeof(OrderDBContext).Assembly.FullName);
+
+                    b.UseNetTopologySuite();
+                }));
 
         return services;
     }
