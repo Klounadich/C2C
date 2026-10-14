@@ -75,6 +75,21 @@ public class FavoritesController : ControllerBase
             userId = userId
         };
         var result = await _mediator.Send(request);
-        return Ok(result);
+        if (result.IsSuccess)
+            return NoContent();
+
+        return result.ErrorType switch
+        {
+            ErrorType.ItemNotFound =>
+                NotFound(result.ErrorMessage),
+
+            ErrorType.Unauthorized =>
+                Forbid(),
+
+            ErrorType.DatabaseError =>
+                StatusCode(500, result.ErrorMessage),
+
+            _ => BadRequest(result.ErrorMessage)
+        };
     }
 }

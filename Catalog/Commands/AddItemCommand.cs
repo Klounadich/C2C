@@ -9,5 +9,7 @@ public record AddItemCommand(
     string category,
     decimal price,
     Guid city,
+    double latitude,
+    double longitude,
     IFormFile? image
     ):IRequest<bool>;

@@ -1,3 +1,6 @@
+using System.ComponentModel.DataAnnotations.Schema;
+using NetTopologySuite.Geometries;
+
 namespace Catalog.Models;
 
 public class Items
@@ -8,7 +11,9 @@ public class Items
     public string title { get; set; }
     public decimal price { get; set; }
     public Guid city { get; set; }
-    public string? img_link { get; set; }
+    public string? img_link { get; set; } 
+    [Column(TypeName = "geography(Point,4326)")]
+    public Point? Location { get; set; }
     public int views { get; set; } = 0;
     public bool moderated { get; set; } = false;
     public string status { get; set; } = "sale";

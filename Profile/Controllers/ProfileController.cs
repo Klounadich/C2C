@@ -46,6 +46,10 @@ public class ProfileController :ControllerBase
             return Unauthorized();
         var command = new RemoveItemCommand(itemId, userId);
         var response = await _mediator.Send(command);
+        if (!response)
+        {
+            return BadRequest();
+        }
         return Ok(response);
     }
 
@@ -65,6 +69,10 @@ public class ProfileController :ControllerBase
             return Forbid();
    
         var response = await _mediator.Send(command);
+        if (!response)
+        {
+            return BadRequest();
+        }
         return Ok(response);
     }
 }

@@ -129,7 +129,8 @@ public class CatalogRepository :ICatalogRepository
             price = request.price,
             city =  request.city,
             img_link = request.image,
-            moderated = false 
+            moderated = false ,
+            Location = request.location,
         };
         await _catalogDBContext.Items.AddAsync(put);
         return await _catalogDBContext.SaveChangesAsync() > 0;

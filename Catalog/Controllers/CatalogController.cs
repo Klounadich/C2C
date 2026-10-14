@@ -4,6 +4,8 @@ using Catalog.DTO;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Shared.Responce;
+
 namespace Catalog.Controllers;
 
 [ApiController]
@@ -65,7 +67,10 @@ public class CatalogController : ControllerBase
             return Forbid();
    
         var response = await _mediator.Send(command);
-        return Ok(response);
+        if (!response)
+            return BadRequest("Не удалось добавить товар в корзину");
+
+        return Ok();
     }
 
     [HttpPost("report_item")]
@@ -80,7 +85,22 @@ public class CatalogController : ControllerBase
             userId = userIdClaim
         };
         var response = await _mediator.Send(command);
-        return Ok(response);
+        if (response.IsSuccess)
+            return NoContent();
+
+        return response.ErrorType switch
+        {
+            ErrorType.ItemNotFound =>
+                NotFound(response.ErrorMessage),
+
+            ErrorType.Unauthorized =>
+                Forbid(),
+
+            ErrorType.DatabaseError =>
+                StatusCode(500, response.ErrorMessage),
+
+            _ => BadRequest(response.ErrorMessage)
+        };
     }
     
     

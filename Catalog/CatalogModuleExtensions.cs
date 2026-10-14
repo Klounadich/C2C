@@ -48,8 +48,15 @@ public static class CatalogModuleExtensions
         var dataSource = dataSourceBuilder.Build();
         
         services.AddDbContext<CatalogDBContext>(options =>
-            options.UseNpgsql(dataSource, b => b.MigrationsAssembly(typeof(CatalogDBContext).Assembly.FullName)));
-
+            options.UseNpgsql(
+                dataSource,
+                b =>
+                {
+                    b.MigrationsAssembly(
+                        typeof(CatalogDBContext).Assembly.FullName);
+                    b.UseNetTopologySuite();
+                }));
+        
         return services;
     }
 

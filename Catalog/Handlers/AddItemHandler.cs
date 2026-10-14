@@ -4,6 +4,7 @@ using Catalog.Repositories;
 using Catalog.Services.BLOB;
 using Catalog.Services.RabbitMQ;
 using MediatR;
+using NetTopologySuite.Geometries;
 
 namespace Catalog.Handlers;
 
@@ -31,6 +32,10 @@ public class AddItemHandler :IRequestHandler<AddItemCommand,bool>
             category = request.category,
             price = request.price,
             city = request.city,
+            location = new Point(request.longitude, request.latitude)
+            {
+                SRID = 4326
+            }
             
         };
         await _rabbitMQService.SendMessageAsync(new ItemModerationDTO

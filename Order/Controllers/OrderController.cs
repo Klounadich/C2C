@@ -25,7 +25,7 @@ public class OrderController : ControllerBase
     {
         var user = HttpContext.User;
         var userId = Guid.Parse(user.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-        var result = await _mediator.Send(new CreateOrderCommand(request.ProductIds,request.amount,userId));
+        var result = await _mediator.Send(new CreateOrderCommand(request.ProductIds,request.amount,userId , request.longitude , request.lantitude));
         return Ok(result);
     }
 

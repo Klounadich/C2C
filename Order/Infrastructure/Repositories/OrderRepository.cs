@@ -1,5 +1,6 @@
 using Catalog.Models;
 using Microsoft.EntityFrameworkCore;
+using NetTopologySuite.Geometries;
 using Order.Application.Abstractions;
 using Order.Application.Commands.CreateOrder;
 using Order.Application.Queries;
@@ -27,6 +28,10 @@ public class OrderRepository : IOrderRepository
             userId = request.userId,
             ProductIds =request.ProductIds,
             Amount = request.amount,
+            deliveryLocation = new Point(request.longitude, request.latitude)
+            {
+                SRID = 4326
+            }
             
         };
         await _context.AddAsync(order);

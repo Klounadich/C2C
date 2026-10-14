@@ -1,3 +1,5 @@
+using NetTopologySuite.Geometries;
+
 namespace Catalog.DTO;
 
 public class PutItemData
@@ -8,5 +10,6 @@ public class PutItemData
     public string category  { get; set; }
     public decimal price  { get; set; }
     public Guid city  {get; set;}
+    public Point location { get; set; }
     public string? image  { get; set; }
 }
