@@ -146,24 +146,26 @@ public class UserController : ControllerBase
 
     }
     
-
     [HttpPost("logout")]
-    public IActionResult Logout()
+    public async Task<IActionResult> Logout()
     {
-        var cookieOptions = new CookieOptions
+        Response.Cookies.Delete("auth_token", new CookieOptions
         {
+            Path = "/",
+            Secure = false,
             HttpOnly = true,
-            SameSite = SameSiteMode.Lax,
-            Secure = false, 
-            Expires = DateTimeOffset.UnixEpoch,
-            Path = "/"
-        };
+            SameSite = SameSiteMode.Lax
+        });
 
-        Response.Cookies.Delete("auth_token", cookieOptions);
-        Response.Cookies.Delete("refresh_token", cookieOptions);
+        Response.Cookies.Delete("refresh_token", new CookieOptions
+        {
+            Path = "/",
+            Secure = false,
+            HttpOnly = true,
+            SameSite = SameSiteMode.Lax
+        });
 
         return NoContent();
-
     }
     private void SetAuthCookies(string accessToken, string refreshToken, bool isRefresh = false)
     {
