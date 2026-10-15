@@ -21,6 +21,8 @@ public class CatalogController : ControllerBase
     [HttpPost("find")]
     public async Task<IActionResult> FindItems(FindItemRequestCommand request)
     {
+        var user = HttpContext.User;
+        var userId = Guid.Parse(user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value);
        var responce = await _mediator.Send(request);
        return Ok(responce);
     }
@@ -29,6 +31,8 @@ public class CatalogController : ControllerBase
     [HttpPost("find/category")]
     public async Task<IActionResult> FindItemsCategory(FindItemCategoryRequestCommand request)
     {
+        var user = HttpContext.User;
+        var userId = Guid.Parse(user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value);
         var response = await _mediator.Send(request);
         return Ok(response);
     }

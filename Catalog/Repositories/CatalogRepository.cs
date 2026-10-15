@@ -34,29 +34,47 @@ public class CatalogRepository :ICatalogRepository
     public async Task<List<Items>> GetItemsAsync(
         List<SearchTerm> terms,
         int page,
-        int pageSize)
+        int pageSize,
+        Guid? userId)
     {
+        page = page < 1 ? 1 : page;
+        pageSize = pageSize < 1 ? 20 : pageSize;
+        var query = _catalogDBContext.Items
+            .Where(x => x.moderated);
+
+        if (userId.HasValue)
+        {
+            query = query.Where(x => x.UserId != userId.Value);
+        }
         if (terms == null || terms.Count == 0)
         {
-            return await _catalogDBContext.Items
-                .Where(x => x.moderated)
+            return await query
                 .OrderBy(x => x.Id)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
         }
-        IQueryable<Items> query = _catalogDBContext.Items
-            .Where(x => x.moderated);
         foreach (var term in terms)
         {
             var alternatives = term.Alternatives;
+            if (alternatives == null || alternatives.Count == 0)
+                continue;
+            var keywords = alternatives
+                .Where(k => !string.IsNullOrWhiteSpace(k))
+                .Select(k => k.Trim().ToLower())
+                .ToList();
+
+            if (keywords.Count == 0)
+                continue;
+
             query = query.Where(item =>
-                alternatives.Any(keyword =>
-                    EF.Functions.Like(item.title.ToLower(), "% " + keyword + " %")
-                    || item.title.ToLower() == keyword
+                keywords.Any(keyword =>
+                    item.title.ToLower() == keyword
                     || EF.Functions.Like(item.title.ToLower(), keyword + " %")
-                    || EF.Functions.Like(item.title.ToLower(), "% " + keyword)));
+                    || EF.Functions.Like(item.title.ToLower(), "% " + keyword)
+                    || EF.Functions.Like(item.title.ToLower(), "% " + keyword + " %")));
         }
+
         return await query
             .OrderBy(x => x.Id)
             .Skip((page - 1) * pageSize)
@@ -92,31 +110,38 @@ public class CatalogRepository :ICatalogRepository
 
     }
     
-    
     public async Task<List<Items>> GetItemsByCategoryAsync(
         string category,
         int page,
-        int pageSize)
+        int pageSize,
+        Guid? userId)
     {
+       
+        page = page < 1 ? 1 : page;
+        pageSize = pageSize < 1 ? 20 : pageSize;
+        var query = _catalogDBContext.Items
+            .Where(x => x.moderated && x.status == "sale");
+        if (userId.HasValue)
+        {
+            query = query.Where(x => x.UserId != userId.Value);
+        }
+
         if (category == "rnd")
         {
-            return await _catalogDBContext.Items
-                .Where(x => x.moderated && x.status == "sale")
+            return await query
                 .OrderByDescending(x => x.views)
-                .ThenBy(x => Guid.NewGuid())
+                .ThenBy(x => Guid.NewGuid())  
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
         }
-        else
-        {
-            return await _catalogDBContext.Items
-                .Where(x => x.moderated && x.category == category && x.status == "sale")
-                .OrderBy(x => x.Id)
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize)
-                .ToListAsync();
-        }
+
+        return await query
+            .Where(x => x.category == category)
+            .OrderBy(x => x.Id)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
     }
     public async Task<bool> AddItemAsync(PutItemData request)
     {

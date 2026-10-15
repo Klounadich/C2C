@@ -18,7 +18,7 @@ public class FindItemCategoryHandler : IRequestHandler<FindItemCategoryRequestCo
     }
     public async Task<FoundItemsResponce> Handle(FindItemCategoryRequestCommand request, CancellationToken cancellationToken)
     {
-        var items = await _catalogRepository.GetItemsByCategoryAsync(request.request,request.page , request.pageSize);
+        var items = await _catalogRepository.GetItemsByCategoryAsync(request.request,request.page , request.pageSize , request.userId);
         return new FoundItemsResponce(items);
     }
 }

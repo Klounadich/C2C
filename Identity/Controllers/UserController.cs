@@ -126,30 +126,44 @@ public class UserController : ControllerBase
     public IActionResult Me()
     {
         var user = HttpContext.User;
+
         if (user?.Identity == null || !user.Identity.IsAuthenticated)
             return Unauthorized();
+
+        var twoFactorEnabled = bool.TryParse(
+            user.FindFirst(ClaimTypes.AuthenticationMethod)?.Value,
+            out var enabled
+        ) && enabled;
 
         return Ok(new
         {
             username = user.FindFirst(ClaimTypes.Name)?.Value,
             email = user.FindFirst(ClaimTypes.Email)?.Value,
             userId = user.FindFirst(ClaimTypes.NameIdentifier)?.Value,
-            registrationDate = user.FindFirst(ClaimTypes.UserData)?.Value
+            registrationDate = user.FindFirst(ClaimTypes.UserData)?.Value,
+            twoFactorEnabled
         });
+
     }
+    
 
     [HttpPost("logout")]
     public IActionResult Logout()
     {
-        Response.Cookies.Append("auth_token", "", new CookieOptions
+        var cookieOptions = new CookieOptions
         {
             HttpOnly = true,
             SameSite = SameSiteMode.Lax,
-            Secure = false,
-            Expires = DateTime.Now.AddDays(-1)
-        });
+            Secure = false, 
+            Expires = DateTimeOffset.UnixEpoch,
+            Path = "/"
+        };
 
-        return Ok(new { message = "Successfully logged out" });
+        Response.Cookies.Delete("auth_token", cookieOptions);
+        Response.Cookies.Delete("refresh_token", cookieOptions);
+
+        return NoContent();
+
     }
     private void SetAuthCookies(string accessToken, string refreshToken, bool isRefresh = false)
     {

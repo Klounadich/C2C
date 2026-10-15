@@ -42,7 +42,7 @@ public class FindItemHandler
         var items = await _catalogRepository.GetItemsAsync(
             searchTerms,
             request.page,
-            request.pageSize);
+            request.pageSize , request.userId);
 
         var searchLogsData = new SearchLogs
         {

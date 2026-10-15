@@ -7,5 +7,5 @@ public record FindItemRequestCommand(
     string request,
     int page,
     int pageSize,
-    Guid userId
+    Guid? userId
     ): IRequest<FoundItemsResponce>;
