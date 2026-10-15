@@ -19,21 +19,24 @@ public class CatalogController : ControllerBase
     }
 
     [HttpPost("find")]
-    public async Task<IActionResult> FindItems(FindItemRequestCommand request)
+    public async Task<IActionResult> FindItems(FindItemRequest request)
     {
-        var user = HttpContext.User;
-        var userId = Guid.Parse(user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value);
-       var responce = await _mediator.Send(request);
-       return Ok(responce);
+        Guid? userId = Guid.TryParse(
+            HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier), out var id) ? id : null;
+
+        var command = new FindItemRequestCommand(request.request, request.page, request.pageSize, userId);
+        var response = await _mediator.Send(command);
+        return Ok(response);
     }
-    
-    
+
     [HttpPost("find/category")]
-    public async Task<IActionResult> FindItemsCategory(FindItemCategoryRequestCommand request)
+    public async Task<IActionResult> FindItemsCategory(FindItemCategoryRequest request)
     {
-        var user = HttpContext.User;
-        var userId = Guid.Parse(user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value);
-        var response = await _mediator.Send(request);
+        Guid? userId = Guid.TryParse(
+            HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier), out var id) ? id : null;
+
+        var command = new FindItemCategoryRequestCommand(request.request, request.page, request.pageSize, userId);
+        var response = await _mediator.Send(command);
         return Ok(response);
     }
 

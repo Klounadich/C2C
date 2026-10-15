@@ -134,7 +134,7 @@ public sealed class EmailVerificationValidator
             .Cascade(CascadeMode.Stop)
             .NotEmpty()
                 .WithMessage("Verification code is required")
-            .Length(6)
+            .Length(4)
                 .WithMessage(
                     "Verification code must contain exactly 4 characters")
             .Matches(@"^[0-9]{4}$")
@@ -156,7 +156,7 @@ public sealed class TwoFactorEnableValidator
             .Cascade(CascadeMode.Stop)
             .NotEmpty()
             .WithMessage("Verification code is required")
-            .Length(6)
+            .Length(4)
             .WithMessage(
                 "Verification code must contain exactly 4 characters")
             .Matches(@"^[0-9]{4}$")
@@ -177,7 +177,7 @@ public sealed class TwoFactorLoginVerifyValidator
             .Cascade(CascadeMode.Stop)
             .NotEmpty()
             .WithMessage("Verification code is required")
-            .Length(6)
+            .Length(4)
             .WithMessage(
                 "Verification code must contain exactly 4 characters")
             .Matches(@"^[0-9]{4}$")
