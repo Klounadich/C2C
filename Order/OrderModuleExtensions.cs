@@ -24,8 +24,8 @@ public static class OrderModuleExtensions
         
         var dataSourceBuilder = new NpgsqlDataSourceBuilder(configuration.GetConnectionString("C2CDBConnection"));
         dataSourceBuilder.EnableDynamicJson();
+        dataSourceBuilder.UseNetTopologySuite();
         var dataSource = dataSourceBuilder.Build();
-        
         services.AddDbContext<OrderDBContext>(options =>
             options.UseNpgsql(
                 dataSource,
